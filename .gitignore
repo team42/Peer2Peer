@@ -39,3 +39,5 @@ Thumbs.db
 .project
 bin/
 .settings/
+
+.manifest

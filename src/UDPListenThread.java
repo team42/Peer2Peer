@@ -1,14 +1,20 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+
+import peer.Peer;
+import config.Configuration;
 
 /**
-* Server thread.
+* Server thread. Waits for messages and responds to requests.
 *
 **/
 public class UDPListenThread extends Thread {
    
-   private int port;
-   private InetAddress localIP = null;
+   public int port;
+   public InetAddress localIP = null;
+   public Configuration config = Configuration.getConfiguration();
+   
    
    /**
    * Constructor
@@ -26,27 +32,34 @@ public class UDPListenThread extends Thread {
    public void run() {
       try {
          DatagramSocket peerSocket = new DatagramSocket(port);
-         byte[] queryRaw = new byte[256];
-         byte[] replyRaw = new byte[256];
+         byte[] queryRaw = new byte[1024];
+         byte[] replyRaw = new byte[1024];
+         
+         ArrayList<Peer> peers =  config.getPeers();
          
          while(true) {
             // Creates a packet to hold the received data
             DatagramPacket receivePacket = new DatagramPacket(queryRaw, queryRaw.length);
-
             peerSocket.receive(receivePacket);
-            System.out.println("affe");
+            
             String query = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            String command = query.substring(0, 4);
+            String command = query.substring(0, 5);
             InetAddress IPAddress = receivePacket.getAddress();
                         
             // Lets not show messages from our own localhost
             if(!localIP.equals(IPAddress)) {
-               if(command.equals("HELO")) {
+               if(command.equals("HELLO")) {
                   System.out.println("Peer logged in from: " + IPAddress);
+                  // In my list of peers?
+                  if(peers.contains(IPAddress)) {
+                     System.out.println("wohoo");
+                  } else {
+                     System.out.println("Peer not seen before, so added to list of peers");
+                  }
                   
                   int peer = receivePacket.getPort();
                   
-                  String reply = "REPL";
+                  String reply = "PEERS";
                   replyRaw = reply.getBytes();
                   DatagramPacket sendPacket = new DatagramPacket(replyRaw, replyRaw.length, IPAddress, peer);
                   peerSocket.send(sendPacket);

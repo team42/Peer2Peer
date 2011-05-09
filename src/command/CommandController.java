@@ -25,7 +25,6 @@ public class CommandController {
     /**
      * Constructor creates the HashMap containing the commands.
      *
-     * @param rFIDEventManagerSimple
      */
     public CommandController() {
         commands = new HashMap<String, Command>();
