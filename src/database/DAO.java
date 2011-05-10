@@ -1,6 +1,9 @@
 package database;
 
 import java.sql.*;
+import java.util.*;
+
+import model.Taxi;
 
 /**
  * This class handles the SQL strings/commands for the MySQL database.
@@ -269,5 +272,60 @@ public class DAO {
       // We want to return false if INSERT was unsuccesfull, else return true
       if (rowCount == 0) { return false; }
       else { return true; }
+   }
+   
+   public ArrayList<Taxi> getActiveTaxis() {
+	   
+	   ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
+	   
+	   String taxiID, taxiCoord;
+	   java.sql.Date lastConnected;
+	   int persistent;
+	   long t;
+	   
+	   String Query = "SELECT * FROM trips";
+
+	   con = null;
+
+	   try {
+	      con = PostgresqlConnectionFactory.createConnection();
+	      preparedStatement = con.prepareStatement(Query);
+	         
+	      resultSet = preparedStatement.executeQuery();
+
+	      preparedStatement.close();
+	         
+       } catch (SQLException e) {
+	      e.printStackTrace();
+	   } finally {
+	      if (con != null) {
+	         try { con.close(); }
+	         catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	      }
+	   }
+
+	   try {
+		   while(resultSet.next()) {
+			   taxiID = resultSet.getString("taxi_id");
+			   taxiCoord = resultSet.getString("taxi_coord");
+			   lastConnected = resultSet.getDate("last_connected");
+			   persistent = resultSet.getInt("persistent");
+			   
+			   java.util.Date lastCon = new java.util.Date(lastConnected.getTime());
+			   
+			   long difference = Math.abs(lastCon.getTime()-Calendar.getInstance().getTime().getTime());
+			   difference = difference / 1000;
+			   
+			   Math.abs(Calendar.getInstance().getTime().getTime() - lastConnected.getTime());
+			   
+			   if(persistent == 1 || difference < (5*60)) {
+				   taxiList.add(new Taxi(taxiID, taxiCoord));
+			   }
+		   }
+	   } catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   
+	   return taxiList;
    }
 }
