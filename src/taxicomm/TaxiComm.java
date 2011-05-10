@@ -2,9 +2,10 @@ package taxicomm;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
+import peer.*;
+
+import database.DAO;
 
 import model.Trip;
 
@@ -18,12 +19,11 @@ public class TaxiComm {
    ArrayList<Trip> tripList = new ArrayList<Trip>();
    Trip curTrip = null;
 
+   DAO dao = new DAO();
+   
    public TaxiComm() {
-      tripList.add(new Trip("257",1,"11.11;11.1122.22;22.2233.33;33.33"));
-      tripList.add(new Trip("389",0,"44.44;44.4455.55;55.5566.66;66.66"));
-      tripList.add(new Trip("438",0,"77.77;77.7788.88;88.8899.99;99.99"));
-
-      System.out.println("Opening port...\n");
+      
+	  System.out.println("Opening port...\n");
 
       try {
          datagramSocket = new DatagramSocket(PORT);
@@ -37,7 +37,6 @@ public class TaxiComm {
    private void handleClient() {
       String taxiID, coords, tripID = "";
       char answer;
-      String table = "";
 
       try {
          String messageIn,messageOut = "";
@@ -55,17 +54,29 @@ public class TaxiComm {
             taxiID = messageIn.substring(0, 3);
             coords = messageIn.substring(3, 14);
             answer = messageIn.charAt(14);
+            
+            dao.updateTaxiPosition(taxiID, coords);
+            
             if(answer == '1') {
                tripID = messageIn.substring(15);
-               // accept trip by tripID
+               
+               String query = "TAXAC" + taxiID + tripID + coords;
+               
+               String returnIP = dao.getReturnIP(tripID);
+               
+               UDPPeer.sendMessages(InetAddress.getByName(returnIP), query);
             } else if(answer == '2') {
                tripID = messageIn.substring(15);
-               // decline trip by tripID
+               dao.taxiDeleteTrip(taxiID, tripID);
+            } else if(answer == '3') {
+               tripID = messageIn.substring(15);
+               dao.taxiDeleteTrip(taxiID, tripID);
             }
 
+            tripList = dao.getTripsByTaxiID(taxiID);
+            
             String time;
-            // Set taxi coordinates
-            // Get table by taxiID
+            
             for(int i=0;i<tripList.size();i++) {
                curTrip = tripList.get(i);
                time = compareTime(Calendar.getInstance().getTime(), curTrip.getDate());

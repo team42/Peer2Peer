@@ -1,8 +1,8 @@
+package peer;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-import peer.Peer;
 import config.Configuration;
 
 /**

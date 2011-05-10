@@ -52,7 +52,7 @@ public class DAO {
     * @return
     */
    public boolean insertTrip(String taxiID, String tripID, String tripCoord) {
-      String cardsQuery = "INSERT INTO trips (`Taxi ID`, `Trip ID`, `Destination`, `Started`)"
+      String cardsQuery = "INSERT INTO trips (taxi_id, trip_id, destination, started)"
          + "VALUES (?, ?, ?, Now()) ";
 
       int rowCount = 0;
@@ -89,9 +89,9 @@ public class DAO {
     */
    public boolean confirmTrip(String taxiID, String tripID) {
 
-      String cardsQuery1 = "UPDATE trips SET `Accepted` = 1 WHERE `Taxi ID` = ? AND `Trip ID` = ?";
+      String cardsQuery1 = "UPDATE trips SET accepted = 1 WHERE taxi_id = ? AND trip_id = ?";
 
-      String cardsQuery2 = "DELETE FROM trips WHERE `Taxi ID` <> ? AND `Trip ID` = ?";
+      String cardsQuery2 = "DELETE FROM trips WHERE taxi_id <> ? AND trip_id = ?";
 
       int rowCount = 0;
       con = null;
@@ -131,7 +131,7 @@ public class DAO {
     */
    public boolean deleteTrip(String tripID) {
 
-      String Query = "DELETE FROM Trips WHERE `Trip ID` = ?";
+      String Query = "DELETE FROM trips WHERE trip_id = ?";
 
       int rowCount = 0;
       con = null;
@@ -165,7 +165,7 @@ public class DAO {
     * @return
     */
    public boolean addAwaitingTaxis(String taxiString) {
-      String Query = "INSERT INTO OngoinTrips (`Trip ID`, `Taxi ID`, `Taxi Coordinate`, `Company`)"
+      String Query = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company)"
          + "VALUES (?, ?, ?, ?) ";
 
       String[] taxis = taxiString.split("%");
@@ -208,7 +208,7 @@ public class DAO {
     */
    public boolean deleteOngoingTrip(String tripID) {
 
-      String Query = "DELETE FROM OngoingTrips WHERE `Trip ID` = ?";
+      String Query = "DELETE FROM ongoing_trips WHERE trip_id = ?";
 
       int rowCount = 0;
       con = null;
@@ -244,7 +244,7 @@ public class DAO {
     */
    public boolean deleteTripForTaxi(String tripID, String taxiID) {
 
-      String Query = "DELETE FROM OngoingTrips WHERE `Trip ID` = ? AND `Taxi ID` = ?";
+      String Query = "DELETE FROM ongoing_trips WHERE trip_id = ? AND taxi_id = ?";
 
       int rowCount = 0;
       con = null;
@@ -280,7 +280,6 @@ public class DAO {
 	   String taxiID, taxiCoord;
 	   java.sql.Date lastConnected;
 	   int persistent;
-	   long t;
 	   
 	   String Query = "SELECT * FROM trips";
 
@@ -375,6 +374,42 @@ public class DAO {
 	   return tripList;
    }
 
+   public String getReturnIP(String tripID) {
+	   
+	   String returnIP = "";
+	   
+	   String Query = "SELECT return_ip FROM trips WHERE trip_id = ?";
+
+	   con = null;
+
+	   try {
+	      con = PostgresqlConnectionFactory.createConnection();
+	      preparedStatement = con.prepareStatement(Query);
+	      preparedStatement.setString(1, tripID);   
+	      
+	      resultSet = preparedStatement.executeQuery();
+
+	      preparedStatement.close();
+	         
+       } catch (SQLException e) {
+	      e.printStackTrace();
+	   } finally {
+	      if (con != null) {
+	         try { con.close(); }
+	         catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	      }
+	   }
+
+	   try {
+		   resultSet.next();
+		   returnIP = resultSet.getString("return_ip");
+	   } catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   
+	   return returnIP;
+   }
+   
    public boolean taxiAcceptTrip(String taxiID, String tripID) {
 	   String query = "UPDATE trips SET accepted = 1 WHERE taxi_id = ? AND trip_id = ?";
 	   
