@@ -1,3 +1,4 @@
+package peer;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class UDPPeer {
     * @param query Data to send.
     *
     **/
-   private static void sendMessages(InetAddress ip, String query) throws IOException {
+   public static void sendMessages(InetAddress ip, String query) throws IOException {
       queryRaw = query.getBytes();
 
       // Send packet
