@@ -2,8 +2,7 @@ package database;
 
 import java.sql.*;
 import java.util.*;
-
-import model.Taxi;
+import model.*;
 
 /**
  * This class handles the SQL strings/commands for the MySQL database.
@@ -327,5 +326,52 @@ public class DAO {
 	   }
 	   
 	   return taxiList;
+   }
+
+   public ArrayList<Trip> getTripsByTaxiID(String taxiID) {
+	   ArrayList<Trip> tripList = new ArrayList<Trip>();
+	   
+	   String tripID, destination;
+	   int accepted;
+	   java.sql.Date started;
+	   
+	   String Query = "SELECT * FROM trips WHERE taxi_id = ? ORDER BY accepted DESC";
+
+	   con = null;
+
+	   try {
+	      con = PostgresqlConnectionFactory.createConnection();
+	      preparedStatement = con.prepareStatement(Query);
+	      
+	      preparedStatement.setString(1, taxiID);
+	      resultSet = preparedStatement.executeQuery();
+
+	      preparedStatement.close();
+	         
+       } catch (SQLException e) {
+	      e.printStackTrace();
+	   } finally {
+	      if (con != null) {
+	         try { con.close(); }
+	         catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	      }
+	   }
+
+	   try {
+		   while(resultSet.next()) {
+			   tripID = resultSet.getString("trip_id");
+			   destination = resultSet.getString("destination");
+			   accepted = resultSet.getInt("accepted");
+			   started = resultSet.getDate("started");
+			   
+			   java.util.Date date = new java.util.Date(started.getTime());
+			   
+			   tripList.add(new Trip(tripID, accepted, destination, date));
+		   }
+	   } catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   
+	   return tripList;
    }
 }

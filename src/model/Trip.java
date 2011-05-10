@@ -16,6 +16,13 @@ public class Trip {
 		date = Calendar.getInstance().getTime();
 	}
 	
+	public Trip(String tripID, int accepted, String coords, Date date) {
+		this.tripID = tripID;
+		this.accepted = accepted;
+		this.coords = coords;
+		this.date = date;
+	}
+	
 	public String getTripID() {
 		return tripID;
 	}
