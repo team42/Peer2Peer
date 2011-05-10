@@ -1,6 +1,5 @@
 package config;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import peer.*;
 
