@@ -35,9 +35,9 @@ Thumbs.db
 
 # Eclipse files #
 ######################
-.classpath
-.project
-bin/
-.settings/
+#.classpath
+#.project
+#bin/
+#.settings/
 
-.manifest
+#.manifest

@@ -107,7 +107,7 @@ public class UDPPeer {
        * Check if peers are alive. Removes ones that don't respond to ping.
        */
       for(int i=0;i<peers.size();i++) {
-         String ip = peers.get(i).getIp();
+         String ip = peers.get(i).getIp().replaceAll(",+[ 0|1]+$", ""); //trim to ip part
          InetAddress peer = InetAddress.getByName(ip);
          if(peer.isReachable(20)) {
             System.out.println(peer + " is alive!");
@@ -119,13 +119,13 @@ public class UDPPeer {
       peerList.closeInputFile();
       
       // Lets write the new list of alive peers
-      peerList.openFile(1);
-      peerList.writePeerList(peers);
-      peerList.closeOutputFile();
+//      peerList.openFile(1);
+//      peerList.writePeerList(peers);
+//      peerList.closeOutputFile();
       
       config.setPeers(peers); // Load peers into configuration.
 
       // return the first alive peer in the list
-      return InetAddress.getByName(peers.get(0).getIp());
+      return InetAddress.getByName(peers.get(0).getIp().replaceAll(",+[ 0|1]+$", ""));
    }
 }

@@ -51,11 +51,11 @@ public class UDPListenThread extends Thread {
                if(command.equals("HELLO")) {
                   System.out.println("Peer logged in from: " + IPAddress);
                   // In my list of peers?
-                  if(peers.contains(IPAddress)) {
-                     System.out.println("wohoo");
-                  } else {
-                     System.out.println("Peer not seen before, so added to list of peers");
-                  }
+//                  if(peers.contains(IPAddress)) {
+//                     System.out.println("wohoo");
+//                  } else {
+//                     System.out.println("Peer not seen before, so added to list of peers");
+//                  }
                   
                   int peer = receivePacket.getPort();
                   

@@ -16,6 +16,7 @@ public class PeerList {
    private Scanner input;
    private Formatter output;
    private String filename = "peers.txt";
+   private BufferedWriter out;
 
    public PeerList() {
       File f = new File(filename);
@@ -33,16 +34,16 @@ public class PeerList {
             
             //output to proper file
             while ((line = br.readLine()) != null) {
-               output = new Formatter(filename);               
-               output.format("%s\n", line);
-               output.close();
-            }                      
+               System.out.println(line);
+               out = new BufferedWriter(new FileWriter(filename,true));               
+               out.write(line + "\n");
+               out.close();
+            }            
          }
       } catch (IOException io) {
          System.out.println("File not found");
       }
    }
-
 
    /**
     * Opens file for reading or writing.
@@ -59,8 +60,8 @@ public class PeerList {
          }
       } else {
          try {
-            output = new Formatter(filename);
-         } catch (FileNotFoundException ex) {
+            out = new BufferedWriter(new FileWriter(filename));
+         } catch (IOException ex) {
             Logger.getLogger(PeerList.class.getName()).log(Level.SEVERE, null, ex);
          }
       }
@@ -75,19 +76,17 @@ public class PeerList {
    public ArrayList<Peer> readPeerList() {
       ArrayList<Peer> peerList = new ArrayList<Peer>();
       while (input.hasNext()) {
-         System.out.println("affe");
          String ip = input.next();
-         int status = 0;//input.nextInt();
+         int status = 1;//input.nextInt();
          peerList.add(new Peer(ip,status));
-         System.out.println(peerList.size());
       }
       return peerList;
    }
 
-   public void writePeerList(ArrayList<Peer> peerList) {
-      if (output != null) {         
+   public void writePeerList(ArrayList<Peer> peerList) throws IOException {
+      if (out != null) {         
          for(int i=0;i<peerList.size();i++) {
-            output.format("%s\n", peerList.get(i).toString());
+            out.append(peerList.get(i).toString());
          }
       }
    }
@@ -100,7 +99,7 @@ public class PeerList {
       input.close();
    }
 
-   public void closeOutputFile() {
-      output.close();
+   public void closeOutputFile() throws IOException {
+      out.close();
    }
 }
