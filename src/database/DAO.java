@@ -374,4 +374,120 @@ public class DAO {
 	   
 	   return tripList;
    }
+
+   public boolean taxiAcceptTrip(String taxiID, String tripID) {
+	   String query = "UPDATE trips SET accepted = 1 WHERE taxi_id = ? AND trip_id = ?";
+	   
+	   int rowCount = 0;
+	      con = null;
+
+	      try {
+	    	 con = PostgresqlConnectionFactory.createConnection();
+	         
+	    	 preparedStatement = con.prepareStatement(query);
+	         preparedStatement.setString(1, taxiID);
+	         preparedStatement.setString(2, tripID);
+	         
+	         rowCount = preparedStatement.executeUpdate();
+	         
+	         preparedStatement.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         if (con != null) {
+	            try { con.close(); }
+	            catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	         }
+	      }
+	      // We want to return false if INSERT was unsuccesfull, else return true
+	      if (rowCount == 0) { return false; }
+	      else { return true; }
+   }
+
+   public boolean taxiDeleteTrip(String taxiID, String tripID) {
+	   String query = "DELETE FROM trips WHERE taxi_id = ? AND trip_id = ?";
+	   
+	   int rowCount = 0;
+	      con = null;
+
+	      try {
+	    	 con = PostgresqlConnectionFactory.createConnection();
+	         
+	    	 preparedStatement = con.prepareStatement(query);
+	         preparedStatement.setString(1, taxiID);
+	         preparedStatement.setString(2, tripID);
+	         
+	         rowCount = preparedStatement.executeUpdate();
+	         
+	         preparedStatement.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         if (con != null) {
+	            try { con.close(); }
+	            catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	         }
+	      }
+	      // We want to return false if INSERT was unsuccesfull, else return true
+	      if (rowCount == 0) { return false; }
+	      else { return true; }
+   }
+   
+   public boolean updateTaxiPosition(String taxiID, String taxiCoord) {
+	   String query = "UPDATE taxi SET taxi_coordinate = ?, last_connected = Now() WHERE taxi_id = ?";
+	   
+	   int rowCount = 0;
+	      con = null;
+
+	      try {
+	    	 con = PostgresqlConnectionFactory.createConnection();
+	         
+	    	 preparedStatement = con.prepareStatement(query);
+	         preparedStatement.setString(1, taxiCoord);
+	         preparedStatement.setString(2, taxiID);
+	         
+	         rowCount = preparedStatement.executeUpdate();
+	         
+	         preparedStatement.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         if (con != null) {
+	            try { con.close(); }
+	            catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	         }
+	      }
+	      // We want to return false if INSERT was unsuccesfull, else return true
+	      if (rowCount == 0) {
+	    	  String cardsQuery = "INSERT INTO taxi (taxi_id, taxi_coord, last_connected)"
+	    	         + "VALUES (?, ?, Now()) ";
+
+	    	      con = null;
+
+	    	      try {
+	    	         con = PostgresqlConnectionFactory.createConnection();
+	    	         preparedStatement = con.prepareStatement(cardsQuery);
+	    	         preparedStatement.setString(1, taxiID);
+	    	         preparedStatement.setString(2, taxiCoord);
+
+	    	         rowCount = preparedStatement.executeUpdate();
+	    	         preparedStatement.close();
+
+	    	      } catch (SQLException e) {
+	    	         e.printStackTrace();
+	    	      } finally {
+	    	         if (con != null) {
+	    	            try { con.close(); }
+	    	            catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	    	         }
+	    	      }
+	    	      // We want to return false if INSERT was unsuccesfull, else return true
+	    	      if (rowCount == 0) { return false; }
+	    	      else { return true; }
+	      }
+	      else { return true; }
+   }
 }
