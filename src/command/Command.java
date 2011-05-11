@@ -1,5 +1,8 @@
 package command;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
 /**
  * <code>Command</code> is the abstract class the Command classes must adhere to.
  *
@@ -25,7 +28,7 @@ public abstract class Command {
      *
      * @param rFIDEventManagerSimple
      */
-    public abstract void execute(String receivedMessage);
+    public abstract void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket);
 
     /**
      * The execute method with the RFIDEventManagerTest as an argument is only used

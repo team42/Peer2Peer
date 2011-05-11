@@ -1,5 +1,8 @@
 package command;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
 /**
  * <code>UnknownCommand</code> is invoked when an unknown command is received
  * from the Card Reader.
@@ -18,7 +21,7 @@ public class UnknownCommand extends Command {
      * 
      * @param rFIDEventManagerSimple object holding the data packet from Card Reader.
      */
-    public void execute(String receivedMessage) {
+    public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
         System.out.println("Unkown Command:\n" + receivedMessage);
     }
 

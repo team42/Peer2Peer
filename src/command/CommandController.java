@@ -1,5 +1,7 @@
 package command;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.*;
 
 /**
@@ -48,9 +50,9 @@ public class CommandController {
      *
      * @param command
      */
-    public void processRequest(String receivedMessage) {
+    public void processRequest(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
         cmd = resolveCommand(receivedMessage.substring(0, 5));
-        cmd.execute(receivedMessage);
+        cmd.execute(receivedMessage, peerSocket, receivePacket);
     }
 
     /**

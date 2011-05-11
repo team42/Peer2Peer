@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+import command.CommandController;
+
 import config.Configuration;
 
 /**
@@ -15,6 +17,7 @@ public class UDPListenThread extends Thread {
    public InetAddress localIP = null;
    public Configuration config = Configuration.getConfiguration();
    
+   private CommandController comCon = new CommandController();
    
    /**
    * Constructor
@@ -33,7 +36,6 @@ public class UDPListenThread extends Thread {
       try {
          DatagramSocket peerSocket = new DatagramSocket(port);
          byte[] queryRaw = new byte[1024];
-         byte[] replyRaw = new byte[1024];
          
          ArrayList<Peer> peers =  config.getPeers();
          
@@ -43,29 +45,8 @@ public class UDPListenThread extends Thread {
             peerSocket.receive(receivePacket);
             
             String query = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            String command = query.substring(0, 5);
-            InetAddress IPAddress = receivePacket.getAddress();
-                        
-            // Lets not show messages from our own localhost
-            if(!localIP.equals(IPAddress)) {
-               if(command.equals("HELLO")) {
-                  System.out.println("Peer logged in from: " + IPAddress);
-                  // In my list of peers?
-//                  if(peers.contains(IPAddress)) {
-//                     System.out.println("wohoo");
-//                  } else {
-//                     System.out.println("Peer not seen before, so added to list of peers");
-//                  }
-                  
-                  int peer = receivePacket.getPort();
-                  
-                  String reply = "PEERS";
-                  replyRaw = reply.getBytes();
-                  DatagramPacket sendPacket = new DatagramPacket(replyRaw, replyRaw.length, IPAddress, peer);
-                  peerSocket.send(sendPacket);
-               }
-                             
-            }                      
+            
+            comCon.processRequest(query, peerSocket, receivePacket);                             
          }
       } catch(IOException e) {
          e.printStackTrace();         

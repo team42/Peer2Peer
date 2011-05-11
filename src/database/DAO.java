@@ -164,11 +164,9 @@ public class DAO {
     * @param taxiString
     * @return
     */
-   public boolean addAwaitingTaxis(String taxiString) {
+   public boolean addAwaitingTaxis(String tripID, ArrayList<Taxi> taxiList, String company) {
       String Query = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company)"
          + "VALUES (?, ?, ?, ?) ";
-
-      String[] taxis = taxiString.split("%");
 
       int rowCount = 0;
       con = null;
@@ -177,11 +175,11 @@ public class DAO {
          con = PostgresqlConnectionFactory.createConnection();
          preparedStatement = con.prepareStatement(Query);
 
-         for(int i=0; i>taxis.length; i++) {
-            preparedStatement.setString(1, taxis[i].substring(0, 3));
-            preparedStatement.setString(2, taxis[i].substring(3, 6));
-            preparedStatement.setString(3, taxis[i].substring(6, 15));
-            preparedStatement.setString(4, taxis[i].substring(15));
+         for(int i=0; i < taxiList.size(); i++) {
+            preparedStatement.setString(1, tripID);
+            preparedStatement.setString(2, taxiList.get(i).getTaxiID());
+            preparedStatement.setString(3, taxiList.get(i).getTaxiCoord());
+            preparedStatement.setString(4, company);
 
             rowCount = preparedStatement.executeUpdate();
          }
@@ -281,7 +279,7 @@ public class DAO {
 	   java.sql.Date lastConnected;
 	   int persistent;
 	   
-	   String Query = "SELECT * FROM trips";
+	   String Query = "SELECT * FROM taxi";
 
 	   con = null;
 
@@ -525,4 +523,47 @@ public class DAO {
 	      }
 	      else { return true; }
    }
+
+   public ArrayList<String> getCompanyIP(String tripID) {
+	   
+	   String companyIP = "";
+	   ArrayList<String> companyIpList = new ArrayList<String>();
+	   
+	   String Query = "SELECT DISTINCT company FROM ongoing_trips WHERE trip_id = ?";
+
+	   con = null;
+
+	   try {
+	      con = PostgresqlConnectionFactory.createConnection();
+	      preparedStatement = con.prepareStatement(Query);
+	      preparedStatement.setString(1, tripID);   
+	      
+	      resultSet = preparedStatement.executeQuery();
+
+	      preparedStatement.close();
+	         
+       } catch (SQLException e) {
+	      e.printStackTrace();
+	   } finally {
+	      if (con != null) {
+	         try { con.close(); }
+	         catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	      }
+	   }
+
+	   int found = 0;
+	   
+	   try{
+		   while(resultSet.next()) {
+			   companyIP = resultSet.getString("company");
+			   companyIpList.add(companyIP);
+		   }
+	   } catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   
+	   return companyIpList;
+   }
+
 }
+

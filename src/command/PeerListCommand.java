@@ -1,29 +1,33 @@
 package command;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
+
+import peer.Peer;
+
+import config.Configuration;
 
 public class PeerListCommand extends Command {
 
-	public void execute(String receivedMessage) {
+	private Configuration config = Configuration.getConfiguration();
+	
+	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String peerList = receivedMessage.substring(5);
-		String newIP = "";
 		
-		ArrayList<String> arPeerList = new ArrayList<String>();
+		String[] arPeerList = peerList.split("%");
 		
-		int begin = 0;
+		ArrayList<Peer> newPeerList = new ArrayList<Peer>();
 		
-		for(int i=0; i>peerList.length(); i++) {
-			if(peerList.charAt(i) == '%') {
-				newIP = peerList.substring(begin, i);
-				
-				arPeerList.add(newIP);
-				
-				begin = i+1;
-			}
+		for(int i=0; i < arPeerList.length; i++) {
+			newPeerList.add(new Peer(arPeerList[i], 1));
 		}
 		
-		// Compare arPeerList with peerList in database
-		// If IP doesn't exist >> Add it!
+		ArrayList<Peer> oldPeerList = config.getPeers();
+		
+		oldPeerList.addAll(newPeerList);
+		
+		config.setPeers(oldPeerList);
 	}
 
 }
