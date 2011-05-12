@@ -1,10 +1,14 @@
 package map;
 
+import java.util.ArrayList;
+
 public class Coordinates 
 {
 
 	public int ID, ownX, ownY, parentID, NON, N1, N2, N3, N4, N5;
 	public double F, G, H, TempG;
+	public boolean taxi;
+	public ArrayList<Integer> taxiIDs;
 	
 	Coordinates(int id, int x, int y, int NON, int N1, int N2, int N3, int N4, int N5)
 	{
@@ -22,8 +26,30 @@ public class Coordinates
 		this.N3 = N3;
 		this.N4 = N4;
 		this.N5 = N5;
+		this.taxi = false;
+		this.taxiIDs = new ArrayList<Integer>();
 	}
 	
+	public boolean getTaxi()
+    {
+        return taxi;
+    }//end method getTaxi
+
+    public void setTaxi (boolean TAXI)
+    {
+        taxi = TAXI;
+    }//end method setTaxi
+    
+    public ArrayList<Integer> getTaxiIDs()
+    {
+        return taxiIDs;
+    }//end method getTaxiIDs
+
+    public void AddTaxiIDs(int TAXIID)
+    {
+        taxiIDs.add(TAXIID);
+    }//end method setTaxiIDs
+    
 	public int getParentID()
     {
         return parentID;
