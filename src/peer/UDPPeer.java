@@ -69,7 +69,7 @@ public class UDPPeer {
          DatagramPacket receivePacket = new DatagramPacket(replyRaw, replyRaw.length);
          peerSocket.receive(receivePacket);
          String reply = new String(receivePacket.getData(), 0, receivePacket.getLength());
-         cmdControl.processRequest(reply, peerSocket);
+         cmdControl.processRequest(reply, peerSocket, receivePacket);
          System.out.println("Reply from: " + receivePacket.getAddress() + "\nData: " + reply);
       }
    }
