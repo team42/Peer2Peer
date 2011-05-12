@@ -12,7 +12,8 @@ import database.*;
  */
 public class GotTripCommand extends Command {
 
-	private TripsDAO dao = new TripsDAO();
+	private TripsDAO tripsDAO = new TripsDAO();
+	private TaxiDAO taxiDAO = new TaxiDAO();
 	
 	/**
 	 * The trip ID and taxi ID is identified.
@@ -27,6 +28,8 @@ public class GotTripCommand extends Command {
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiID = receivedMessage.substring(15);
 		
-		dao.confirmTrip(taxiID, tripID);
+		taxiDAO.setTaxiTaken(taxiID);
+		
+		tripsDAO.confirmTrip(taxiID, tripID);
 	}
 }

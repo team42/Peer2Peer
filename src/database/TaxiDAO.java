@@ -82,6 +82,76 @@ public class TaxiDAO {
 		}
 	}
 
+	public boolean setTaxiFree(String taxiID) {
+		String query = "UPDATE taxi SET status = 0 WHERE taxi_id = ?";
+
+		int rowCount = 0;
+		con = null;
+
+		try {
+			con = PostgresqlConnectionFactory.createConnection();
+
+			preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, taxiID);
+
+			rowCount = preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+					System.out.println("Failed Closing of Database!");
+				}
+			}
+		}
+		// We want to return false if INSERT was unsuccesfull, else return true
+		if (rowCount == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public boolean setTaxiTaken(String taxiID) {
+		String query = "UPDATE taxi SET status = 1 WHERE taxi_id = ?";
+
+		int rowCount = 0;
+		con = null;
+
+		try {
+			con = PostgresqlConnectionFactory.createConnection();
+
+			preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, taxiID);
+
+			rowCount = preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+					System.out.println("Failed Closing of Database!");
+				}
+			}
+		}
+		// We want to return false if INSERT was unsuccesfull, else return true
+		if (rowCount == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public ArrayList<Taxi> getActiveTaxis() {
 
 		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
@@ -90,7 +160,7 @@ public class TaxiDAO {
 		java.sql.Date lastConnected;
 		int persistent;
 
-		String Query = "SELECT * FROM taxi";
+		String Query = "SELECT * FROM taxi WHERE status = 0";
 
 		con = null;
 

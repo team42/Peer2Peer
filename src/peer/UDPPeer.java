@@ -1,4 +1,6 @@
 package peer;
+import handleNewTrips.NewTrips;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
@@ -40,10 +42,9 @@ public class UDPPeer {
     * @throws UnknownHostException
     */
    public static void main(String[] args) throws IOException {
-//      DAO dao = new DAO();
-//      dao.listPeers();
-      
-      //TaxiComm taxiComm = new TaxiComm();
+
+      NewTrips newTrips = new NewTrips();
+      TaxiComm taxiComm = new TaxiComm();
       
       try {
          peerSocket = new DatagramSocket(clientPort);
