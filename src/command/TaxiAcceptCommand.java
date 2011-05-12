@@ -1,25 +1,34 @@
 package command;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import java.net.*;
 import peer.UDPPeer;
-
-import database.DAO;
 import database.OngoingTripsDAO;
 
 import java.util.*;
 
+/**
+ * A taxi of a company have accepted the trip that this peer is responsible for.
+ * 
+ * @author Nicolai
+ *
+ */
 public class TaxiAcceptCommand extends Command {
 
 	private OngoingTripsDAO dao = new OngoingTripsDAO();
 	
+	/**
+	 * The taxi and trip ID is identified
+	 * A "got trip" is send to the sender
+	 * The rest of the companies are send a "missed trip".
+	 * 
+	 * @param receivedMessage - The received message
+	 * @param peerSocket - The socket to respond at
+	 * @param receivePacket - The packet containing IP etc of sender
+	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		String taxiID = receivedMessage.substring(5, 8);
-		String tripID = receivedMessage.substring(8);
+		String taxiID = receivedMessage.substring(5, 11);
+		String tripID = receivedMessage.substring(11);
 		
 		ArrayList<String> companyIPs = dao.getCompanyIP(tripID);
 		dao.deleteOngoingTrip(tripID);

@@ -7,12 +7,25 @@ import java.util.ArrayList;
 import peer.Peer;
 import config.Configuration;
 
+/**
+ * This command is used when another Peer announces itself.
+ * 
+ * @author Nicolai
+ *
+ */
 public class HelloCommand extends Command {
 
+	//
 	Configuration config = Configuration.getConfiguration();
 	
+	/**
+	 * The execute method will get it's own PeerList and send it back to the sender.
+	 * 
+	 * @param receivedMessage - The received message
+	 * @param peerSocket - The socket to respond at
+	 * @param receivePacket - The packet containing IP etc of sender
+	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		// Get peerlist and send
 		
 		ArrayList<Peer> peerList = config.getPeers();
 		String strPeerList = "";
