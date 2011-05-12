@@ -6,14 +6,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import model.Taxi;
-
-import database.DAO;
+import database.*;
 
 public class ReqTaxiCommand extends Command {
 
-	private DAO dao = new DAO();
+	private TaxiDAO dao = new TaxiDAO();
 	
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String TripID = receivedMessage.substring(5,15);

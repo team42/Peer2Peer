@@ -4,8 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import peer.*;
-
-import database.DAO;
+import database.*;
 
 import model.Trip;
 
@@ -19,7 +18,8 @@ public class TaxiComm {
    ArrayList<Trip> tripList = new ArrayList<Trip>();
    Trip curTrip = null;
 
-   DAO dao = new DAO();
+   TripsDAO tripsDAO = new TripsDAO();
+   TaxiDAO taxiDAO = new TaxiDAO();
    
    public TaxiComm() {
       
@@ -42,7 +42,7 @@ public class TaxiComm {
          String messageIn,messageOut = "";
 
          do {
-            buffer = new byte[512];
+            buffer = new byte[1024];
             inPacket = new DatagramPacket(buffer, buffer.length);
             datagramSocket.receive(inPacket);
 
@@ -51,29 +51,29 @@ public class TaxiComm {
 
             messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
 
-            taxiID = messageIn.substring(0, 3);
-            coords = messageIn.substring(3, 14);
-            answer = messageIn.charAt(14);
+            taxiID = messageIn.substring(0, 6);
+            coords = messageIn.substring(6, 15);
+            answer = messageIn.charAt(15);
             
-            dao.updateTaxiPosition(taxiID, coords);
+            taxiDAO.updateTaxiPosition(taxiID, coords);
             
             if(answer == '1') {
                tripID = messageIn.substring(15);
                
                String query = "TAXAC" + taxiID + tripID + coords;
                
-               String returnIP = dao.getReturnIP(tripID);
+               String returnIP = tripsDAO.getReturnIP(tripID);
                
                UDPPeer.sendMessages(InetAddress.getByName(returnIP), query);
             } else if(answer == '2') {
                tripID = messageIn.substring(15);
-               dao.taxiDeleteTrip(taxiID, tripID);
+               tripsDAO.taxiDeleteTrip(taxiID, tripID);
             } else if(answer == '3') {
                tripID = messageIn.substring(15);
-               dao.taxiDeleteTrip(taxiID, tripID);
+               tripsDAO.taxiDeleteTrip(taxiID, tripID);
             }
 
-            tripList = dao.getTripsByTaxiID(taxiID);
+            tripList = tripsDAO.getTripsByTaxiID(taxiID);
             
             String time;
             

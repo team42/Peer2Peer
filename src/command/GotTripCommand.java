@@ -2,12 +2,11 @@ package command;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-
-import database.DAO;
+import database.*;
 
 public class GotTripCommand extends Command {
 
-	private DAO dao = new DAO();
+	private TripsDAO dao = new TripsDAO();
 	
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String tripID = receivedMessage.substring(5, 8);

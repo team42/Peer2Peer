@@ -4,12 +4,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import database.DAO;
+import database.OngoingTripsDAO;
 import model.Taxi;
 import java.util.*;
 
 public class SendTaxiCommand extends Command {
 
-	private DAO dao = new DAO();
+	private OngoingTripsDAO dao = new OngoingTripsDAO();
 	
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		int taxiAmount = Integer.parseInt(receivedMessage.substring(15, 17));

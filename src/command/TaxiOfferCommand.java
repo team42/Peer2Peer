@@ -4,10 +4,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import database.DAO;
+import database.TripsDAO;
 
 public class TaxiOfferCommand extends Command {
 
-	private DAO dao = new DAO();
+	private TripsDAO dao = new TripsDAO();
 	
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String taxiID = receivedMessage.substring(5, 8);
