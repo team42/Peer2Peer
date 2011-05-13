@@ -30,21 +30,25 @@ public class PeerListCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		String peerList = receivedMessage.substring(5);
+		String newPeerList = receivedMessage.substring(5);
 		
-		String[] arPeerList = peerList.split("%");
+		String[] arPeerList = newPeerList.split("%");
 		
-		ArrayList<Peer> newPeerList = new ArrayList<Peer>();
+		ArrayList<Peer> peerList = config.getPeers();
 		
 		for(int i=0; i < arPeerList.length; i++) {
-			newPeerList.add(new Peer(arPeerList[i], 1));
+			for (int j=0; j<peerList.size(); j++) {
+				int k = 0;
+				if(arPeerList[i].equals(peerList.get(j).getIp())) {
+					k = 1;
+				}
+				if(k == 0) {
+					peerList.add(new Peer(arPeerList[i], 1));
+				}
+			}
 		}
 		
-		ArrayList<Peer> oldPeerList = config.getPeers();
-		
-		oldPeerList.addAll(newPeerList);
-		
-		config.setPeers(oldPeerList);
+		config.setPeers(peerList);
 	}
 
 }
