@@ -31,7 +31,7 @@ public class CommandController {
     public CommandController() {
         commands = new HashMap<String, Command>();
         commands.put("HELLO", new HelloCommand());
-        commands.put("PEERS", new PeerListCommand());
+        commands.put("PEERS", new PeersCommand());
         commands.put("REQTC", new ReqTaxiCommand());
         commands.put("SENTC", new SendTaxiCommand());
         commands.put("TAXOF", new TaxiOfferCommand());
