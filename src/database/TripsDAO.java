@@ -183,6 +183,17 @@ public class TripsDAO {
 			preparedStatement.setString(1, taxiID);
 			resultSet = preparedStatement.executeQuery();
 
+			while (resultSet.next()) {
+            tripID = resultSet.getString("trip_id");
+            destination = resultSet.getString("destination");
+            accepted = resultSet.getInt("accepted");
+            started = resultSet.getDate("started");
+
+            java.util.Date date = new java.util.Date(started.getTime());
+
+            tripList.add(new Trip(tripID, accepted, destination, date));
+         }
+			
 			preparedStatement.close();
 
 		} catch (SQLException e) {
@@ -196,22 +207,6 @@ public class TripsDAO {
 				}
 			}
 		}
-
-		try {
-			while (resultSet.next()) {
-				tripID = resultSet.getString("trip_id");
-				destination = resultSet.getString("destination");
-				accepted = resultSet.getInt("accepted");
-				started = resultSet.getDate("started");
-
-				java.util.Date date = new java.util.Date(started.getTime());
-
-				tripList.add(new Trip(tripID, accepted, destination, date));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		return tripList;
 	}
 
