@@ -55,7 +55,6 @@ public class PeersCommand extends Command {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
