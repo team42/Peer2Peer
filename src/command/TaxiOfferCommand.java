@@ -2,6 +2,8 @@ package command;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+
 import database.TripsDAO;
 
 /**
@@ -25,8 +27,9 @@ public class TaxiOfferCommand extends Command {
 		String taxiID = receivedMessage.substring(5, 11);
 		String tripID = receivedMessage.substring(11, 21);
 		String tripCoord = receivedMessage.substring(21);
+		String returnIP = receivePacket.getAddress().getHostAddress();
 		
-		dao.insertTrip(taxiID, tripID, tripCoord);
+		dao.insertTrip(taxiID, tripID, tripCoord, returnIP);
 	}
 
 }
