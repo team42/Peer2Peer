@@ -39,16 +39,16 @@ public class NewTrips {
 		peers.add(new Peer("4.4.4.4", 1));
 		
 		for(int i=0; i<peers.size(); i++) {
-			if(xCoord >= ((i*1000)/peers.size()) && xCoord < (((i+1)*1000)/peers.size())) {
+			if(xCoord >= ((i*2000)/peers.size()) && xCoord < (((i+1)*1000)/peers.size())) {
 				String query = "IP got: " + peers.get(i).getIp();
 				System.out.println(query);
-				/*try {
+				try {
 					UDPPeer.sendMessages(InetAddress.getByName(peers.get(i).getIp()), query);
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}*/
+				}
 			}
 		}
 	}
