@@ -16,7 +16,6 @@ import model.Peer;
  */
 public class PeerList {
    private Scanner input;
-   private Formatter output;
    private String filename = "peers.txt";
    private BufferedWriter out;
 

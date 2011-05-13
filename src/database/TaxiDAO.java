@@ -45,7 +45,7 @@ public class TaxiDAO {
 		}
 		// We want to return false if INSERT was unsuccesfull, else return true
 		if (rowCount == 0) {
-			String cardsQuery = "INSERT INTO taxi (taxi_id, taxi_coord, last_connected)"
+			String cardsQuery = "INSERT INTO taxi (taxi_id, taxi_coordinate, last_connected)"
 					+ "VALUES (?, ?, Now()) ";
 
 			con = null;
@@ -172,7 +172,7 @@ public class TaxiDAO {
 
 			while (resultSet.next()) {
 				taxiID = resultSet.getString("taxi_id");
-				taxiCoord = resultSet.getString("taxi_coord");
+				taxiCoord = resultSet.getString("taxi_coordinate");
 				lastConnected = resultSet.getDate("last_connected");
 				persistent = resultSet.getInt("persistent");
 
