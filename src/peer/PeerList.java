@@ -35,7 +35,6 @@ public class PeerList {
 
             //output to proper file
             while ((line = br.readLine()) != null) {
-               System.out.println(line);
                out = new BufferedWriter(new FileWriter(filename,true));               
                out.write(line + "\n");
                out.close();

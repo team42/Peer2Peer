@@ -28,8 +28,8 @@ public class UDPPeer {
    static CommandController  cmdControl = new CommandController();
    static Configuration config = Configuration.getConfiguration();
 
-   static int serverPort = 50000;
-   static int clientPort = 50001;
+   static int serverPort = 4342;
+   static int clientPort = 4341;
    static DatagramSocket peerSocket;
 
    static byte[] queryRaw = new byte[1024];
@@ -44,10 +44,6 @@ public class UDPPeer {
     * @throws UnknownHostException
     */
    public static void main(String[] args) throws IOException {
-
-      NewTrips newTrips = new NewTrips();
-      TaxiComm taxiComm = new TaxiComm();
-      
       try {
          peerSocket = new DatagramSocket(clientPort);
          IPAddress = getAlivePeer();
@@ -63,9 +59,13 @@ public class UDPPeer {
       if(IPAddress == null) {
          System.out.println("No peers found");
       } else {
+         
          String query = "HELLO";
          sendMessages(IPAddress, query);
-      }      
+      }    
+      
+      NewTrips newTrips = new NewTrips();
+      TaxiComm taxiComm = new TaxiComm();
 
       while(true) {
          // Receive packet
@@ -85,12 +85,13 @@ public class UDPPeer {
     *
     **/
    public static void sendMessages(InetAddress ip, String query) throws IOException {
+      System.out.println(ip + " " + query);
       queryRaw = query.getBytes();
 
       // Send packet
       DatagramPacket sendPacket = new DatagramPacket(queryRaw, queryRaw.length, ip, serverPort);
       peerSocket.send(sendPacket);
-      System.out.println("Send to: " + IPAddress + "\nData: " + query);
+      System.out.println("Send to: " + ip + "\nData: " + query + "\n");
    }
 
    /**
@@ -123,9 +124,9 @@ public class UDPPeer {
       peerList.closeInputFile();
       
       // Lets write the new list of alive peers
-//      peerList.openFile(1);
-//      peerList.writePeerList(peers);
-//      peerList.closeOutputFile();
+      peerList.openFile(1);
+      peerList.writePeerList(peers);
+      peerList.closeOutputFile();
       
       config.setPeers(peers); // Load peers into configuration.
 

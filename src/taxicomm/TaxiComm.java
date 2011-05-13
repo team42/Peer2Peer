@@ -24,6 +24,9 @@ public class TaxiComm {
    public TaxiComm() {
       
 	  System.out.println("Opening port...\n");
+	  tripsDAO.testTrips("A00001", "AB99999999", "1234,5678", "192.168.1.102");
+	  tripsDAO.testTrips("A00001", "AB12345678", "1234,5678", "192.168.1.102");
+	  tripsDAO.testTrips("A00002", "AB12345678", "1234,5678", "192.168.1.102");
 
       try {
          datagramSocket = new DatagramSocket(PORT);
@@ -50,6 +53,7 @@ public class TaxiComm {
             int clientPort = inPacket.getPort();
 
             messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
+            System.out.println(messageIn);
 
             taxiID = messageIn.substring(0, 6);
             coords = messageIn.substring(6, 15);
@@ -58,19 +62,19 @@ public class TaxiComm {
             taxiDAO.updateTaxiPosition(taxiID, coords);
             
             if(answer == '1') {
-               tripID = messageIn.substring(15);
+               tripID = messageIn.substring(16);
                
-               String query = "TAXAC" + taxiID + tripID + coords;
+               String query = "TAXAC" + taxiID + tripID;
                
                String returnIP = tripsDAO.getReturnIP(tripID);
                
                UDPPeer.sendMessages(InetAddress.getByName(returnIP), query);
             } else if(answer == '2') {
-               tripID = messageIn.substring(15);
+               tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);
                taxiDAO.setTaxiFree(taxiID);
             } else if(answer == '3') {
-               tripID = messageIn.substring(15);
+               tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);
             }
 

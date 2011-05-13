@@ -25,8 +25,11 @@ public class GotTripCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	   System.out.println("GotTrip: " + receivedMessage);
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiID = receivedMessage.substring(15);
+		System.out.println("tripID : " + tripID);
+		System.out.println("taxiID : " + taxiID);
 		
 		taxiDAO.setTaxiTaken(taxiID);
 		
