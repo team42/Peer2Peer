@@ -31,7 +31,7 @@ public class PeerList {
             InputStreamReader isr = new InputStreamReader(in);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            
+
             //output to proper file
             while ((line = br.readLine()) != null) {
                System.out.println(line);
@@ -79,12 +79,16 @@ public class PeerList {
    @SuppressWarnings("unchecked")
    public ArrayList<Peer> readPeerList() {
       ArrayList<Peer> peerList = new ArrayList<Peer>();
-      while (input.hasNext()) {
-         String ip = input.next();
-         int status = 1;//input.nextInt();
-         peerList.add(new Peer(ip,status));
+      if(!(input==null)) {
+         while (input.hasNext()) {
+            String ip = input.next();
+            int status = 1;//input.nextInt();
+            peerList.add(new Peer(ip,status));
+         }
+         return peerList;
+      } else {
+         return null;
       }
-      return peerList;
    }
 
    public void writePeerList(ArrayList<Peer> peerList) throws IOException {
@@ -100,10 +104,14 @@ public class PeerList {
     * 
     */
    public void closeInputFile() {
-      input.close();
+      if(!(input==null)) {
+         input.close();
+      }      
    }
 
    public void closeOutputFile() throws IOException {
-      out.close();
+      if(!(out==null)) {
+         out.close();
+      }   
    }
 }
