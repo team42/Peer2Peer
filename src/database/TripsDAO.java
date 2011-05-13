@@ -93,9 +93,9 @@ public class TripsDAO {
 		}
 	}
 
-	public boolean insertTrip(String taxiID, String tripID, String tripCoord) {
-		String cardsQuery = "INSERT INTO trips (taxi_id, trip_id, destination, started)"
-				+ "VALUES (?, ?, ?, Now()) ";
+	public boolean insertTrip(String taxiID, String tripID, String tripCoord, String returnIP) {
+		String cardsQuery = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip)"
+				+ "VALUES (?, ?, ?, Now(), ?) ";
 
 		int rowCount = 0;
 		con = null;
@@ -106,6 +106,7 @@ public class TripsDAO {
 			preparedStatement.setString(1, taxiID);
 			preparedStatement.setString(2, tripID);
 			preparedStatement.setString(3, tripCoord);
+			preparedStatement.setString(4, returnIP);			
 
 			rowCount = preparedStatement.executeUpdate();
 			preparedStatement.close();
@@ -211,7 +212,6 @@ public class TripsDAO {
 	}
 
 	public String getReturnIP(String tripID) {
-
 		String returnIP = "";
 
 		String Query = "SELECT return_ip FROM trips WHERE trip_id = ?";
@@ -224,7 +224,13 @@ public class TripsDAO {
 			preparedStatement.setString(1, tripID);
 
 			resultSet = preparedStatement.executeQuery();
-
+			if(resultSet.next()) {
+			   returnIP = resultSet.getString("return_ip");
+			} else {
+			   System.out.println("No records");
+			   return "No records";
+			}
+                  
 			preparedStatement.close();
 
 		} catch (SQLException e) {
@@ -238,16 +244,52 @@ public class TripsDAO {
 				}
 			}
 		}
-
-		try {
-			resultSet.next();
-			returnIP = resultSet.getString("return_ip");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		return returnIP;
 	}
+	
+	public boolean testTrips(String taxiID, String tripID, String tripCoord, String ip) {
+      String query1 = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip) VALUES (?, ?, ?, Now(), ?) ";
+      String query2 = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company) VALUES (?, ?, ?, ?) ";
 
+      int rowCount = 0;
+      con = null;
 
+      try {
+         con = PostgresqlConnectionFactory.createConnection();
+         preparedStatement = con.prepareStatement(query1);
+         preparedStatement.setString(1, taxiID);
+         preparedStatement.setString(2, tripID);
+         preparedStatement.setString(3, tripCoord);
+         preparedStatement.setString(4, ip);
+
+         rowCount = preparedStatement.executeUpdate();
+         preparedStatement.close();
+         
+         preparedStatement = con.prepareStatement(query2);
+         preparedStatement.setString(1, tripID);
+         preparedStatement.setString(2, taxiID);
+         preparedStatement.setString(3, tripCoord);
+         preparedStatement.setString(4, ip);
+
+         rowCount = preparedStatement.executeUpdate();
+         preparedStatement.close();
+
+      } catch (SQLException e) {
+         e.printStackTrace();
+      } finally {
+         if (con != null) {
+            try {
+               con.close();
+            } catch (SQLException e1) {
+               System.out.println("Failed Closing of Database!");
+            }
+         }
+      }
+      // We want to return false if INSERT was unsuccesfull, else return true
+      if (rowCount == 0) {
+         return false;
+      } else {
+         return true;
+      }
+   }
 }

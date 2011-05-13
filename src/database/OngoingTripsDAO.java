@@ -106,6 +106,11 @@ public class OngoingTripsDAO {
 			preparedStatement.setString(1, tripID);
 
 			resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+            companyIP = resultSet.getString("company");
+            companyIpList.add(companyIP);
+         }
 
 			preparedStatement.close();
 
@@ -122,16 +127,6 @@ public class OngoingTripsDAO {
 		}
 
 		int found = 0;
-
-		try {
-			while (resultSet.next()) {
-				companyIP = resultSet.getString("company");
-				companyIpList.add(companyIP);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
 		return companyIpList;
 	}
 }
