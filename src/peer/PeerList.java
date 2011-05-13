@@ -51,18 +51,22 @@ public class PeerList {
     * @param filename
     * @param rw 0 = read, 1 = write
     */
-   public void openFile(int rw) {
+   public boolean openFile(int rw) {
       if(rw == 0) {
          try {
             input = new Scanner(new File(filename));
+            return true;
          } catch (FileNotFoundException ex) {
             Logger.getLogger(PeerList.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
          }
       } else {
          try {
             out = new BufferedWriter(new FileWriter(filename));
+            return true;
          } catch (IOException ex) {
             Logger.getLogger(PeerList.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
          }
       }
    }

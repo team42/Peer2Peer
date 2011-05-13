@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class DAOTest {
-
+/*
    @Test
    public void testListPeers() {
       System.out.println("Start of test: DAO.listPeers()");
@@ -15,7 +15,7 @@ public class DAOTest {
       assertEquals(expResult, result);
       System.out.println("End test: DAO.listPeers()\n");
    }
-
+*/
    @Test
    public void testInsertTrip() {
       fail("Not yet implemented");
