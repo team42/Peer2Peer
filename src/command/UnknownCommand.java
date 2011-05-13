@@ -11,7 +11,6 @@ import java.net.DatagramSocket;
  * @see Command
  *
  * @author Nicolai, Lasse
- * @version $Id: UnknownCommand.java 483 2010-12-16 08:26:14Z mads $
  */
 public class UnknownCommand extends Command {
 
