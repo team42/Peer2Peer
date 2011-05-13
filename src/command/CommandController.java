@@ -38,6 +38,7 @@ public class CommandController {
         commands.put("TAXAC", new TaxiAcceptCommand());
         commands.put("GOTTR", new GotTripCommand());
         commands.put("MISTR", new MissTripCommand());
+        commands.put("HANTR", new HandleTripCommand());
         commands.put("00", new UnknownCommand());
     }
 

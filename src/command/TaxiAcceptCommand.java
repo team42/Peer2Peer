@@ -1,37 +1,61 @@
 package command;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
+import java.io.IOException;
+import java.net.*;
 import peer.UDPPeer;
+import database.OngoingTripsDAO;
 
-import database.DAO;
 import java.util.*;
 
+/**
+ * A taxi of a company have accepted the trip that this peer is responsible for.
+ * 
+ * @author Nicolai
+ *
+ */
 public class TaxiAcceptCommand extends Command {
 
-	private DAO dao = new DAO();
+	private OngoingTripsDAO dao = new OngoingTripsDAO();
 	
+	/**
+	 * The taxi and trip ID is identified
+	 * A "got trip" is send to the sender
+	 * The rest of the companies are send a "missed trip".
+	 * 
+	 * @param receivedMessage - The received message
+	 * @param peerSocket - The socket to respond at
+	 * @param receivePacket - The packet containing IP etc of sender
+	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		String taxiID = receivedMessage.substring(5, 8);
-		String tripID = receivedMessage.substring(8);
+		String taxiID = receivedMessage.substring(5, 11);
+		String tripID = receivedMessage.substring(11);
 		
 		ArrayList<String> companyIPs = dao.getCompanyIP(tripID);
 		dao.deleteOngoingTrip(tripID);
 		
-		String companyGot = receivePacket.getAddress().getHostAddress()
+		String companyGot = receivePacket.getAddress().getHostAddress();
 		String query = "MISTR" + tripID;
 		
 		for(int i=0; i<companyIPs.size(); i++) {
 			if(!companyIPs.get(i).equals(companyGot)) {
-				UDPPeer.sendMessages(InetAddress.getByName(companyIPs.get(i)), query);
+				try {
+					UDPPeer.sendMessages(InetAddress.getByName(companyIPs.get(i)), query);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
 		query = "GOTTR" + tripID + taxiID;
 		
-		UDPPeer.sendMessages(receivePacket.getAddress(), query);
+		try {
+			UDPPeer.sendMessages(receivePacket.getAddress(), query);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

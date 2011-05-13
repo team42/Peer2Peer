@@ -6,17 +6,31 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import model.Taxi;
+import database.*;
 
-import database.DAO;
-
+/**
+ * This command is received when another peer requests the coordinates of your taxis.
+ * 
+ * @author Nicolai
+ *
+ */
 public class ReqTaxiCommand extends Command {
 
-	private DAO dao = new DAO();
+	private TaxiDAO dao = new TaxiDAO();
 	
+	/**
+	 * The trip ID and customer coordinate is identified.
+	 * Taxis are found and converted to a string.
+	 * A string is made to fit the P2P protocol.
+	 * This is send back to the sender of the request.
+	 * 
+	 * @param receivedMessage - The received message
+	 * @param peerSocket - The socket to respond at
+	 * @param receivePacket - The packet containing IP etc of sender
+	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		String TripID = receivedMessage.substring(5,15);
+		String tripID = receivedMessage.substring(5,15);
 		String customerCoord = receivedMessage.substring(15);
 		
 		// Find closest taxis by customerCoord (Exclude taxis who already got the trip)
@@ -42,7 +56,7 @@ public class ReqTaxiCommand extends Command {
 			e1.printStackTrace();
 		}
 		
-		String reply = "SENTC" + strTaxiList + localIP;
+		String reply = "SENTC" + tripID + strTaxiList + localIP;
 		
 		int peer = receivePacket.getPort();
         

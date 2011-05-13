@@ -1,32 +1,30 @@
 package command;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import database.TripsDAO;
+import java.util.ArrayList;
+import peer.Peer;
+import config.Configuration;
 
 /**
- * A taxi has been offered a trip.
+ * This command is used when another Peer announces itself.
  * 
  * @author Nicolai
  *
  */
-public class TaxiOfferCommand extends Command {
+public class HandleTripCommand extends Command {
 
-	private TripsDAO dao = new TripsDAO();
-	
 	/**
-	 * All data is identified and the trip is added the taxi
+	 * The execute method will get it's own PeerList and send it back to the sender.
 	 * 
 	 * @param receivedMessage - The received message
 	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-		String taxiID = receivedMessage.substring(5, 11);
-		String tripID = receivedMessage.substring(11, 21);
-		String tripCoord = receivedMessage.substring(21);
 		
-		dao.insertTrip(taxiID, tripID, tripCoord);
+		
 	}
 
 }

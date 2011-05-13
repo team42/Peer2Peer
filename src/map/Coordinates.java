@@ -1,30 +1,56 @@
 package map;
 
+import java.util.ArrayList;
+
 public class Coordinates 
 {
 
-   public int ID, ownX, ownY, parentID, NON, N1, N2, N3, N4, N5;
-   public double F, G, H, TempG;
-   
-   Coordinates(int id, int x, int y, int NON, int N1, int N2, int N3, int N4, int N5)
-   {
-      this.ID = id;
-      this.ownX = x;
-      this.ownY = y;
-      this.parentID = 9999;
-      this.F = 9999;
-      this.G = 0;
-      this.H = 0;
-      this.TempG = 0;
-      this.NON = NON;
-      this.N1 = N1;
-      this.N2 = N2;
-      this.N3 = N3;
-      this.N4 = N4;
-      this.N5 = N5;
-   }
-   
-   public int getParentID()
+	public int ID, ownX, ownY, parentID, NON, N1, N2, N3, N4, N5;
+	public double F, G, H, TempG;
+	public boolean taxi;
+	public ArrayList<Integer> taxiIDs;
+	
+	Coordinates(int id, int x, int y, int NON, int N1, int N2, int N3, int N4, int N5)
+	{
+		this.ID = id;
+		this.ownX = x;
+		this.ownY = y;
+		this.parentID = 9999;
+		this.F = 9999;
+		this.G = 0;
+		this.H = 0;
+		this.TempG = 0;
+		this.NON = NON;
+		this.N1 = N1;
+		this.N2 = N2;
+		this.N3 = N3;
+		this.N4 = N4;
+		this.N5 = N5;
+		this.taxi = false;
+		this.taxiIDs = new ArrayList<Integer>();
+	}
+	
+	public boolean getTaxi()
+    {
+        return taxi;
+    }//end method getTaxi
+
+    public void setTaxi (boolean TAXI)
+    {
+        taxi = TAXI;
+    }//end method setTaxi
+    
+    public ArrayList<Integer> getTaxiIDs()
+    {
+        return taxiIDs;
+    }//end method getTaxiIDs
+
+    public void AddTaxiIDs(int TAXIID)
+    {
+        taxiIDs.add(TAXIID);
+    }//end method setTaxiIDs
+    
+	public int getParentID()
     {
         return parentID;
     }//end method getParentID
@@ -138,17 +164,17 @@ public class Coordinates
     {
         switch(n){
         case 1:
-         return getN1();
+        	return getN1();
         case 2:
-         return getN2();
+        	return getN2();
         case 3:
-         return getN3();
+        	return getN3();
         case 4:
-         return getN4();
+        	return getN4();
         case 5:
-         return getN5();
+        	return getN5();
         default:
-         return 9999;
+        	return 9999;
         }
     }//end method getNn
 }
