@@ -2,6 +2,7 @@ package config;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -51,9 +52,10 @@ public class ConfigurationTest {
 
    /**
     * Test of setPeers() and getPeers() method, of class Configuration.
+    * @throws IOException 
     */
    @Test
-   public void testGetAndSetPeers() {
+   public void testGetAndSetPeers() throws IOException {
       System.out.println("Start of test: Configuration.setPeers() and Configuration.getPeers()");
       ArrayList<Peer> peers = new ArrayList<Peer>();
       peers.add(new Peer("192.168.1.101", 1));

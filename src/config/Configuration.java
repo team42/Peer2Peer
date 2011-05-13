@@ -1,5 +1,6 @@
 package config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import peer.*;
 
@@ -72,11 +73,16 @@ public class Configuration {
    }
 
    /**
-    * Set the value of peers
+    * Set the value of peers and update the peers text file.
     * 
-    * @param newpeers - new value of peers
+    * @param newPeers - new value of peers
+    * @throws IOException 
     */
-   public void setPeers(ArrayList<Peer> newpeers) {
-      this.peers = newpeers;
+   public void setPeers(ArrayList<Peer> newPeers) throws IOException {
+      this.peers = newPeers;
+      PeerList peerList = new PeerList();
+      peerList.openFile(1);      
+      peerList.writePeerList(newPeers);
+      peerList.closeOutputFile();
    }
 }
