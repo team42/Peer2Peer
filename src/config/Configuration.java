@@ -2,6 +2,8 @@ package config;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import model.Peer;
 import peer.*;
 
 /**
@@ -18,7 +20,8 @@ import peer.*;
 public class Configuration {
 
    private ArrayList<Peer> peers;
-
+   private String companyID;
+   
    private static Configuration configurationObject;
 
    /** 
@@ -84,5 +87,13 @@ public class Configuration {
       peerList.openFile(1);      
       peerList.writePeerList(newPeers);
       peerList.closeOutputFile();
+   }
+   
+   public void setCompanyID(String id) {
+	   this.companyID = id;
+   }
+   
+   public String getCompanyID() {
+	   return companyID;
    }
 }

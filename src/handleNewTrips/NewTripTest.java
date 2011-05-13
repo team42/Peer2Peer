@@ -1,5 +1,7 @@
 package handleNewTrips;
 
+import config.Configuration;
+
 public class NewTripTest {
 
 	/**
@@ -7,6 +9,10 @@ public class NewTripTest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		Configuration config = Configuration.getConfiguration();
+		
+		config.setCompanyID("AB");
 		
 		NewTrips hej = new NewTrips();
 		

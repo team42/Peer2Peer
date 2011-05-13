@@ -5,7 +5,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
-import peer.Peer;
+import model.Peer;
+
 import peer.UDPPeer;
 import database.TripOffersDAO;
 import config.*;
@@ -21,27 +22,22 @@ public class NewTrips {
 		timer.schedule(new addNewTrip(), 5000, 10000);
 	}
 	
-	public void handleTrip(String customer) {
+	public void handleTrip(String tripID, String coordinate) {
 		
-		
-		
-		String[] coords = customer.split(",");
+		String[] coords = coordinate.split(",");
 		int xCoord = Integer.parseInt(coords[0]);
-		int yCoord = Integer.parseInt(coords[1]);
 		
 		System.out.println("X-coord: " + xCoord);
 		
 		ArrayList<Peer> peers = new ArrayList<Peer>();
+		peers = config.getPeers();
 		
-		peers.add(new Peer("1.1.1.1", 1));
-		peers.add(new Peer("2.2.2.2", 1));
-		peers.add(new Peer("3.3.3.3", 1));
-		peers.add(new Peer("4.4.4.4", 1));
+		String correctCoordinate = coordinateSyntax(coords);
 		
 		for(int i=0; i<peers.size(); i++) {
-			if(xCoord >= ((i*2000)/peers.size()) && xCoord < (((i+1)*1000)/peers.size())) {
-				String query = "IP got: " + peers.get(i).getIp();
-				System.out.println(query);
+			if(xCoord >= ((i*2000)/peers.size()) && xCoord < (((i+1)*2000)/peers.size())) {
+				String query = "HANTR" + tripID + correctCoordinate;
+				
 				try {
 					UDPPeer.sendMessages(InetAddress.getByName(peers.get(i).getIp()), query);
 				} catch (UnknownHostException e) {
@@ -53,12 +49,25 @@ public class NewTrips {
 		}
 	}
 	
+	public String coordinateSyntax(String[] coords) {
+		
+		for(int i=0; i<coords.length; i++) {
+			while(coords[i].length() < 4) {
+				coords[i] = "0" + coords[i];
+			}
+		}
+		
+		String coordinate = coords[0] + "," + coords[1]; 
+		
+		return coordinate;
+	}
+	
 	class addNewTrip extends TimerTask {
 		public void run() {
-			String customer = tripOfferDAO.getCustomer();
+			String[] customer = tripOfferDAO.getCustomer();
 			
-			if(!customer.equals("none")) {
-				handleTrip(customer);
+			if(!customer[0].equals("none")) {
+				handleTrip(customer[0], customer[1]); 
 			}
 		}
 	}

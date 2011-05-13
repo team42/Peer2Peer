@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+import model.Peer;
+
 import command.CommandController;
 
 import config.Configuration;

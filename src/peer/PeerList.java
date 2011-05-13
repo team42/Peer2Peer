@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.Formatter;
 import java.util.logging.*;
 
+import model.Peer;
+
 /**
  * Text file manipulation of "peers"
  * 

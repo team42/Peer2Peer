@@ -4,6 +4,8 @@ import handleNewTrips.NewTrips;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+
+import model.Peer;
 import config.Configuration;
 import command.CommandController;
 import database.*;

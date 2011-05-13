@@ -1,4 +1,4 @@
-package peer;
+package model;
 
 /**
  * Object representation of values read in from "peers" text file.

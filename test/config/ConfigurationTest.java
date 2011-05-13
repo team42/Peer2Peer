@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import model.Peer;
+
 import org.junit.Test;
 
-import peer.Peer;
 
 /**
  * <code>ConfigurationTest</code> will test the <code>Configuration</code> class

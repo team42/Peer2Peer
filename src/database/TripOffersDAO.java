@@ -2,15 +2,20 @@ package database;
 
 import java.sql.*;
 
+import config.Configuration;
+
 public class TripOffersDAO {
 
 	private Connection con;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	
-	public String getCustomer() {
+	Configuration config = Configuration.getConfiguration();
+	
+	public String[] getCustomer() {
 		
-		String customer = "none";
+		String customer[] = new String[2];
+		customer[0] = "none";
 		int id = 0;
 		
 		String query = "SELECT * FROM trip_offers ORDER BY time_ordered";
@@ -26,7 +31,16 @@ public class TripOffersDAO {
 			
 			if(resultSet.next()) {
 				id = resultSet.getInt("id");
-				customer = resultSet.getString("destination");
+				customer[0] = Integer.toString(id);
+				
+				customer[1] = resultSet.getString("destination");
+				
+				while(customer[0].length() < 8) {
+					customer[0] = "0" + customer[0];
+				}
+				
+				customer[0] = config.getCompanyID() + customer[0];
+				
 			}
 			
 			preparedStatement.close();
