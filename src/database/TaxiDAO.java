@@ -170,21 +170,6 @@ public class TaxiDAO {
 
 			resultSet = preparedStatement.executeQuery();
 
-			preparedStatement.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e1) {
-					System.out.println("Failed Closing of Database!");
-				}
-			}
-		}
-
-		try {
 			while (resultSet.next()) {
 				taxiID = resultSet.getString("taxi_id");
 				taxiCoord = resultSet.getString("taxi_coord");
@@ -205,8 +190,19 @@ public class TaxiDAO {
 					taxiList.add(new Taxi(taxiID, taxiCoord));
 				}
 			}
+			
+			preparedStatement.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+					System.out.println("Failed Closing of Database!");
+				}
+			}
 		}
 
 		return taxiList;
