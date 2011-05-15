@@ -166,7 +166,41 @@ public class TripsDAO {
 		}
 	}
 	
-	public ArrayList<Trip> getTripsByTaxiID(String taxiID) {
+	public int taxiTripAmount(String taxiID) {
+		int amount = 0;
+		
+		String Query = "SELECT * FROM trips WHERE taxi_id = ?";
+
+		con = null;
+
+		try {
+			con = PostgresqlConnectionFactoryScylla.createConnection();
+			preparedStatement = con.prepareStatement(Query);
+
+			preparedStatement.setString(1, taxiID);
+			resultSet = preparedStatement.executeQuery();
+
+			resultSet.last();
+			amount = resultSet.getRow();
+			
+			preparedStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+					System.out.println("Failed Closing of Database!");
+				}
+			}
+		}
+		
+		return amount;
+	}
+	
+ 	public ArrayList<Trip> getTripsByTaxiID(String taxiID) {
 		ArrayList<Trip> tripList = new ArrayList<Trip>();
 
 		String tripID, destination;

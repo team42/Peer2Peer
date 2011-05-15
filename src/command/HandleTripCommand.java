@@ -10,6 +10,9 @@ import model.Taxi;
 import model.CalcedTaxi;
 import model.Peer;
 import config.Configuration;
+import database.OngoingTripsDAO;
+import database.TripOffersDAO;
+import database.TripsDAO;
 
 /**
  * This command is used when another Peer announces itself.
@@ -24,6 +27,9 @@ public class HandleTripCommand extends Command {
 	
 	Configuration config = Configuration.getConfiguration();
 	Timer timer;
+	
+	OngoingTripsDAO ongoingDAO = new OngoingTripsDAO();
+	TripOffersDAO tripOfferDAO = new TripOffersDAO();
 	
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
@@ -63,6 +69,7 @@ public class HandleTripCommand extends Command {
 			int messages;
 			
 			// get all onging_taxis by tripID
+			taxis = ongoingDAO.getTaxiByTrip(tripID);
 			
 			for(int i=0; i<taxis.size(); i++) {
 				// sortest path length by algorithm for taxis.get(i)
@@ -120,7 +127,10 @@ public class HandleTripCommand extends Command {
 					timer = new Timer();
 					timer.schedule(new Send(), 1000*60*5);
 				} else {
-					// Start over!
+					tripOfferDAO.addTrip(tripCoordinate);
+					//!!!!!!!
+					//Send didnt get out!
+					//!!!!!!!
 				}
 			}
 		}

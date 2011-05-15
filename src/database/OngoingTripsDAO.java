@@ -91,12 +91,12 @@ public class OngoingTripsDAO {
 		}
 	}
 
-	public ArrayList<String> getCompanyIP(String tripID) {
+	public ArrayList<Taxi> getTaxiByTrip(String tripID) {
+		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
 
-		String companyIP = "";
-		ArrayList<String> companyIpList = new ArrayList<String>();
-
-		String Query = "SELECT DISTINCT company FROM ongoing_trips WHERE trip_id = ?";
+		String taxiID, taxiCoord, company;
+		
+		String Query = "SELECT * FROM ongoing_trips WHERE trip_id = ?";
 
 		con = null;
 
@@ -108,9 +108,11 @@ public class OngoingTripsDAO {
 			resultSet = preparedStatement.executeQuery();
 			
 			while (resultSet.next()) {
-            companyIP = resultSet.getString("company");
-            companyIpList.add(companyIP);
-         }
+				taxiID = resultSet.getString("taxi_id");
+				taxiCoord = resultSet.getString("taxi_coordinate");
+				company = resultSet.getString("company");
+	            taxiList.add(new Taxi(taxiID, taxiCoord, company));
+			}
 
 			preparedStatement.close();
 
@@ -126,7 +128,44 @@ public class OngoingTripsDAO {
 			}
 		}
 
-		int found = 0;
+		return taxiList;
+	}
+
+	public ArrayList<String> getCompanyIP(String tripID) {
+
+		String companyIP = "";
+		ArrayList<String> companyIpList = new ArrayList<String>();
+
+		String Query = "SELECT DISTINCT company FROM ongoing_trips WHERE trip_id = ?";
+
+		con = null;
+
+		try {
+			con = PostgresqlConnectionFactoryScylla.createConnection();
+			preparedStatement = con.prepareStatement(Query);
+			preparedStatement.setString(1, tripID);
+
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				companyIP = resultSet.getString("company");
+				companyIpList.add(companyIP);
+			}
+
+			preparedStatement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+					System.out.println("Failed Closing of Database!");
+				}
+			}
+		}
+
 		return companyIpList;
 	}
 }

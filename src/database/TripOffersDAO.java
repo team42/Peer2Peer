@@ -61,6 +61,38 @@ public class TripOffersDAO {
 		
 		return customer;
 	}
+
+	public boolean addTrip(String destination) {
+	      String cardsQuery = "INSERT INTO trip_offers (destination, time_ordered) VALUES (?, ?)";
+
+	      int rowCount = 0;
+	      con = null;
+
+	      try {
+	         con = PostgresqlConnectionFactoryScylla.createConnection();
+	         preparedStatement = con.prepareStatement(cardsQuery);
+	         preparedStatement.setString(1, destination);
+
+	         java.util.Date date = new java.util.Date(System.currentTimeMillis());
+	         java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+	         preparedStatement.setTimestamp(2, timestamp);
+
+	         rowCount = preparedStatement.executeUpdate();
+	         preparedStatement.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         if (con != null) {
+	            try { con.close(); }
+	            catch (SQLException e1) { System.out.println("Failed Closing of Database!"); }
+	         }
+	      }
+	      // We want to return false if INSERT was unsuccesfull, else return true
+	      if (rowCount == 0) { return false; }
+	      else { return true; }
+
+	   }
 	
 	public boolean deleteCustomer(int id) {
 

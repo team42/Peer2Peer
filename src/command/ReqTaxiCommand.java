@@ -41,7 +41,7 @@ public class ReqTaxiCommand extends Command {
 		
 		int amount;
 		
-		// Get Taxis from database
+		TripsDAO tripDAO = new TripsDAO();
 		ArrayList<Taxi> taxiList = dao.getActiveTaxis();
 		
 		// Calculate heuristics for taxis
@@ -62,7 +62,7 @@ public class ReqTaxiCommand extends Command {
 		// Convert taxi list to string format
 		int counter = amount;
 		for(int i=0; i > counter; i++) {
-			if(true) { // current taxi have less than 5 trips
+			if(tripDAO.taxiTripAmount(taxiList.get(i).getTaxiID()) < 5) { // current taxi have less than 5 trips
 				strTaxiList += strTaxiList + taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
 			} else {
 				counter++;
