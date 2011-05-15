@@ -49,9 +49,8 @@ public class ReqTaxiCommand extends Command {
 			taxiList.set(i, calcHeuristics(taxiList.get(i), customerCoord));
 		}
 		
-		//!!! NOT IMPLEMENTED
 		// Sort by Selection Sort
-		//!!! NOT IMPLEMENTED
+		taxiList = sortTaxis(taxiList);
 		
 		//Set taxi amount
 		if(taxiList.size() < 10) {
@@ -61,8 +60,13 @@ public class ReqTaxiCommand extends Command {
 		}
 		
 		// Convert taxi list to string format
-		for(int i=0; i > amount; i++) {
-			strTaxiList += strTaxiList + taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+		int counter = amount;
+		for(int i=0; i > counter; i++) {
+			if(true) { // current taxi have less than 5 trips
+				strTaxiList += strTaxiList + taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+			} else {
+				counter++;
+			}
 		}
 		
 		// Find local IP
@@ -108,6 +112,22 @@ public class ReqTaxiCommand extends Command {
 		int heuristic = (int) Math.sqrt(Math.pow(xLength, 2)+Math.pow(yLength, 2));
 		taxi.setHeuristic(heuristic);
 		return taxi;
+	}
+	
+	public static ArrayList<Taxi> sortTaxis(ArrayList<Taxi> taxiList) {
+		Taxi tempTaxi;
+		
+		for (int i = 0; i < taxiList.size(); i++) {
+			for (int j = 0; j < taxiList.size(); j++) {
+				if(taxiList.get(i).getHeuristic() < taxiList.get(j).getHeuristic()) {
+					tempTaxi = taxiList.get(i);
+					taxiList.set(i, taxiList.get(j));
+					taxiList.set(j, tempTaxi);
+				}
+			}
+		}
+
+		return taxiList;
 	}
 
 }

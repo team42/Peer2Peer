@@ -26,7 +26,11 @@ public class CalcedTaxi {
 		return company;
 	}
 	
-	public int getHeuristic() {
+	public int getShortestPath() {
 		return shortestPath;
+	}
+	
+	public void setShortestPath(int shortestPath) {
+		this.shortestPath = shortestPath;
 	}
 }

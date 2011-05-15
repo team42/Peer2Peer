@@ -70,6 +70,7 @@ public class HandleTripCommand extends Command {
 			}
 			
 			// Sort calcTaxis by Selection Sort
+			calcTaxis = sortTaxis(calcTaxis);
 			
 			if(calcTaxis.size() < 5) {
 				messages = calcTaxis.size();
@@ -123,5 +124,21 @@ public class HandleTripCommand extends Command {
 				}
 			}
 		}
+	}
+	
+	public static ArrayList<CalcedTaxi> sortTaxis(ArrayList<CalcedTaxi> taxiList) {
+		CalcedTaxi tempTaxi;
+		
+		for (int i = 0; i < taxiList.size(); i++) {
+			for (int j = 0; j < taxiList.size(); j++) {
+				if(taxiList.get(i).getShortestPath() < taxiList.get(j).getShortestPath()) {
+					tempTaxi = taxiList.get(i);
+					taxiList.set(i, taxiList.get(j));
+					taxiList.set(j, tempTaxi);
+				}
+			}
+		}
+
+		return taxiList;
 	}
 }
