@@ -24,7 +24,7 @@ public class TripOffersDAO {
 
 		try {
 
-			con = PostgresqlConnectionFactory.createConnection();
+			con = PostgresqlConnectionFactoryScylla.createConnection();
 			preparedStatement = con.prepareStatement(query);
 			
 			resultSet = preparedStatement.executeQuery();
@@ -71,7 +71,7 @@ public class TripOffersDAO {
 
 		try {
 
-			con = PostgresqlConnectionFactory.createConnection();
+			con = PostgresqlConnectionFactoryScylla.createConnection();
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setInt(1, id);
 

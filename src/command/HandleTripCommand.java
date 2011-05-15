@@ -6,7 +6,7 @@ import java.util.*;
 
 import peer.UDPPeer;
 
-import model.AwaitingTaxi;
+import model.Taxi;
 import model.CalcedTaxi;
 import model.Peer;
 import config.Configuration;
@@ -24,6 +24,8 @@ public class HandleTripCommand extends Command {
 	
 	Configuration config = Configuration.getConfiguration();
 	Timer timer;
+	
+	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
 	/**
 	 * The execute method will get it's own PeerList and send it back to the sender.
@@ -54,37 +56,29 @@ public class HandleTripCommand extends Command {
 		timer.schedule(new firstSend(), 5000);
 	}
 	
-	private AwaitingTaxi calcHeuristics(AwaitingTaxi taxi, String tripCoordinate) {
-		int x1 = Integer.parseInt(taxi.getCompanyIP().substring(0, 4));
-		int y1 = Integer.parseInt(taxi.getCompanyIP().substring(5, 9));
-		int x2 = Integer.parseInt(tripCoordinate.substring(0, 4));
-		int y2 = Integer.parseInt(tripCoordinate.substring(5, 9));
-		int xLength = Math.abs(x1-x2);
-		int yLength = Math.abs(y1-y2);
-		int heuristic = (int) Math.sqrt(Math.pow(xLength, 2)+Math.pow(yLength, 2));
-		taxi.setHeuristic(heuristic);
-		return taxi;
-	}
-	
 	class firstSend extends TimerTask {
 		public void run() {
-			ArrayList<AwaitingTaxi> taxis = new ArrayList<AwaitingTaxi>();
-			ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
+			ArrayList<Taxi> taxis = new ArrayList<Taxi>();
+			
+			int messages;
 			
 			// get all onging_taxis by tripID
 			
 			for(int i=0; i<taxis.size(); i++) {
-				taxis.set(i, calcHeuristics(taxis.get(i), tripCoordinate));
-			}
-			
-			// Sort taxis by heuristics (Selection Sort)
-			
-			for(int i=0; i<25; i++) {
 				// sortest path length by algorithm for taxis.get(i)
+				//calcTaxis.add(new CalcedTaxi(taxiID, taxiCoord, company, shortestPath));
 			}
 			
-			for(int i=0; i<5; i++) {
-				String query = "TAXOF";
+			// Sort calcTaxis by Selection Sort
+			
+			if(calcTaxis.size() < 5) {
+				messages = calcTaxis.size();
+			} else {
+				messages = 5;
+			}
+			
+			for(int i=0; i<messages; i++) {
+				String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
 				try {
 					InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
 					UDPPeer.sendMessages(ip, query);
@@ -95,13 +89,39 @@ public class HandleTripCommand extends Command {
 			}
 			
 			timer = new Timer();
-			timer.schedule(new Send(), 5000);
+			timer.schedule(new Send(), 1000*60*5);
 		}
 	}
 	
 	class Send extends TimerTask{
 		public void run() {
-			
+			if(true) { // trip handled?
+				if (calcTaxis.size() > 0) {
+					int messages;
+				
+					if(calcTaxis.size() < 5) {
+						messages = calcTaxis.size();
+					} else {
+						messages = 5;
+					}
+					
+					for(int i=0; i<messages; i++) {
+						String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
+						try {
+							InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
+							UDPPeer.sendMessages(ip, query);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						calcTaxis.remove(0);
+					}
+					
+					timer = new Timer();
+					timer.schedule(new Send(), 1000*60*5);
+				} else {
+					// Start over!
+				}
+			}
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class OngoingTripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactory.createConnection();
+			con = PostgresqlConnectionFactoryScylla.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 
 			for (int i = 0; i < taxiList.size(); i++) {
@@ -64,7 +64,7 @@ public class OngoingTripsDAO {
 
 		try {
 
-			con = PostgresqlConnectionFactory.createConnection();
+			con = PostgresqlConnectionFactoryScylla.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 			preparedStatement.setString(1, tripID);
 
@@ -101,7 +101,7 @@ public class OngoingTripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactory.createConnection();
+			con = PostgresqlConnectionFactoryScylla.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 			preparedStatement.setString(1, tripID);
 
