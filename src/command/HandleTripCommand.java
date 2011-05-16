@@ -107,7 +107,7 @@ public class HandleTripCommand extends Command {
 			for(int i=0; i<messages; i++) {
 				String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
 				try {
-					InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
+					InetAddress ip = InetAddress.getByName(calcTaxis.get(0).getCompanyIP());
 					UDPPeer.sendMessages(ip, query);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -135,7 +135,7 @@ public class HandleTripCommand extends Command {
 					for(int i=0; i<messages; i++) {
 						String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
 						try {
-							InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
+							InetAddress ip = InetAddress.getByName(calcTaxis.get(0).getCompanyIP());
 							UDPPeer.sendMessages(ip, query);
 						} catch (IOException e) {
 							e.printStackTrace();

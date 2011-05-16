@@ -37,10 +37,6 @@ public class ReqTaxiCommand extends Command {
 		String tripID = receivedMessage.substring(5,15);
 		String customerCoord = receivedMessage.substring(15);
 		
-		System.out.println("Request Taxis received!!");
-		System.out.println("Trip ID: " + tripID);
-		System.out.println("Trip Coordinate: " + customerCoord);
-		
 		String strTaxiList = "";
 		String localIP = "";
 		String taxiAmount = "";
@@ -50,17 +46,9 @@ public class ReqTaxiCommand extends Command {
 		TripsDAO tripDAO = new TripsDAO();
 		ArrayList<Taxi> taxiList = dao.getActiveTaxis();
 		
-		for(int i=0; i<taxiList.size(); i++) {
-			System.out.println(taxiList.get(i).getTaxiID() + " " + taxiList.get(i).getTaxiCoord() + " " + taxiList.get(i).getHeuristic());
-		}
-		
 		// Calculate heuristics for taxis
 		for(int i=0; i<taxiList.size(); i++) {
 			taxiList.set(i, calcHeuristics(taxiList.get(i), customerCoord));
-		}
-		
-		for(int i=0; i<taxiList.size(); i++) {
-			System.out.println(taxiList.get(i).getTaxiID() + " " + taxiList.get(i).getTaxiCoord() + " " + taxiList.get(i).getHeuristic());
 		}
 		
 		// Sort by Selection Sort
@@ -73,14 +61,20 @@ public class ReqTaxiCommand extends Command {
 			amount = 10;
 		}
 		
+		System.out.println("TaxiList: " + strTaxiList);
+		
 		// Convert taxi list to string format
 		int counter = amount;
 		for(int i=0; i < counter; i++) {
-			System.out.println(taxiList.get(i).getTaxiID() + ": " + tripDAO.taxiTripAmount(taxiList.get(i).getTaxiID()));
 			if(tripDAO.taxiTripAmount(taxiList.get(i).getTaxiID()) < 5) { // current taxi have less than 5 trips
-				strTaxiList += strTaxiList + taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+				strTaxiList += taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+				System.out.println("TaxiList: " + strTaxiList);
 			} else {
-				counter++;
+				if(taxiList.size()>counter) {
+					counter++;
+				} else {
+					amount--;
+				}
 			}
 		}
 		

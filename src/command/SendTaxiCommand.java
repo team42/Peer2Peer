@@ -35,11 +35,12 @@ public class SendTaxiCommand extends Command {
 		
 		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
 		
+		System.out.println("Taxis added:");
 		for(int i=0; i < taxiAmount; i++) {
 			taxiID = taxiString.substring(i*15, (i*15)+6);
 			taxiCoordinate = taxiString.substring((i*15)+6, (i+1)*15);
-			
 			taxiList.add(new Taxi(taxiID, taxiCoordinate));
+			System.out.println("Taxi ID: " + taxiID + "  Taxi Coordinate: " + taxiCoordinate);
 		}
 		
 		String company = taxiString.substring(taxiAmount*15);
