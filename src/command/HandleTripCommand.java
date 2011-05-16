@@ -6,6 +6,7 @@ import java.util.*;
 
 import peer.UDPPeer;
 
+import map.Algorithm;
 import model.Taxi;
 import model.CalcedTaxi;
 import model.Peer;
@@ -32,6 +33,8 @@ public class HandleTripCommand extends Command {
 	OngoingTripsDAO ongoingDAO = new OngoingTripsDAO();
 	TripOffersDAO tripOfferDAO = new TripOffersDAO();
 	FinishedTripsDAO finishedDAO = new FinishedTripsDAO();
+	
+	Algorithm algorithm = new Algorithm();
 	
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
@@ -75,6 +78,8 @@ public class HandleTripCommand extends Command {
 			
 			for(int i=0; i<taxis.size(); i++) {
 				// sortest path length by algorithm for taxis.get(i)
+				//algorithm
+				
 				//calcTaxis.add(new CalcedTaxi(taxiID, taxiCoord, company, shortestPath));
 			}
 			

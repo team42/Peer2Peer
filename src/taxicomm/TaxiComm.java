@@ -72,7 +72,6 @@ public class TaxiComm {
             } else if(answer == '2') {
                tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);
-               taxiDAO.setTaxiFree(taxiID);
             } else if(answer == '3') {
                tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);

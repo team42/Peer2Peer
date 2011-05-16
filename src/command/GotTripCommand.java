@@ -31,8 +31,6 @@ public class GotTripCommand extends Command {
 		System.out.println("tripID : " + tripID);
 		System.out.println("taxiID : " + taxiID);
 		
-		taxiDAO.setTaxiTaken(taxiID);
-		
 		tripsDAO.confirmTrip(taxiID, tripID);
 	}
 }

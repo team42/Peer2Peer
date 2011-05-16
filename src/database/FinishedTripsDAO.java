@@ -4,12 +4,28 @@ import java.sql.*;
 
 import config.Configuration;
 
-public class FinishedTripsDAO {
+/**
+ * 
+ * Handles trips, which are finished.
+ * 
+ * @author Nicolai
+ *
+ */
 
+public class FinishedTripsDAO {
+	
+	// Variables
 	private Connection con;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 
+	/**
+	 * Add a trip to the database, which indicates that the trip has been handled.
+	 * 
+	 * @param tripID
+	 * @param taxiID
+	 * @return true if succesful, else false
+	 */
 	public boolean addTrip(String tripID, String taxiID) {
 	      String cardsQuery = "INSERT INTO finished_trips (trip_id, taxi_id) VALUES (?, ?)";
 
@@ -39,6 +55,12 @@ public class FinishedTripsDAO {
 
 	   }
 	
+	/**
+	 * Figure out if a trip is finished.
+	 * 
+	 * @param tripID
+	 * @return true if the trip is finished, else false
+	 */
 	public boolean isTripFinished(String tripID) {
 
 		String query = "SELECT * FROM finished_trips WHERE trip_id = ?";
