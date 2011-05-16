@@ -63,7 +63,7 @@ public class FinishedTripsDAO {
 	 */
 	public boolean isTripFinished(String tripID) {
 
-		String query = "SELECT * FROM finished_trips WHERE trip_id = ?";
+		String query = "SELECT COUNT(*) FROM finished_trips WHERE trip_id = ?";
 
 		con = null;
 		
@@ -75,16 +75,15 @@ public class FinishedTripsDAO {
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, tripID);
 
-			resultSet = preparedStatement.executeQuery(query);
+			resultSet = preparedStatement.executeQuery();
 
-			resultSet.last();
-			
-			if(resultSet.getRow() > 0) {
-				finished = true;
-			} else {
-				finished = false;
+			while(resultSet.next()) {
+			   if(resultSet.getInt(1) > 0) {
+	            finished = true;
+	         } else {
+	            finished = false;
+	         }
 			}
-			
 			
 			preparedStatement.close();
 
