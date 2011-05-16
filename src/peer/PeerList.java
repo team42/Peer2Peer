@@ -74,7 +74,6 @@ public class PeerList {
     * 
     * @return arraylist containing values from file
     */
-   @SuppressWarnings("unchecked")
    public ArrayList<Peer> readPeerList() {
       ArrayList<Peer> peerList = new ArrayList<Peer>();
       if(!(input==null)) {
