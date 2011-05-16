@@ -29,12 +29,10 @@ public class ConfigurationTest {
     */
    @Test
    public void testGetConfiguration() {
-      System.out.println("Start of test: Configuration.getConfiguration()");
       Configuration expResult = Configuration.getConfiguration();
       Configuration result = Configuration.getConfiguration();
-      System.out.println("    Result = Expected: " + result + " = " + expResult);
+      System.out.println("testGetConfiguration result = Expected: " + result + " = " + expResult);
       assertEquals(expResult, result);
-      System.out.println("End test: Configuration.getConfiguration()\n");
    }
 
    /**
@@ -46,7 +44,6 @@ public class ConfigurationTest {
     */
    @Test(expected=CloneNotSupportedException.class)
    public void testClone() throws Exception {
-      System.out.println("Start and end of test: Configuration.clone()\n");
       Configuration instance = Configuration.getConfiguration();
       Object o = instance.clone();
    }
@@ -57,7 +54,6 @@ public class ConfigurationTest {
     */
    @Test
    public void testGetAndSetPeers() throws IOException {
-      System.out.println("Start of test: Configuration.setPeers() and Configuration.getPeers()");
       ArrayList<Peer> peers = new ArrayList<Peer>();
       peers.add(new Peer("192.168.1.101", 1));
       peers.add(new Peer("192.168.1.10", 0));      
@@ -66,7 +62,6 @@ public class ConfigurationTest {
       ArrayList<Peer> expResult = peers;
       ArrayList<Peer> result = instance.getPeers();
       assertEquals(expResult, result);
-      System.out.println("    Result = Expected: " + result + " = " + expResult);
-      System.out.println("End test: Configuration.setPeers() and Configuration.getPeers()\n");
+      System.out.println("testGetAndSetPeers result = Expected: " + result + " = " + expResult);
    }
 }
