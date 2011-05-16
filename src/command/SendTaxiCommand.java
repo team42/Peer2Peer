@@ -27,6 +27,8 @@ public class SendTaxiCommand extends Command {
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		int taxiAmount = Integer.parseInt(receivedMessage.substring(15, 17));
 		
+		System.out.println("Send Taxi received!");
+		
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiString = receivedMessage.substring(17);
 		String taxiID, taxiCoordinate;

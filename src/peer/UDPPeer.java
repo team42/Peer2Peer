@@ -64,6 +64,8 @@ public class UDPPeer {
          sendMessages(IPAddress, query);
       }    
       
+      config.setCompanyID("AB");
+      
       NewTrips newTrips = new NewTrips();
       TaxiComm taxiComm = new TaxiComm();
 

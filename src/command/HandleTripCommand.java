@@ -23,7 +23,7 @@ import database.TripsDAO;
  *
  */
 public class HandleTripCommand extends Command {
-
+	
 	private String tripID = "";
 	private String tripCoordinate = "";
 	
@@ -51,13 +51,20 @@ public class HandleTripCommand extends Command {
 		tripID = receivedMessage.substring(5, 15);
 		tripCoordinate = receivedMessage.substring(15);
 		
-		ArrayList<Peer> peers = new ArrayList<Peer>();
+		System.out.println("Handle Trip for:\n" + tripID + "  " + tripCoordinate + "\n");
+		
+		ArrayList<Peer> peers = config.getPeers();
 		
 		for(int i= 0; i<peers.size(); i++) {
 			String query = "REQTC" + tripID + tripCoordinate;
 			InetAddress ip;
 			try {
 				ip = InetAddress.getByName(peers.get(i).getIp());
+				
+				System.out.println("Request Taxis sent to:");
+				System.out.println(ip.getHostAddress());
+				System.out.println(query);
+				
 				UDPPeer.sendMessages(ip, query);
 			} catch (IOException e) {
 				e.printStackTrace();
