@@ -25,7 +25,7 @@ public class TripsDAO {
 
 		try {
 
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(cardsQuery1);
 			preparedStatement.setString(1, taxiID);
 			preparedStatement.setString(2, tripID);
@@ -66,7 +66,7 @@ public class TripsDAO {
 
 		try {
 
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 			preparedStatement.setString(1, tripID);
 
@@ -101,7 +101,7 @@ public class TripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(cardsQuery);
 			preparedStatement.setString(1, taxiID);
 			preparedStatement.setString(2, tripID);
@@ -137,7 +137,7 @@ public class TripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, taxiID);
@@ -174,7 +174,7 @@ public class TripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 
 			preparedStatement.setString(1, taxiID);
@@ -212,7 +212,7 @@ public class TripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 
 			preparedStatement.setString(1, taxiID);
@@ -253,7 +253,7 @@ public class TripsDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 			preparedStatement.setString(1, tripID);
 
@@ -289,7 +289,7 @@ public class TripsDAO {
       con = null;
 
       try {
-         con = PostgresqlConnectionFactoryScylla.createConnection();
+         con = PostgresqlConnectionFactory.createConnection();
          preparedStatement = con.prepareStatement(query1);
          preparedStatement.setString(1, taxiID);
          preparedStatement.setString(2, tripID);

@@ -18,7 +18,7 @@ public class PostgresqlConnectionFactoryTest {
    @Test
    public void testCreateConnection() throws SQLException {
       System.out.println("Start of test: PostgresqlConnectionFactory.createConnection()");
-      Connection result = PostgresqlConnectionFactoryScylla.createConnection();
+      Connection result = PostgresqlConnectionFactory.createConnection();
       System.out.println("End test: PostgresqlConnectionFactory.createConnection()\n");
    }
 

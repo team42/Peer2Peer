@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.*;
 import peer.UDPPeer;
 import database.OngoingTripsDAO;
+import database.FinishedTripsDAO;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ import java.util.*;
 public class TaxiAcceptCommand extends Command {
 
 	private OngoingTripsDAO dao = new OngoingTripsDAO();
+	private FinishedTripsDAO finishedDAO = new FinishedTripsDAO();
 	
 	/**
 	 * The taxi and trip ID is identified
@@ -47,6 +49,8 @@ public class TaxiAcceptCommand extends Command {
 				}
 			}
 		}
+		
+		finishedDAO.addTrip(tripID, taxiID);
 		
 		query = "GOTTR" + tripID + taxiID;
 		

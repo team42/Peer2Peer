@@ -10,6 +10,7 @@ import model.Taxi;
 import model.CalcedTaxi;
 import model.Peer;
 import config.Configuration;
+import database.FinishedTripsDAO;
 import database.OngoingTripsDAO;
 import database.TripOffersDAO;
 import database.TripsDAO;
@@ -30,6 +31,7 @@ public class HandleTripCommand extends Command {
 	
 	OngoingTripsDAO ongoingDAO = new OngoingTripsDAO();
 	TripOffersDAO tripOfferDAO = new TripOffersDAO();
+	FinishedTripsDAO finishedDAO = new FinishedTripsDAO();
 	
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
@@ -103,7 +105,7 @@ public class HandleTripCommand extends Command {
 	
 	class Send extends TimerTask{
 		public void run() {
-			if(true) { // trip handled?
+			if(!finishedDAO.isTripFinished(tripID)) {
 				if (calcTaxis.size() > 0) {
 					int messages;
 				
@@ -128,9 +130,21 @@ public class HandleTripCommand extends Command {
 					timer.schedule(new Send(), 1000*60*5);
 				} else {
 					tripOfferDAO.addTrip(tripCoordinate);
-					//!!!!!!!
-					//Send didnt get out!
-					//!!!!!!!
+					
+					ArrayList<String> companyIPs = ongoingDAO.getCompanyIP(tripID);
+					ongoingDAO.deleteOngoingTrip(tripID);
+					
+					String query = "MISTR" + tripID;
+					
+					for(int i=0; i<companyIPs.size(); i++) {
+						try {
+							UDPPeer.sendMessages(InetAddress.getByName(companyIPs.get(i)), query);
+						} catch (UnknownHostException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}

@@ -22,7 +22,7 @@ public class TaxiDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, taxiCoord);
@@ -51,7 +51,7 @@ public class TaxiDAO {
 			con = null;
 
 			try {
-				con = PostgresqlConnectionFactoryScylla.createConnection();
+				con = PostgresqlConnectionFactory.createConnection();
 				preparedStatement = con.prepareStatement(cardsQuery);
 				preparedStatement.setString(1, taxiID);
 				preparedStatement.setString(2, taxiCoord);
@@ -89,7 +89,7 @@ public class TaxiDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, taxiID);
@@ -124,7 +124,7 @@ public class TaxiDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, taxiID);
@@ -165,7 +165,7 @@ public class TaxiDAO {
 		con = null;
 
 		try {
-			con = PostgresqlConnectionFactoryScylla.createConnection();
+			con = PostgresqlConnectionFactory.createConnection();
 			preparedStatement = con.prepareStatement(Query);
 
 			resultSet = preparedStatement.executeQuery();
