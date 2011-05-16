@@ -71,7 +71,8 @@ public class HandleTripCommand extends Command {
 		public void run() {
 			ArrayList<Taxi> taxis = new ArrayList<Taxi>();
 			
-			int messages;
+			String taxiID, taxiCoord, company;
+			int shortestPath, messages;
 			
 			// get all onging_taxis by tripID
 			taxis = ongoingDAO.getTaxiByTrip(tripID);
@@ -80,7 +81,11 @@ public class HandleTripCommand extends Command {
 				// sortest path length by algorithm for taxis.get(i)
 				//algorithm
 				
-				//calcTaxis.add(new CalcedTaxi(taxiID, taxiCoord, company, shortestPath));
+				taxiID = taxis.get(i).getTaxiID();
+				taxiCoord = taxis.get(i).getTaxiCoord();
+				company = taxis.get(i).getCompanyIP();
+				shortestPath = (int)Math.random()*500;
+				calcTaxis.add(new CalcedTaxi(taxiID, taxiCoord, company, shortestPath));
 			}
 			
 			// Sort calcTaxis by Selection Sort
