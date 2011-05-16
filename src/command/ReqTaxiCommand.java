@@ -32,7 +32,6 @@ public class ReqTaxiCommand extends Command {
 		String customerCoord = receivedMessage.substring(15);
 		
 		String strTaxiList = "";
-		String localIP = "";
 		String taxiAmount = "";
 		
 		int amount;
@@ -72,13 +71,6 @@ public class ReqTaxiCommand extends Command {
 			}
 		}
 		
-		// Find local IP
-		try {
-			localIP = InetAddress.getByName("192.168.1.104").getHostAddress();
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
-		
 		// Set correct taxi Amount length
 		if(amount < 10) {
 			taxiAmount = "0" + amount;
@@ -87,7 +79,7 @@ public class ReqTaxiCommand extends Command {
 		}
 		
 		// Create reply
-		String reply = "SENTC" + tripID + taxiAmount + strTaxiList + localIP;
+		String reply = "SENTC" + tripID + taxiAmount + strTaxiList;
 		
         try {
 			UDPPeer.sendMessages(receivePacket.getAddress(), reply);

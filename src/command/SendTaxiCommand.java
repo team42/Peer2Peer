@@ -43,7 +43,7 @@ public class SendTaxiCommand extends Command {
 			System.out.println("Taxi ID: " + taxiID + "  Taxi Coordinate: " + taxiCoordinate);
 		}
 		
-		String company = taxiString.substring(taxiAmount*15);
+		String company = receivePacket.getAddress().getHostAddress();
 		
 		dao.addAwaitingTaxis(tripID, taxiList, company);
 	}
