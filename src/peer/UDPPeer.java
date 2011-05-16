@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import model.Peer;
 import config.Configuration;
 import command.CommandController;
@@ -35,6 +37,8 @@ public class UDPPeer {
    static byte[] queryRaw = new byte[1024];
    static byte[] replyRaw = new byte[1024];
 
+   static String companyID = "";
+   
    /**
     * Starts a client and server which enables 
     * communication with other discovered peers in the network.
@@ -44,13 +48,20 @@ public class UDPPeer {
     * @throws UnknownHostException
     */
    public static void main(String[] args) throws IOException {
-      try {
+	   
+	   while(companyID.length() != 2) {
+		   companyID = JOptionPane.showInputDialog("Insert Company ID\nMust be 2 characters!");
+	   }
+	   
+	   config.setCompanyID(companyID);
+	   
+	   try {
          peerSocket = new DatagramSocket(clientPort);
          IPAddress = getAlivePeer();
       } catch (Exception e) {
          e.printStackTrace();
       }
-
+      
       // Start the server
       L = new UDPListenThread(serverPort);
       L.setDaemon(true);
@@ -62,9 +73,7 @@ public class UDPPeer {
          
          String query = "HELLO";
          sendMessages(IPAddress, query);
-      }    
-      
-      config.setCompanyID("AB");
+      }
       
       NewTrips newTrips = new NewTrips();
       TaxiComm taxiComm = new TaxiComm();
