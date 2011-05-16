@@ -24,9 +24,6 @@ public class TaxiComm {
    public TaxiComm() {
       
 	  System.out.println("Opening port...\n");
-	  tripsDAO.testTrips("A00001", "AB99999999", "1234,5678", "192.168.1.102");
-	  tripsDAO.testTrips("A00001", "AB12345678", "1234,5678", "192.168.1.102");
-	  tripsDAO.testTrips("A00002", "AB12345678", "1234,5678", "192.168.1.102");
 
       try {
          datagramSocket = new DatagramSocket(PORT);

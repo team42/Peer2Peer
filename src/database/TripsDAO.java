@@ -217,7 +217,7 @@ public class TripsDAO {
 	public int taxiTripAmount(String taxiID) {
 		int amount = 0;
 		
-		String Query = "SELECT * FROM trips WHERE taxi_id = ?";
+		String Query = "SELECT COUNT(*) FROM trips WHERE taxi_id = ?";
 
 		con = null;
 
@@ -228,8 +228,9 @@ public class TripsDAO {
 			preparedStatement.setString(1, taxiID);
 			resultSet = preparedStatement.executeQuery();
 
-			resultSet.last();
-			amount = resultSet.getRow();
+			if(resultSet.next()) {
+			   amount = resultSet.getInt(1);
+			}			
 			
 			preparedStatement.close();
 
@@ -343,60 +344,4 @@ public class TripsDAO {
 		return returnIP;
 	}
 	
-	/**
-	 * 
-	 * Adds a Trip.
-	 * (Only used for testing)
-	 * 
-	 * @param taxiID
-	 * @param tripID
-	 * @param tripCoord
-	 * @param ip
-	 * @return
-	 */
-	public boolean testTrips(String taxiID, String tripID, String tripCoord, String ip) {
-      String query1 = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip) VALUES (?, ?, ?, Now(), ?) ";
-      String query2 = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company) VALUES (?, ?, ?, ?) ";
-
-      int rowCount = 0;
-      con = null;
-
-      try {
-         con = PostgresqlConnectionFactory.createConnection();
-         preparedStatement = con.prepareStatement(query1);
-         preparedStatement.setString(1, taxiID);
-         preparedStatement.setString(2, tripID);
-         preparedStatement.setString(3, tripCoord);
-         preparedStatement.setString(4, ip);
-
-         rowCount = preparedStatement.executeUpdate();
-         preparedStatement.close();
-         
-         preparedStatement = con.prepareStatement(query2);
-         preparedStatement.setString(1, tripID);
-         preparedStatement.setString(2, taxiID);
-         preparedStatement.setString(3, tripCoord);
-         preparedStatement.setString(4, ip);
-
-         rowCount = preparedStatement.executeUpdate();
-         preparedStatement.close();
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         if (con != null) {
-            try {
-               con.close();
-            } catch (SQLException e1) {
-               System.out.println("Failed Closing of Database!");
-            }
-         }
-      }
-      // We want to return false if INSERT was unsuccesfull, else return true
-      if (rowCount == 0) {
-         return false;
-      } else {
-         return true;
-      }
-   }
 }
