@@ -10,6 +10,16 @@ public class TestSelectionSort {
 	public static void main(String[] args) {
 		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
 		Taxi taxi;
+
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		System.out.println(Math.random()*500);
+		
 		
 		taxi = new Taxi("hej1", "1234,5678");
 		taxi.setHeuristic(789);

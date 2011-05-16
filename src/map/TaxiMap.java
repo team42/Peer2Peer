@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Map extends JFrame {
+public class TaxiMap extends JFrame {
 
 	ArrayList<Coordinates> b = new ArrayList<Coordinates>();
 	int[] drawRoute = new int[0];
 
-	public Map(ArrayList<Coordinates> a) 
+	public TaxiMap(ArrayList<Coordinates> a) 
 	{
 		b.addAll(a);
 		add(new PaintPanel());		
 	}
 
-	public Map() {
+	public TaxiMap() {
 		System.out.println("Oy!!");
 		add(new PaintPanel());
 	}
@@ -92,7 +92,7 @@ public class Map extends JFrame {
 			System.out.println(drawRoute.length);
 			if (drawRoute.length > 0)
 			{
-				System.out.println("hallihalløj");
+				System.out.println("hallihallï¿½j");
 				System.out.println("drawRoute her!!!");
 				int tempId;
 				int i = 0;
