@@ -322,12 +322,11 @@ public class Algorithm
       }
    }  
    
-   public double RouteLength(int ST, int END)
+   public double RouteLength(int X1, int Y1, int X2, int Y2)
    {
-      
-      // Switch Start and goal to backtrack route
-      int start = END;
-      int goal = ST;
+	  // Switch Start and goal to backtrack route
+      int start = findClosestPoint(X2,Y2,5);
+      int goal = findClosestPoint(X1,Y1,2);
       
       AddToOpenList(start);                     // add start point to open list
       stations.get(start).setG(0);              // save G
@@ -559,7 +558,7 @@ public class Algorithm
 //		}
 	} // End function closestTaxis
 	
-	public void findClosestPoint(int xvalue, int yvalue, int taxiID)
+	public int findClosestPoint(int xvalue, int yvalue, int taxiID)
 	{
 		int thisX = xvalue;
 		int thisY = yvalue;
@@ -581,6 +580,7 @@ public class Algorithm
 		
 		stations.get(nodeID).setTaxi(true);
 		stations.get(nodeID).AddTaxiIDs(taxiID);
+		return nodeID;
 		
 	} // End function findClosestPoint
 
