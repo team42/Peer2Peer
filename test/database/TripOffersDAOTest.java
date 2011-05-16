@@ -6,6 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * JUnit test for <code>TripOffersDAO</code>.
+ * 
+ * @author lasse
+ *
+ */
 public class TripOffersDAOTest {
    TripOffersDAO instance;
 

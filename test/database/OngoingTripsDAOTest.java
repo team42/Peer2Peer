@@ -10,6 +10,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * JUnit test for <code>OngoingTripsDAO</code>.
+ * 
+ * @author lasse
+ *
+ */
 public class OngoingTripsDAOTest {
    OngoingTripsDAO instance;
    String taxiID, tripID, taxiCoord, company;;

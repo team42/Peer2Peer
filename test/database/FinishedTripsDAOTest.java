@@ -8,6 +8,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * JUnit test for <code>FinishedTripsDAO</code>.
+ * 
+ * @author lasse
+ *
+ */
 public class FinishedTripsDAOTest {
    FinishedTripsDAO instance;
    String taxiID, tripID, tripCoord, returnIP;
