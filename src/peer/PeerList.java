@@ -1,9 +1,7 @@
 package peer;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
-import java.util.Formatter;
 import java.util.logging.*;
 
 import model.Peer;

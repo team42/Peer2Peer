@@ -2,8 +2,6 @@ package database;
 
 import java.sql.*;
 
-import config.Configuration;
-
 /**
  * 
  * Handles trips, which are finished.

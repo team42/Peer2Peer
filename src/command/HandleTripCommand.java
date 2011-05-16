@@ -7,14 +7,9 @@ import java.util.*;
 import peer.UDPPeer;
 
 import map.Algorithm;
-import model.Taxi;
-import model.CalcedTaxi;
-import model.Peer;
+import model.*;
 import config.Configuration;
-import database.FinishedTripsDAO;
-import database.OngoingTripsDAO;
-import database.TripOffersDAO;
-import database.TripsDAO;
+import database.*;
 
 /**
  * This command is used when another Peer announces itself.

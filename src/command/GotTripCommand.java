@@ -8,29 +8,29 @@ import database.*;
  * This class is used when another Peer is telling us that we got the trip.
  * 
  * @author Nicolai
- *
+ * 
  */
 public class GotTripCommand extends Command {
 
 	private TripsDAO tripsDAO = new TripsDAO();
-	private TaxiDAO taxiDAO = new TaxiDAO();
-	
+
 	/**
-	 * The trip ID and taxi ID is identified.
-	 * With these parameter, the trip is accepted for the taxi with the taxi ID
-	 * and deleted for the rest of the taxis.
+	 * The trip ID and taxi ID is identified. With these parameter, the trip is
+	 * accepted for the taxi with the taxi ID and deleted for the rest of the
+	 * taxis.
 	 * 
-	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
-	 * @param receivePacket - The packet containing IP etc of sender
+	 * @param receivedMessage
+	 *            - The received message
+	 * @param peerSocket
+	 *            - The socket to respond at
+	 * @param receivePacket
+	 *            - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-	   System.out.println("GotTrip: " + receivedMessage);
+	public void execute(String receivedMessage, DatagramSocket peerSocket,
+			DatagramPacket receivePacket) {
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiID = receivedMessage.substring(15);
-		System.out.println("tripID : " + tripID);
-		System.out.println("taxiID : " + taxiID);
-		
+
 		tripsDAO.confirmTrip(taxiID, tripID);
 	}
 }
