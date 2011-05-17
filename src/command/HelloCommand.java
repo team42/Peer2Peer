@@ -39,7 +39,7 @@ public class HelloCommand extends Command {
 		
 		int peer = receivePacket.getPort();
         
-		System.out.println("Announced peer: " + receivePacket.getAddress().getHostAddress());
+		System.out.println("\nAnnounced peer: " + receivePacket.getAddress().getHostAddress());
 		
 		byte[] replyRaw = new byte[1024];
         replyRaw = reply.getBytes();

@@ -45,8 +45,8 @@ public class HandleTripCommand extends Command {
 		
 		tripID = receivedMessage.substring(5, 15);
 		tripCoordinate = receivedMessage.substring(15);
-		
-		System.out.println("Handle Trip for:\n" + tripID + "  " + tripCoordinate + "\n");
+
+		System.out.println("\nHandle Trip for:\n" + tripID + "  " + tripCoordinate + "\n");
 		
 		ArrayList<Peer> peers = config.getPeers();
 		

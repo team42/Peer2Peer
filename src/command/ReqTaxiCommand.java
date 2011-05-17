@@ -75,7 +75,7 @@ public class ReqTaxiCommand extends Command {
 			taxiAmount = Integer.toString(amount);
 		}
 		
-		System.out.println(taxiAmount + " taxis sent for trip: " + tripID);
+		System.out.println("\n" + taxiAmount + " taxis sent for trip: " + tripID);
 		
 		// Create reply
 		String reply = "SENTC" + tripID + taxiAmount + strTaxiList;

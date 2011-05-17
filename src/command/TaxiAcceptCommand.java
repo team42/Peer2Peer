@@ -32,7 +32,7 @@ public class TaxiAcceptCommand extends Command {
 		String taxiID = receivedMessage.substring(5, 11);
 		String tripID = receivedMessage.substring(11);
 	
-		System.out.println("Taxi: " + taxiID + " accepted trip: " + tripID);
+		System.out.println("\nTaxi: " + taxiID + " accepted trip: " + tripID);
 		
 		ArrayList<String> companyIPs = dao.getCompanyIP(tripID);
 		dao.deleteOngoingTrip(tripID);

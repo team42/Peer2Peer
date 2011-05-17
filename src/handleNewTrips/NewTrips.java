@@ -36,7 +36,7 @@ public class NewTrips {
 			if(xCoord >= ((i*2000)/peers.size()) && xCoord < (((i+1)*2000)/peers.size())) {
 				String query = "HANTR" + tripID + correctCoordinate;
 				
-				System.out.println(peers.get(i).getIp());
+				System.out.println("Handle trip: " + tripID + " sent to " + peers.get(i).getIp());
 				
 				try {
 					UDPPeer.sendMessages(InetAddress.getByName(peers.get(i).getIp()), query);
