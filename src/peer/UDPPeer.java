@@ -5,6 +5,7 @@ import handleNewTrips.NewTrips;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -47,10 +48,10 @@ public class UDPPeer {
 	 * @throws UnknownHostException
 	 */
 	public static void main(String[] args) throws IOException {
-
+		Scanner input = new Scanner(System.in);
 		while (companyID.length() != 2) {
-			companyID = JOptionPane
-					.showInputDialog("Insert Company ID\nMust be 2 characters!");
+			System.out.println("Enter Company ID (2 Characters): ");
+			companyID = input.nextLine();
 		}
 
 		config.setCompanyID(companyID);
