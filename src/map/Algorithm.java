@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Algorithm 
 {
+
    Connection conn = null;  
     ResultSet res = null;  
     Statement statement = null;  
@@ -150,411 +151,347 @@ public class Algorithm
 	{
 		taxiList.add(c);
 	}
-   
-   public double CalcDist(int a, int b)
-   {
-      int latA = stations.get(a).ownX;
-      int lonA = stations.get(a).ownY;
-      
-      int latB = stations.get(b).ownX;
-      int lonB = stations.get(b).ownY;
-      
-      return Math.sqrt(((latA-latB)*(latA-latB))+((lonA-lonB)*(lonA-lonB)));
-   }
-   
-   public double CalcG(int a)
-   {
-      int parentCell = stations.get(a).parentID;
-      double g = stations.get(parentCell).G;
-      
-      g = g + CalcDist(a,parentCell);
-      
-      return g;
-   }
-   
-   public double CalcH(int a, int goal)
-   {
-      double h = CalcDist(a,goal);
-      
-      return h;
-   }
-   
-   public double CalcF(int a)
-   {
-      double g = stations.get(a).G;
-      double h = stations.get(a).H;
-      
-      double f = g + h;
-      
-      return f;
-   }
-   
-   public double CalcTempG(int a)
-   {
-      int parentCell = stations.get(a).parentID;
-      double g = stations.get(parentCell).getG();
-      
-      g = g + CalcDist(a,parentCell);
-      
-      return g;
-   }
-   
-   public void Route(int ST, int END)
-   {
-      
-      // Switch Start and goal to backtrack route
-      int start = END;
-      int goal = ST;
-      
-      AddToOpenList(start);                     // add start point to open list
-      stations.get(start).setG(0);              // save G
-      stations.get(start).setH(CalcH(start,goal));    // calculate and save H
-      stations.get(start).setF(CalcF(start));      // calculate and save F
-      int currentID = start;
-      while(!closedList.contains(goal) && !openList.isEmpty()) // (Goal is not on closed list and open list is not empty)
-      {
-         System.out.println("OPENLIST  : " + openList);
-         System.out.println("CLOSEDLIST: " + closedList);
-         
-         // select from open list where f is lowest;
-         int currentLowestF = 2147483647;
-         int currentLowestFID = 9999;
 
-         for(int i=0; i < stations.size(); i++)
-         {
-            if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
-            {
-               currentLowestF = (int) stations.get(i).getF();
-               currentLowestFID = (int) stations.get(i).ID;
-            }
+	public double CalcDist(int a, int b)
+	{
+		int latA = stations.get(a).ownX;
+		int lonA = stations.get(a).ownY;
 
-         }        
-         
-         currentID = currentLowestFID;
-         System.out.println("\nLowest F on Open list has ID: " + currentLowestFID);
-         int i = stations.get(currentID).NON; // Number of Neighbors
-         System.out.println("Looking at ID: " + currentID + " which has " + i + " neighbors");
-         int n = 1;
-         
-         while(i > 0)
-         {
-            int currentNeighbor = stations.get(currentID).getNn(n);
-            System.out.println("\nLooking at neighbor with ID: " + currentNeighbor);
-         
-            if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
-            {
-               System.out.println("Current Neighbor is on Closed list");
-               i--;
-               n++;
-            }
-            else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
-            {
-               System.out.println("This neighbor is not on Open list, adding now...!");
-               AddToOpenList(currentNeighbor); // add neighbor to open list
-               stations.get(currentNeighbor).setParentID(currentID);             // set parentID
-               stations.get(currentNeighbor).setG(CalcG(currentNeighbor));       // calculate and save G
-               stations.get(currentNeighbor).setH(CalcH(currentNeighbor,goal));  // calculate and save H
-               stations.get(currentNeighbor).setF(CalcF(currentNeighbor));       // calculate and save F
-               System.out.println("Added to Open list ID: " + currentNeighbor + "           G: " + stations.get(currentNeighbor).getG() + 
-                              " H: " + stations.get(currentNeighbor).getH() + " F: " + stations.get(currentNeighbor).getF());
-               System.out.println("OPENLIST  : " + openList);
-               System.out.println("CLOSEDLIST: " + closedList);
-               i--;
-               n++;
-            }
-            else
-            {
-               // Set tempG
-               stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
-               double tempG = stations.get(currentNeighbor).getTempG();
-               System.out.println("TempG    = " + tempG);
-               System.out.println("CurrentG = " + stations.get(currentNeighbor).getG());
-               
-               if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
-               {
-                  System.out.println("This Neighbor is on Open list, calculating new G value... G is lower than before, new G value added!");
-                  stations.get(currentNeighbor).setParentID(currentID);          // change parent
-                  stations.get(currentNeighbor).setG(CalcG(currentNeighbor));    // calculate and save G
-                  stations.get(currentNeighbor).setF(CalcF(currentNeighbor));    // calculate and save F
-                  i--;
-                  n++;
-               }
-               else // (g is NOT lower than before)
-               {
-                  // look at next neighbor
-                  System.out.println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
-                  i--;
-                  n++;
-               }
-            }
-            //currentID = currentNeighbor;
-         } // end while(i > 0) loop
-         
-         AddToClosedList(currentID);
-         RemoveFromOpenlist(openList.indexOf(currentID));
-         System.out.println("----------------------------------------------------");
-         System.out.println("All neighbors checked");
-         System.out.println("Added to Closed list and removed from Open list: " + currentID);
-                  
-      } // end while (!closedList.contains(goal) && !openList.isEmpty()) loop
-      
-      if(closedList.contains(goal))
-      {
-         // BackTrack and show route
-         int from = goal;
-         int to = stations.get(goal).getParentID();
-         System.out.println("\nThe route:");
-         while(to != start)
-         {
-            System.out.println("From: " + from + " to: " + to);
-            from = stations.get(from).getParentID();
-            to = stations.get(from).getParentID();
-         }
+		int latB = stations.get(b).ownX;
+		int lonB = stations.get(b).ownY;
 
-         System.out.println("From: " + from + " to: " + start);
-      }
-      else
-      {
-         System.out.println("No route was found!");
-      }
-   }  
-   
-   public double RouteLength(int X1, int Y1, int X2, int Y2)
-   {
-	  // Switch Start and goal to backtrack route
-      int start = findClosestPoint(X2,Y2,5);
-      int goal = findClosestPoint(X1,Y1,2);
-      
-      AddToOpenList(start);                     // add start point to open list
-      stations.get(start).setG(0);              // save G
-      stations.get(start).setH(CalcH(start,goal));    // calculate and save H
-      stations.get(start).setF(CalcF(start));      // calculate and save F
-      int currentID = start;
-      while(!closedList.contains(goal) && !openList.isEmpty()) // (Goal is not on closed list and open list is not empty)
-      {
-         System.out.println("OPENLIST  : " + openList);
-         System.out.println("CLOSEDLIST: " + closedList);
-         
-         // select from open list where f is lowest;
-         int currentLowestF = 2147483647;
-         int currentLowestFID = 9999;
+		return Math.sqrt(((latA-latB)*(latA-latB))+((lonA-lonB)*(lonA-lonB)));
+	}
 
-         for(int i=0; i < stations.size(); i++)
-         {
-            if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
-            {
-               currentLowestF = (int) stations.get(i).getF();
-               currentLowestFID = (int) stations.get(i).ID;
-            }
+	public double CalcG(int a)
+	{
+		int parentCell = stations.get(a).parentID;
+		double g = stations.get(parentCell).G;
 
-         }        
-         
-         currentID = currentLowestFID;
-         System.out.println("\nLowest F on Open list has ID: " + currentLowestFID);
-         int i = stations.get(currentID).NON; // Number of Neighbors
-         System.out.println("Looking at ID: " + currentID + " which has " + i + " neighbors");
-         int n = 1;
-         
-         while(i > 0)
-         {
-            int currentNeighbor = stations.get(currentID).getNn(n);
-            System.out.println("\nLooking at neighbor with ID: " + currentNeighbor);
-         
-            if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
-            {
-               System.out.println("Current Neighbor is on Closed list");
-               i--;
-               n++;
-            }
-            else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
-            {
-               System.out.println("This neighbor is not on Open list, adding now...!");
-               AddToOpenList(currentNeighbor); // add neighbor to open list
-               stations.get(currentNeighbor).setParentID(currentID);             // set parentID
-               stations.get(currentNeighbor).setG(CalcG(currentNeighbor));       // calculate and save G
-               stations.get(currentNeighbor).setH(CalcH(currentNeighbor,goal));  // calculate and save H
-               stations.get(currentNeighbor).setF(CalcF(currentNeighbor));       // calculate and save F
-               System.out.println("Added to Open list ID: " + currentNeighbor + "           G: " + stations.get(currentNeighbor).getG() + 
-                              " H: " + stations.get(currentNeighbor).getH() + " F: " + stations.get(currentNeighbor).getF());
-               System.out.println("OPENLIST  : " + openList);
-               System.out.println("CLOSEDLIST: " + closedList);
-               i--;
-               n++;
-            }
-            else
-            {
-               // Set tempG
-               stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
-               double tempG = stations.get(currentNeighbor).getTempG();
-               System.out.println("TempG    = " + tempG);
-               System.out.println("CurrentG = " + stations.get(currentNeighbor).getG());
-               
-               if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
-               {
-                  System.out.println("This Neighbor is on Open list, calculating new G value... G is lower than before, new G value added!");
-                  stations.get(currentNeighbor).setParentID(currentID);          // change parent
-                  stations.get(currentNeighbor).setG(CalcG(currentNeighbor));    // calculate and save G
-                  stations.get(currentNeighbor).setF(CalcF(currentNeighbor));    // calculate and save F
-                  i--;
-                  n++;
-               }
-               else // (g is NOT lower than before)
-               {
-                  // look at next neighbor
-                  System.out.println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
-                  i--;
-                  n++;
-               }
-            }
-            //currentID = currentNeighbor;
-         } // end while(i > 0) loop
-         
-         AddToClosedList(currentID);
-         RemoveFromOpenlist(openList.indexOf(currentID));
-         System.out.println("----------------------------------------------------");
-         System.out.println("All neighbors checked");
-         System.out.println("Added to Closed list and removed from Open list: " + currentID);
-                  
-      } // end while (!closedList.contains(goal) && !openList.isEmpty()) loop
-      
-      if(closedList.contains(goal))
-      {
-         // Return length of route
-         System.out.println("\nLenght of route: " + stations.get(goal).getF());
-         return stations.get(goal).getF();
-      }
-      else
-      {
-         System.out.println("No route was found!");
-         return 0;
-      }
-   }
-   
-   public void closestTaxis(int NoTaxis, int ClosestTo)
-	{ 
-		int NoT = NoTaxis;
-		int Point = ClosestTo;
-		int counter = 0;
+		g = g + CalcDist(a,parentCell);
 
-//		if(NoT > 25 || NoT < 1)
-//		{
-//			System.out.println("Invalid number of taxis. The number must be 1-25!");
-//		}
-//		else if(Point > 1005 || Point < 0)
-//		{
-//			System.out.println("Invalid node. The nodeID must be 0-1005!");
-//		}
-//		else
-//		{
-			AddToOpenList(Point); 							// add start point to open list
-			stations.get(Point).setG(0); 					// set G
-			stations.get(Point).setF(0);					// set F
-			int currentID = Point;
+		return g;
+	}
 
-			while(counter < NoT)
+	public double CalcH(int a, int goal)
+	{
+		double h = CalcDist(a,goal);
+
+		return h;
+	}
+
+	public double CalcF(int a)
+	{
+		double g = stations.get(a).G;
+		double h = stations.get(a).H;
+
+		double f = g + h;
+
+		return f;
+	}
+
+	public double CalcTempG(int a)
+	{
+		int parentCell = stations.get(a).parentID;
+		double g = stations.get(parentCell).getG();
+
+		g = g + CalcDist(a,parentCell);
+
+		return g;
+	}
+
+	public void Route(int ST, int END)
+	{
+
+		// Switch Start and goal to backtrack route
+		int start = END;
+		int goal = ST;
+		ArrayList<Integer> routeList = new ArrayList<Integer>();
+
+		AddToOpenList(start);                     		// add start point to open list
+		stations.get(start).setG(0);              		// save G
+		stations.get(start).setH(CalcH(start,goal));    // calculate and save H
+		stations.get(start).setF(CalcF(start));     	// calculate and save F
+		int currentID = start;
+		while(!closedList.contains(goal) && !openList.isEmpty()) // (Goal is not on closed list and open list is not empty)
+		{
+			System.out.println("OPENLIST  : " + openList);
+			System.out.println("CLOSEDLIST: " + closedList);
+
+			// select from open list where f is lowest;
+			int currentLowestF = 2147483647;
+			int currentLowestFID = 9999;
+
+			for(int i=0; i < stations.size(); i++)
 			{
-				System.out.println("OPENLIST  : " + openList);
-				System.out.println("CLOSEDLIST: " + closedList);
-
-				// select from open list where g is lowest;
-				int currentLowestF = 2147483647;
-				int currentLowestFID = 9999;
-
-				for(int i=0; i < stations.size(); i++)
+				if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
 				{
-					if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
-					{
-						currentLowestF = (int) stations.get(i).getF();
-						currentLowestFID = (int) stations.get(i).ID;
-					}
-				}			
-
-				currentID = currentLowestFID;
-				System.out.println("\nLowest F on Open list has ID: " + currentLowestFID);
-				int i = stations.get(currentID).NON; // Number of Neighbors
-				System.out.println("Looking at ID: " + currentID + " which has " + i + " neighbors");
-				int n = 1;
-
-				while(i > 0)
-				{
-					int currentNeighbor = stations.get(currentID).getNn(n);
-					System.out.println("\nLooking at neighbor with ID: " + currentNeighbor);
-
-					if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
-					{
-						System.out.println("Current Neighbor is on Closed list");
-						i--;
-						n++;
-					}
-					else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
-					{
-						System.out.println("This neighbor is not on Open list, adding now...!");
-						AddToOpenList(currentNeighbor); // add neighbor to open list
-						stations.get(currentNeighbor).setParentID(currentID); 						// set parentID
-						stations.get(currentNeighbor).setG(CalcG(currentNeighbor)); 				// calculate and save G
-						stations.get(currentNeighbor).setF(stations.get(currentNeighbor).getG());	// save F
-						System.out.println("Added to Open list ID: " + currentNeighbor + "           G: " + stations.get(currentNeighbor).getG() + 
-								" H: " + stations.get(currentNeighbor).getH() + " F: " + stations.get(currentNeighbor).getF());
-						System.out.println("OPENLIST  : " + openList);
-						System.out.println("CLOSEDLIST: " + closedList);
-						i--;
-						n++;
-					}
-					else
-					{
-						// Set tempG
-						stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
-						double tempG = stations.get(currentNeighbor).getTempG();
-						System.out.println("TempG    = " + tempG);
-						System.out.println("CurrentG = " + stations.get(currentNeighbor).getG());
-
-						if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
-						{
-							System.out.println("This Neighbor is on Open list, calculating new G value... G is lower than before, new G value added!");
-							stations.get(currentNeighbor).setParentID(currentID); 						// change parent
-							stations.get(currentNeighbor).setG(CalcG(currentNeighbor)); 				// calculate and save G
-							stations.get(currentNeighbor).setF(stations.get(currentNeighbor).getG());	// calculate and save F
-							i--;
-							n++;
-						}
-						else // (g is NOT lower than before)
-						{
-							// look at next neighbor
-							System.out.println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
-							i--;
-							n++;
-						}
-					}
-
-				} // end while(i > 0) loop
-
-				if(stations.get(currentID).getTaxi())
-				{
-					AddToTaxiList(currentID);
-					counter = counter + stations.get(currentID).getTaxiIDs().size();
-				} // End if
-
-				AddToClosedList(currentID);
-				RemoveFromOpenlist(openList.indexOf(currentID));
-				System.out.println("----------------------------------------------------");
-				System.out.println("All neighbors checked");
-				System.out.println("Added to Closed list and removed from Open list: " + currentID);
-
-			} // End while (counter < NoT)
-
-			System.out.println("\n\nThe closest " + NoT + " taxis to node " + Point + " is:");
-			for(int k = 0; k < taxiList.size(); k++)
-			{
-				int tempNodeID = taxiList.get(k);
-				
-				for(int z = 0; z < stations.get(tempNodeID).taxiIDs.size(); z++)
-				{
-					System.out.printf("\nTaxi with ID: %03d found at node " + tempNodeID, stations.get(tempNodeID).taxiIDs.get(z));
+					currentLowestF = (int) stations.get(i).getF();
+					currentLowestFID = (int) stations.get(i).ID;
 				}
+
+			}        
+
+			currentID = currentLowestFID;
+			int i = stations.get(currentID).NON; // Number of Neighbors
+			int n = 1; // Neighbor number
+
+			while(i > 0)
+			{
+				int currentNeighbor = stations.get(currentID).getNn(n);
+
+				if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
+				{
+					// Look at next neighbor
+					i--;
+					n++;
+				}
+				else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
+				{
+					AddToOpenList(currentNeighbor); // add neighbor to open list
+					stations.get(currentNeighbor).setParentID(currentID);             // set parentID
+					stations.get(currentNeighbor).setG(CalcG(currentNeighbor));       // calculate and save G
+					stations.get(currentNeighbor).setH(CalcH(currentNeighbor,goal));  // calculate and save H
+					stations.get(currentNeighbor).setF(CalcF(currentNeighbor));       // calculate and save F
+					i--;
+					n++;
+				}
+				else
+				{
+					// Set tempG
+					stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
+					double tempG = stations.get(currentNeighbor).getTempG();
+					
+					if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
+					{
+						stations.get(currentNeighbor).setParentID(currentID);          // change parent
+						stations.get(currentNeighbor).setG(CalcG(currentNeighbor));    // calculate and save G
+						stations.get(currentNeighbor).setF(CalcF(currentNeighbor));    // calculate and save F
+						i--;
+						n++;
+					}
+					else // (g is NOT lower than before)
+					{
+						// look at next neighbor
+						i--;
+						n++;
+					}
+				}
+			} // end while(i > 0) loop
+
+			AddToClosedList(currentID);
+			RemoveFromOpenlist(openList.indexOf(currentID));
+			
+		} // end while (!closedList.contains(goal) && !openList.isEmpty()) loop
+
+		if(closedList.contains(goal))
+		{
+			// BackTrack and show route
+			int from = goal;
+			int to = stations.get(goal).getParentID();
+			routeList.add(goal);
+			while(to != start)
+			{
+				from = stations.get(from).getParentID();
+				to = stations.get(from).getParentID();
+				routeList.add(from);
 			}
+
+			routeList.add(start);
+		}
+		else
+		{
+			System.out.println("No route was found!");
+		}
+	} // End method Route
+
+	public double RouteLength(int X1, int Y1, int X2, int Y2)
+	{
+		// Switch Start and goal to backtrack route
+		int start = findClosestPoint(X2,Y2,5);
+		int goal = findClosestPoint(X1,Y1,2);
+
+		AddToOpenList(start);                     // add start point to open list
+		stations.get(start).setG(0);              // save G
+		stations.get(start).setH(CalcH(start,goal));    // calculate and save H
+		stations.get(start).setF(CalcF(start));      // calculate and save F
+		int currentID = start;
+		while(!closedList.contains(goal) && !openList.isEmpty()) // (Goal is not on closed list and open list is not empty)
+		{
+			// select from open list where f is lowest;
+			int currentLowestF = 2147483647;
+			int currentLowestFID = 9999;
+
+			for(int i=0; i < stations.size(); i++)
+			{
+				if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
+				{
+					currentLowestF = (int) stations.get(i).getF();
+					currentLowestFID = (int) stations.get(i).ID;
+				}
+			}        
+
+			currentID = currentLowestFID;
+			int i = stations.get(currentID).NON; // Number of Neighbors
+			int n = 1; // Neighbor number
+
+			while(i > 0)
+			{
+				int currentNeighbor = stations.get(currentID).getNn(n);
+
+				if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
+				{
+					// Look at next neighbor
+					i--;
+					n++;
+				}
+				else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
+				{
+					AddToOpenList(currentNeighbor); // add neighbor to open list
+					stations.get(currentNeighbor).setParentID(currentID);             // set parentID
+					stations.get(currentNeighbor).setG(CalcG(currentNeighbor));       // calculate and save G
+					stations.get(currentNeighbor).setH(CalcH(currentNeighbor,goal));  // calculate and save H
+					stations.get(currentNeighbor).setF(CalcF(currentNeighbor));       // calculate and save F
+					i--;
+					n++;
+				}
+				else
+				{
+					// Set tempG
+					stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
+					double tempG = stations.get(currentNeighbor).getTempG();
+					
+					if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
+					{
+						stations.get(currentNeighbor).setParentID(currentID);          // change parent
+						stations.get(currentNeighbor).setG(CalcG(currentNeighbor));    // calculate and save G
+						stations.get(currentNeighbor).setF(CalcF(currentNeighbor));    // calculate and save F
+						i--;
+						n++;
+					}
+					else // (g is NOT lower than before)
+					{
+						// look at next neighbor
+						System.out.println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
+						i--;
+						n++;
+					}
+				}
+			} // end while(i > 0) loop
+
+			AddToClosedList(currentID);
+			RemoveFromOpenlist(openList.indexOf(currentID));
+			
+		} // end while (!closedList.contains(goal) && !openList.isEmpty()) loop
+
+		if(closedList.contains(goal))
+		{
+			// Return length of route
+			return stations.get(goal).getF();
+		}
+		else
+		{
+			System.out.println("No route was found!");
+			return 0;
+		}
+	} // End method RouteLength
+
+//	public void closestTaxis(int NoTaxis, int ClosestTo)
+//	{ 
+//		int NoT = NoTaxis;
+//		int Point = ClosestTo;
+//		int counter = 0;
+//
+//		AddToOpenList(Point); 			// add start point to open list
+//		stations.get(Point).setG(0); 	// set G
+//		stations.get(Point).setF(0);	// set F
+//		int currentID = Point;
+//
+//		while(counter < NoT)
+//		{
+//			// select from open list where g is lowest;
+//			int currentLowestF = 2147483647;
+//			int currentLowestFID = 9999;
+//
+//			for(int i=0; i < stations.size(); i++)
+//			{
+//				if(stations.get(i).getF() < currentLowestF && openList.contains(stations.get(i).ID))
+//				{
+//					currentLowestF = (int) stations.get(i).getF();
+//					currentLowestFID = (int) stations.get(i).ID;
+//				}
+//			}			
+//
+//			currentID = currentLowestFID;
+//			int i = stations.get(currentID).NON; // Number of Neighbors
+//			int n = 1;
+//
+//			while(i > 0)
+//			{
+//				int currentNeighbor = stations.get(currentID).getNn(n);
+//				
+//				if(closedList.contains(currentNeighbor)) // (neighbor is on closed list)
+//				{
+//					// Look at next neighbor
+//					i--;
+//					n++;
+//				}
+//				else if(!openList.contains(currentNeighbor)) // (neighbor is not on open list)
+//				{
+//					AddToOpenList(currentNeighbor); // add neighbor to open list
+//					stations.get(currentNeighbor).setParentID(currentID); 						// set parentID
+//					stations.get(currentNeighbor).setG(CalcG(currentNeighbor)); 				// calculate and save G
+//					stations.get(currentNeighbor).setF(stations.get(currentNeighbor).getG());	// save F
+//					i--;
+//					n++;
+//				}
+//				else
+//				{
+//					// Set tempG
+//					stations.get(currentNeighbor).setTempG(CalcTempG(currentNeighbor));
+//					double tempG = stations.get(currentNeighbor).getTempG();
+//					
+//					if(tempG < stations.get(currentNeighbor).getG()) // (g is lower than before)
+//					{
+//						stations.get(currentNeighbor).setParentID(currentID); 						// change parent
+//						stations.get(currentNeighbor).setG(CalcG(currentNeighbor)); 				// calculate and save G
+//						stations.get(currentNeighbor).setF(stations.get(currentNeighbor).getG());	// calculate and save F
+//						i--;
+//						n++;
+//					}
+//					else // (g is NOT lower than before)
+//					{
+//						// look at next neighbor
+//						i--;
+//						n++;
+//					}
+//				}
+//
+//			} // end while(i > 0) loop
+//
+//			if(stations.get(currentID).getTaxi())
+//			{
+//				AddToTaxiList(currentID);
+//				counter = counter + stations.get(currentID).getTaxiIDs().size();
+//			} // End if
+//
+//			AddToClosedList(currentID);
+//			RemoveFromOpenlist(openList.indexOf(currentID));
+//			
+//		} // End while (counter < NoT)
+//
+//		System.out.println("\n\nThe closest " + NoT + " taxis to node " + Point + " is:");
+//		for(int k = 0; k < taxiList.size(); k++)
+//		{
+//			int tempNodeID = taxiList.get(k);
+//
+//			for(int z = 0; z < stations.get(tempNodeID).taxiIDs.size(); z++)
+//			{
+//				System.out.printf("\nTaxi with ID: %03d found at node " + tempNodeID, stations.get(tempNodeID).taxiIDs.get(z));
+//			}
 //		}
-	} // End function closestTaxis
-	
+//	} // End function closestTaxis
+
 	public int findClosestPoint(int xvalue, int yvalue, int taxiID)
 	{
 		int thisX = xvalue;
@@ -562,23 +499,23 @@ public class Algorithm
 		int nodeID = 9999;
 		double close = 9999.9;
 		double tempValue;
-		
+
 		for(int i=0; i < stations.size(); i++)
 		{
 			tempValue = Math.sqrt(((thisX-stations.get(i).ownX)*(thisX-stations.get(i).ownX))+((thisY-stations.get(i).ownY)*(thisY-stations.get(i).ownY)));
-			
+
 			if(tempValue < close)
 			{
 				close = tempValue;
 				nodeID = stations.get(i).ID;
 			} // End if
-			
+
 		} // End for loop
-		
+
 		stations.get(nodeID).setTaxi(true);
 		stations.get(nodeID).AddTaxiIDs(taxiID);
 		return nodeID;
-		
+
 	} // End function findClosestPoint
 
 }
