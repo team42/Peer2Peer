@@ -22,7 +22,7 @@ public class Algorithm
    ArrayList<Integer> taxiList = new ArrayList<Integer>();
    int id, x, y, NON, N1, N2, N3, N4, N5;
    
-   public void Algorithm()
+   public ArrayList<Coordinates> Algorithm()
    {
       try 
         {  
@@ -34,19 +34,16 @@ public class Algorithm
          System.out.println("Couldn't found the PostgreSQL driver!");
          System.out.println("Error: ");
          e.printStackTrace();
-         return;
       }
       try
       {
         conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/taxiPath", "postgres", "crosser");
       }
       catch (SQLException e) 
-      {
-          
+      {          
             System.out.println("Connection Failed!");
             System.out.println("Error: ");
             e.printStackTrace();
-            return;
       }
       
       try{
@@ -129,8 +126,8 @@ public class Algorithm
           System.out.println("Something went wrong.");
           System.out.println("Error: ");
           g.printStackTrace();
-          return;
-       } 
+       }
+	return stations; 
    }
    
    public void AddToOpenList(int c)
