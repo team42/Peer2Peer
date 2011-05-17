@@ -129,10 +129,7 @@ public class UDPPeer {
 		 * Check if peers are alive. Removes ones that don't respond to ping.
 		 */
 		for (int i = 0; i < peers.size(); i++) {
-			String ip = peers.get(i).getIp().replaceAll(",+[ 0|1]+$", ""); // trim
-																			// to
-																			// ip
-																			// part
+			String ip = peers.get(i).getIp();
 			InetAddress peer = InetAddress.getByName(ip);
 			if (peer.isReachable(20)) {
 				System.out.println(peer + " is alive!");
