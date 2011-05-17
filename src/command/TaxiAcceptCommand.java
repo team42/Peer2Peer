@@ -31,6 +31,8 @@ public class TaxiAcceptCommand extends Command {
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String taxiID = receivedMessage.substring(5, 11);
 		String tripID = receivedMessage.substring(11);
+	
+		System.out.println("Taxi: " + taxiID + " accepted trip: " + tripID);
 		
 		ArrayList<String> companyIPs = dao.getCompanyIP(tripID);
 		dao.deleteOngoingTrip(tripID);

@@ -56,9 +56,7 @@ public class HandleTripCommand extends Command {
 			try {
 				ip = InetAddress.getByName(peers.get(i).getIp());
 				
-				System.out.println("Request Taxis sent to:");
-				System.out.println(ip.getHostAddress());
-				System.out.println(query);
+				System.out.println("Request Taxis sent to: " + ip.getHostAddress());
 				
 				UDPPeer.sendMessages(ip, query);
 			} catch (IOException e) {

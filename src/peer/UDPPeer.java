@@ -88,8 +88,6 @@ public class UDPPeer {
 			String reply = new String(receivePacket.getData(), 0,
 					receivePacket.getLength());
 			cmdControl.processRequest(reply, peerSocket, receivePacket);
-			System.out.println("Reply from: " + receivePacket.getAddress()
-					+ "\nData: " + reply);
 		}
 	}
 
@@ -104,14 +102,12 @@ public class UDPPeer {
 	 **/
 	public static void sendMessages(InetAddress ip, String query)
 			throws IOException {
-		System.out.println(ip + " " + query);
 		queryRaw = query.getBytes();
 
 		// Send packet
 		DatagramPacket sendPacket = new DatagramPacket(queryRaw,
 				queryRaw.length, ip, serverPort);
 		peerSocket.send(sendPacket);
-		System.out.println("Send to: " + ip + "\nData: " + query + "\n");
 	}
 
 	/**

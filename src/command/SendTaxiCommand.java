@@ -17,7 +17,7 @@ public class SendTaxiCommand extends Command {
 	private OngoingTripsDAO dao = new OngoingTripsDAO();
 	
 	/**
-	 * Taxis are indenfied and converted to an arraylist of taxi objects.
+	 * Taxis are indentified and converted to an arraylist of taxi objects.
 	 * These are added to the database to be used for calculations later.
 	 * 
 	 * @param receivedMessage - The received message
@@ -26,8 +26,6 @@ public class SendTaxiCommand extends Command {
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		int taxiAmount = Integer.parseInt(receivedMessage.substring(15, 17));
-		
-		System.out.println("Send Taxi received!");
 		
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiString = receivedMessage.substring(17);

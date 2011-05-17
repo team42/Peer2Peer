@@ -54,14 +54,11 @@ public class ReqTaxiCommand extends Command {
 			amount = 10;
 		}
 		
-		System.out.println("TaxiList: " + strTaxiList);
-		
 		// Convert taxi list to string format
 		int counter = amount;
 		for(int i=0; i < counter; i++) {
 			if(tripDAO.taxiTripAmount(taxiList.get(i).getTaxiID()) < 5) { // current taxi have less than 5 trips
 				strTaxiList += taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
-				System.out.println("TaxiList: " + strTaxiList);
 			} else {
 				if(taxiList.size()>counter) {
 					counter++;
@@ -77,6 +74,8 @@ public class ReqTaxiCommand extends Command {
 		} else {
 			taxiAmount = Integer.toString(amount);
 		}
+		
+		System.out.println(taxiAmount + " taxis sent for trip: " + tripID);
 		
 		// Create reply
 		String reply = "SENTC" + tripID + taxiAmount + strTaxiList;
