@@ -94,7 +94,7 @@ public class PeerList {
    public void writePeerList(ArrayList<Peer> peerList) throws IOException {
       if (out != null) {         
          for(int i=0;i<peerList.size();i++) {
-            out.append(peerList.get(i).toString());
+            out.append(peerList.get(i).getIp());
          }
       }
    }

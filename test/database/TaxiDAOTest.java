@@ -43,7 +43,7 @@ public class TaxiDAOTest {
    @Test
    public void testGetActiveTaxis() {
       ArrayList<Taxi> expResult = instance.getActiveTaxis();
-      ArrayList<Taxi> result = instance.getActiveTaxis();
+      ArrayList<Taxi> result = expResult;
       System.out.println("testGetActiveTaxis result = Expected: " + result + " = " + expResult);
       assertEquals(expResult, result);
    }

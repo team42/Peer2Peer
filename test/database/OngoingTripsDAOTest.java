@@ -55,15 +55,6 @@ public class OngoingTripsDAOTest {
    }
 
    @Test
-   public void testGetCompanyIP() {
-      ArrayList<String> expResult = new ArrayList<String>();
-      expResult.add("XY");
-      ArrayList<String> result = instance.getCompanyIP(tripID);
-      System.out.println("testGetCompanyIP result = Expected: " + result.get(0) + " = " + expResult);
-      assertEquals(expResult, result);
-   }
-
-   @Test
    public void testDeleteOngoingTrip() {
       boolean expResult = true;
       boolean result = instance.deleteOngoingTrip(tripID);
