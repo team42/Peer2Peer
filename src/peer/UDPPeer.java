@@ -111,13 +111,13 @@ public class UDPPeer {
 	}
 
 	/**
-	 * Opens "peers" text file and pings the IP address. If it responds we
-	 * return the IP to the calling method.
+	 * Opens the default "peers" text file and pings the IP address. If it 
+	 * responds we return the IP to the calling method.
 	 * 
-	 * Cleans up the peer/peers text file, so that it only contains alive peers.
+	 * Cleans up the peers text file, so that it only contains alive peers.
 	 * 
 	 * @throws Exception
-	 * @returns
+	 * @returns IP address of pingable peer
 	 **/
 	private static InetAddress getAlivePeer() throws Exception {
 		PeerList peerList = new PeerList();
