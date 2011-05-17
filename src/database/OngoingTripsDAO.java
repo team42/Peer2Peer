@@ -7,12 +7,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Taxi;
 
+/**
+ * 
+ * Handles database, which is used while finding a taxi for a trip
+ * 
+ * @author Nicolai
+ *
+ */
+
 public class OngoingTripsDAO {
 
+	// Variables
 	private Connection con;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 
+	/**
+	 * 
+	 * Adds an arraylist of taxis, which are linked with a trip ID and a return IP.
+	 * 
+	 * @param tripID - trip, which the taxis are linked to.
+	 * @param taxiList - List of taxis
+	 * @param company - return IP.
+	 * @return
+	 */
 	public boolean addAwaitingTaxis(String tripID, ArrayList<Taxi> taxiList,
 			String company) {
 		String Query = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company)"
@@ -55,6 +73,12 @@ public class OngoingTripsDAO {
 		}
 	}
 
+	/**
+	 * Clears the database for taxis waiting for a specific trip
+	 * 
+	 * @param tripID
+	 * @return true if successful, else false
+	 */
 	public boolean deleteOngoingTrip(String tripID) {
 
 		String Query = "DELETE FROM ongoing_trips WHERE trip_id = ?";
@@ -91,6 +115,12 @@ public class OngoingTripsDAO {
 		}
 	}
 
+	/**
+	 * Returns an arraylist of taxis, which are linked to a specific tripID
+	 * 
+	 * @param tripID
+	 * @return true if successful, else false
+	 */
 	public ArrayList<Taxi> getTaxiByTrip(String tripID) {
 		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
 
@@ -131,6 +161,13 @@ public class OngoingTripsDAO {
 		return taxiList;
 	}
 
+	/**
+	 * 
+	 * Returns an arraylist of unique company IPs, which are linked to a specific trip
+	 * 
+	 * @param tripID
+	 * @return true if successful, else false
+	 */
 	public ArrayList<String> getCompanyIP(String tripID) {
 
 		String companyIP = "";

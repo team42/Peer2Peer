@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Map extends JFrame {
+public class TaxiMap extends JFrame {
 
 	ArrayList<Coordinates> b = new ArrayList<Coordinates>();
 	int[] drawRoute = new int[0];
 
-	public Map(ArrayList<Coordinates> a) 
+	public TaxiMap(ArrayList<Coordinates> a) 
 	{
 		b.addAll(a);
 		add(new PaintPanel());		
 	}
 
-	public Map() {
+	public TaxiMap() {
 		System.out.println("Oy!!");
 		add(new PaintPanel());
 	}
@@ -33,16 +33,25 @@ public class Map extends JFrame {
 		drawRoute = route;
 		for (int i=0; i < drawRoute.length; i++)
 		{
-			System.out.println("[" + i + "] = " + drawRoute[i]);
+			//System.out.println("[" + i + "] = " + drawRoute[i]);
 		}		
 		repaint();
 	}
+//	public void setRoute(int[] route)
+//	{
+//		drawRoute = route;
+//		for (int i=0; i < drawRoute.length; i++)
+//		{
+//			System.out.println("[" + i + "] = " + drawRoute[i]);
+//		}		
+//		repaint();
+//	}
 	
 	public void rePaint ()
 	{
 		for (int i=0; i < drawRoute.length; i++)
 		{
-			System.out.println("[" + i + "] = " + drawRoute[i]);
+			//System.out.println("[" + i + "] = " + drawRoute[i]);
 		}
 		System.out.println("Repaint her!");
 		repaint();
@@ -60,10 +69,10 @@ public class Map extends JFrame {
 
 			S2.drawAxis(g);
 
-			S2.drawLine(g, new Vektor(0, 0), new Vektor(0, 1000));
-			S2.drawLine(g, new Vektor(0, 1000), new Vektor(1000, 1000));
-			S2.drawLine(g, new Vektor(1000, 1000), new Vektor(1000, 0));
-			S2.drawLine(g, new Vektor(1000, 0), new Vektor(0, 0));
+			S2.drawLine(g, new Vektor(0, 0), new Vektor(0, 2000));
+			S2.drawLine(g, new Vektor(0, 2000), new Vektor(2000, 2000));
+			S2.drawLine(g, new Vektor(2000, 2000), new Vektor(2000, 0));
+			S2.drawLine(g, new Vektor(2000, 0), new Vektor(0, 0));
 
 			g.setColor(Color.BLACK);
 		
@@ -89,11 +98,23 @@ public class Map extends JFrame {
 				}
 											
 			}
+			
+			//Draw all taxis
+			for(int i = 0; i<b.size(); i++)
+			{
+				//System.out.println("Draw taxis her!!");
+				if(b.get(i).taxi == true)
+				{
+					S2.drawTaxi(g, b.get(i).ownX, b.get(i).ownY);
+				}
+			}
+			
+			
 			System.out.println(drawRoute.length);
 			if (drawRoute.length > 0)
 			{
-				System.out.println("hallihalløj");
-				System.out.println("drawRoute her!!!");
+//				System.out.println("hallihalløj");
+//				System.out.println("drawRoute her!!!");
 				int tempId;
 				int i = 0;
 				while(i < drawRoute.length-1)

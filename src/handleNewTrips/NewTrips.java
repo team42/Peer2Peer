@@ -27,8 +27,6 @@ public class NewTrips {
 		String[] coords = coordinate.split(",");
 		int xCoord = Integer.parseInt(coords[0]);
 		
-		System.out.println("X-coord: " + xCoord);
-		
 		ArrayList<Peer> peers = new ArrayList<Peer>();
 		peers = config.getPeers();
 		
@@ -37,6 +35,8 @@ public class NewTrips {
 		for(int i=0; i<peers.size(); i++) {
 			if(xCoord >= ((i*2000)/peers.size()) && xCoord < (((i+1)*2000)/peers.size())) {
 				String query = "HANTR" + tripID + correctCoordinate;
+				
+				System.out.println(peers.get(i).getIp());
 				
 				try {
 					UDPPeer.sendMessages(InetAddress.getByName(peers.get(i).getIp()), query);

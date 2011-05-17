@@ -8,12 +8,27 @@ import java.util.ArrayList;
 
 import model.Trip;
 
+/**
+ * 
+ * Handles database, which holds information on all trips which are linked to taxis.
+ * 
+ * @author Nicolai
+ *
+ */
 public class TripsDAO {
 
 	private Connection con;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 
+	/**
+	 * 
+	 * Taxi confirms trip. Accepted flag is set to 1
+	 * 
+	 * @param taxiID - Taxi, which accepts
+	 * @param tripID - Trip, which is accepted
+	 * @return
+	 */
 	public boolean confirmTrip(String taxiID, String tripID) {
 
 		String cardsQuery1 = "UPDATE trips SET accepted = 1 WHERE taxi_id = ? AND trip_id = ?";
@@ -57,6 +72,13 @@ public class TripsDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * Removes all rows, which belongs to a specific trip.
+	 * 
+	 * @param tripID
+	 * @return
+	 */
 	public boolean deleteTrip(String tripID) {
 
 		String Query = "DELETE FROM trips WHERE trip_id = ?";
@@ -93,6 +115,17 @@ public class TripsDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * Insert new trip and link to taxi.
+	 * Trip coordinate and return IP is noted.
+	 * 
+	 * @param taxiID
+	 * @param tripID
+	 * @param tripCoord
+	 * @param returnIP
+	 * @return
+	 */
 	public boolean insertTrip(String taxiID, String tripID, String tripCoord, String returnIP) {
 		String cardsQuery = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip)"
 				+ "VALUES (?, ?, ?, Now(), ?) ";
@@ -130,6 +163,14 @@ public class TripsDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * Deletes a trip for a specific taxi
+	 * 
+	 * @param taxiID
+	 * @param tripID
+	 * @return
+	 */
 	public boolean taxiDeleteTrip(String taxiID, String tripID) {
 		String query = "DELETE FROM trips WHERE taxi_id = ? AND trip_id = ?";
 
@@ -166,10 +207,17 @@ public class TripsDAO {
 		}
 	}
 	
+	/**
+	 * 
+	 * Returns the amount of trips a taxi is linked to.
+	 * 
+	 * @param taxiID
+	 * @return amount of trips taxi is linked to.
+	 */
 	public int taxiTripAmount(String taxiID) {
 		int amount = 0;
 		
-		String Query = "SELECT * FROM trips WHERE taxi_id = ?";
+		String Query = "SELECT COUNT(*) FROM trips WHERE taxi_id = ?";
 
 		con = null;
 
@@ -180,8 +228,9 @@ public class TripsDAO {
 			preparedStatement.setString(1, taxiID);
 			resultSet = preparedStatement.executeQuery();
 
-			resultSet.last();
-			amount = resultSet.getRow();
+			if(resultSet.next()) {
+			   amount = resultSet.getInt(1);
+			}			
 			
 			preparedStatement.close();
 
@@ -200,6 +249,13 @@ public class TripsDAO {
 		return amount;
 	}
 	
+	/**
+	 * 
+	 * Get all trips, which are linked to a specific taxi.
+	 * 
+	 * @param taxiID - Taxi of which trips are requested.
+	 * @return ArrayList of trips
+	 */
  	public ArrayList<Trip> getTripsByTaxiID(String taxiID) {
 		ArrayList<Trip> tripList = new ArrayList<Trip>();
 
@@ -245,6 +301,13 @@ public class TripsDAO {
 		return tripList;
 	}
 
+ 	/**
+ 	 * 
+ 	 * Gets the IP of the Peer, which is handling the specific trip.
+ 	 * 
+ 	 * @param tripID
+ 	 * @return
+ 	 */
 	public String getReturnIP(String tripID) {
 		String returnIP = "";
 
@@ -281,49 +344,4 @@ public class TripsDAO {
 		return returnIP;
 	}
 	
-	public boolean testTrips(String taxiID, String tripID, String tripCoord, String ip) {
-      String query1 = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip) VALUES (?, ?, ?, Now(), ?) ";
-      String query2 = "INSERT INTO ongoing_trips (trip_id, taxi_id, taxi_coordinate, company) VALUES (?, ?, ?, ?) ";
-
-      int rowCount = 0;
-      con = null;
-
-      try {
-         con = PostgresqlConnectionFactory.createConnection();
-         preparedStatement = con.prepareStatement(query1);
-         preparedStatement.setString(1, taxiID);
-         preparedStatement.setString(2, tripID);
-         preparedStatement.setString(3, tripCoord);
-         preparedStatement.setString(4, ip);
-
-         rowCount = preparedStatement.executeUpdate();
-         preparedStatement.close();
-         
-         preparedStatement = con.prepareStatement(query2);
-         preparedStatement.setString(1, tripID);
-         preparedStatement.setString(2, taxiID);
-         preparedStatement.setString(3, tripCoord);
-         preparedStatement.setString(4, ip);
-
-         rowCount = preparedStatement.executeUpdate();
-         preparedStatement.close();
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         if (con != null) {
-            try {
-               con.close();
-            } catch (SQLException e1) {
-               System.out.println("Failed Closing of Database!");
-            }
-         }
-      }
-      // We want to return false if INSERT was unsuccesfull, else return true
-      if (rowCount == 0) {
-         return false;
-      } else {
-         return true;
-      }
-   }
 }

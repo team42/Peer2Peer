@@ -21,15 +21,15 @@ public class PeerListTest {
 
    @After
    public void tearDown() throws Exception {
+      instance = null;
    }
 
    @Test
    public void testOpenFile() {
-      System.out.println("Start of test: PeerList.openFile()");
       boolean expResult = true;
       boolean result = instance.openFile(0);
       instance.closeInputFile();
-      System.out.println("    Result = Expected: " + result + " = " + expResult);
+      System.out.println("testOpenFile result = Expected: " + result + " = " + expResult);
       assertEquals(expResult, result);
       
       boolean result1 = instance.openFile(1);
@@ -38,31 +38,25 @@ public class PeerListTest {
       } catch (IOException e) {
          e.printStackTrace();
       }
-      System.out.println("    Result = Expected: " + result1 + " = " + expResult);
+      System.out.println("testOpenFile result1 = Expected: " + result1 + " = " + expResult);
       assertEquals(expResult, result1);
-      
-      System.out.println("End test: PeerList.openFile()\n");
    }
 
    @Test
    public void testReadPeerList() {
-      System.out.println("Start of test: PeerList.readPeerList()");
       ArrayList<Peer> expResult = instance.readPeerList();
       ArrayList<Peer> result = instance.readPeerList();
       instance.closeInputFile();
-      System.out.println("    Result = Expected: " + result + " = " + expResult);
+      System.out.println("testReadPeerList result = Expected: " + result + " = " + expResult);
       assertEquals(expResult, result);      
-      System.out.println("End test: PeerList.readPeerList()\n");
    }
 
    @Test
    public void testWritePeerList() {
-      System.out.println("Start of test: PeerList.writePeerList()");
       ArrayList<Peer> expResult = instance.readPeerList();
       ArrayList<Peer> result = instance.readPeerList();
       instance.closeInputFile();
-      System.out.println("    Result = Expected: " + result + " = " + expResult);
+      System.out.println("testWritePeerList result = Expected: " + result + " = " + expResult);
       assertEquals(expResult, result);      
-      System.out.println("End test: PeerList.writePeerList()\n");
    }
 }

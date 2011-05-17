@@ -21,12 +21,16 @@ public class TaxiComm {
    TripsDAO tripsDAO = new TripsDAO();
    TaxiDAO taxiDAO = new TaxiDAO();
    
+   /**
+    *  Construcor
+    *  
+    *  Opens port
+    *  Starts handle Client
+    *  
+    */
    public TaxiComm() {
       
 	  System.out.println("Opening port...\n");
-	  tripsDAO.testTrips("A00001", "AB99999999", "1234,5678", "192.168.1.102");
-	  tripsDAO.testTrips("A00001", "AB12345678", "1234,5678", "192.168.1.102");
-	  tripsDAO.testTrips("A00002", "AB12345678", "1234,5678", "192.168.1.102");
 
       try {
          datagramSocket = new DatagramSocket(PORT);
@@ -37,6 +41,14 @@ public class TaxiComm {
       handleClient();
    }
 
+   /**
+    * Receives package containing:
+    * - Command
+    * - new Taxi Coordinate
+    * 
+    * Answer with trip table
+    * 
+    */
    private void handleClient() {
       String taxiID, coords, tripID = "";
       char answer;
@@ -59,8 +71,23 @@ public class TaxiComm {
             coords = messageIn.substring(6, 15);
             answer = messageIn.charAt(15);
             
+            // Update taxiPosition
             taxiDAO.updateTaxiPosition(taxiID, coords);
             
+            /**
+             * Commands:
+             * 1 (Accept)
+             * -- Sends taxi accept to Peer handling the trip
+             * 2 (Finish)
+             * -- Deletes trip for taxi
+             * 3 (Decline)
+             * -- Delete trip for taxi
+             * 4 (Request new taxi)
+             * -- Delete trip for taxi
+             * -- Request new trip for taxis current position
+             * 5 (OK)
+             * -- Not yet implemented
+             */
             if(answer == '1') {
                tripID = messageIn.substring(16);
                
@@ -72,22 +99,24 @@ public class TaxiComm {
             } else if(answer == '2') {
                tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);
-               taxiDAO.setTaxiFree(taxiID);
             } else if(answer == '3') {
                tripID = messageIn.substring(16);
                tripsDAO.taxiDeleteTrip(taxiID, tripID);
             }
 
+            // Get trips for specific taxi
             tripList = tripsDAO.getTripsByTaxiID(taxiID);
             
             String time;
             
+            // Create table in string format
             for(int i=0;i<tripList.size();i++) {
                curTrip = tripList.get(i);
                time = compareTime(Calendar.getInstance().getTime(), curTrip.getDate());
                messageOut += curTrip.getTripID() + curTrip.getAccepted() + time + curTrip.getCoords() + "%";
             }
 
+            // Create package and send.
             outPacket = new DatagramPacket(messageOut.getBytes(), messageOut.length(),clientAddress,clientPort);
             datagramSocket.send(outPacket);
 
@@ -101,6 +130,14 @@ public class TaxiComm {
       }
    }
 
+   /**
+    * 
+    * Returns the difference in two Date objects in seconds
+    * 
+    * @param d1 - Date object one
+    * @param d2 - Date object one
+    * @return Difference in seconds (String format)
+    */
    public String compareTime(Date d1, Date d2) {       
       long difference = Math.abs(d1.getTime()-d2.getTime());
       difference = difference / 1000;

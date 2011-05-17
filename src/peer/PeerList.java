@@ -1,9 +1,7 @@
 package peer;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
-import java.util.Formatter;
 import java.util.logging.*;
 
 import model.Peer;
@@ -76,7 +74,6 @@ public class PeerList {
     * 
     * @return arraylist containing values from file
     */
-   @SuppressWarnings("unchecked")
    public ArrayList<Peer> readPeerList() {
       ArrayList<Peer> peerList = new ArrayList<Peer>();
       if(!(input==null)) {
@@ -94,7 +91,7 @@ public class PeerList {
    public void writePeerList(ArrayList<Peer> peerList) throws IOException {
       if (out != null) {         
          for(int i=0;i<peerList.size();i++) {
-            out.append(peerList.get(i).toString());
+            out.append(peerList.get(i).getIp());
          }
       }
    }

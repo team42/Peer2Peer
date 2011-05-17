@@ -2,14 +2,28 @@ package database;
 
 import java.sql.*;
 
-import config.Configuration;
+/**
+ * 
+ * Handles trips, which are finished.
+ * 
+ * @author Nicolai
+ *
+ */
 
 public class FinishedTripsDAO {
-
+	
+	// Variables
 	private Connection con;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 
+	/**
+	 * Add a trip to the database, which indicates that the trip has been handled.
+	 * 
+	 * @param tripID
+	 * @param taxiID
+	 * @return true if succesful, else false
+	 */
 	public boolean addTrip(String tripID, String taxiID) {
 	      String cardsQuery = "INSERT INTO finished_trips (trip_id, taxi_id) VALUES (?, ?)";
 
@@ -39,9 +53,15 @@ public class FinishedTripsDAO {
 
 	   }
 	
+	/**
+	 * Figure out if a trip is finished.
+	 * 
+	 * @param tripID
+	 * @return true if the trip is finished, else false
+	 */
 	public boolean isTripFinished(String tripID) {
 
-		String query = "SELECT * FROM finished_trips WHERE trip_id = ?";
+		String query = "SELECT COUNT(*) FROM finished_trips WHERE trip_id = ?";
 
 		con = null;
 		
@@ -53,16 +73,15 @@ public class FinishedTripsDAO {
 			preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, tripID);
 
-			resultSet = preparedStatement.executeQuery(query);
+			resultSet = preparedStatement.executeQuery();
 
-			resultSet.last();
-			
-			if(resultSet.getRow() > 0) {
-				finished = true;
-			} else {
-				finished = false;
+			while(resultSet.next()) {
+			   if(resultSet.getInt(1) > 0) {
+	            finished = true;
+	         } else {
+	            finished = false;
+	         }
 			}
-			
 			
 			preparedStatement.close();
 
