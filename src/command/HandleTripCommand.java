@@ -7,14 +7,9 @@ import java.util.*;
 import peer.UDPPeer;
 
 import map.Algorithm;
-import model.Taxi;
-import model.CalcedTaxi;
-import model.Peer;
+import model.*;
 import config.Configuration;
-import database.FinishedTripsDAO;
-import database.OngoingTripsDAO;
-import database.TripOffersDAO;
-import database.TripsDAO;
+import database.*;
 
 /**
  * This command is used when another Peer announces itself.
@@ -23,7 +18,7 @@ import database.TripsDAO;
  *
  */
 public class HandleTripCommand extends Command {
-
+	
 	private String tripID = "";
 	private String tripCoordinate = "";
 	
@@ -51,13 +46,20 @@ public class HandleTripCommand extends Command {
 		tripID = receivedMessage.substring(5, 15);
 		tripCoordinate = receivedMessage.substring(15);
 		
-		ArrayList<Peer> peers = new ArrayList<Peer>();
+		System.out.println("Handle Trip for:\n" + tripID + "  " + tripCoordinate + "\n");
+		
+		ArrayList<Peer> peers = config.getPeers();
 		
 		for(int i= 0; i<peers.size(); i++) {
 			String query = "REQTC" + tripID + tripCoordinate;
 			InetAddress ip;
 			try {
 				ip = InetAddress.getByName(peers.get(i).getIp());
+				
+				System.out.println("Request Taxis sent to:");
+				System.out.println(ip.getHostAddress());
+				System.out.println(query);
+				
 				UDPPeer.sendMessages(ip, query);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -100,7 +102,7 @@ public class HandleTripCommand extends Command {
 			for(int i=0; i<messages; i++) {
 				String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
 				try {
-					InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
+					InetAddress ip = InetAddress.getByName(calcTaxis.get(0).getCompanyIP());
 					UDPPeer.sendMessages(ip, query);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -128,7 +130,7 @@ public class HandleTripCommand extends Command {
 					for(int i=0; i<messages; i++) {
 						String query = "TAXOF" + calcTaxis.get(0).getTaxiID() + tripID + tripCoordinate;
 						try {
-							InetAddress ip = InetAddress.getByName(calcTaxis.get(i).getCompanyIP());
+							InetAddress ip = InetAddress.getByName(calcTaxis.get(0).getCompanyIP());
 							UDPPeer.sendMessages(ip, query);
 						} catch (IOException e) {
 							e.printStackTrace();

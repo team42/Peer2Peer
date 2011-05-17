@@ -2,8 +2,6 @@ package database;
 
 import static org.junit.Assert.*;
 
-import java.net.InetAddress;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

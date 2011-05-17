@@ -1,13 +1,9 @@
 package command;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.ArrayList;
-
-import model.Taxi;
+import peer.UDPPeer;
 import model.Taxi;
 import database.*;
 
@@ -36,7 +32,6 @@ public class ReqTaxiCommand extends Command {
 		String customerCoord = receivedMessage.substring(15);
 		
 		String strTaxiList = "";
-		String localIP = "";
 		String taxiAmount = "";
 		
 		int amount;
@@ -59,21 +54,21 @@ public class ReqTaxiCommand extends Command {
 			amount = 10;
 		}
 		
+		System.out.println("TaxiList: " + strTaxiList);
+		
 		// Convert taxi list to string format
 		int counter = amount;
-		for(int i=0; i > counter; i++) {
+		for(int i=0; i < counter; i++) {
 			if(tripDAO.taxiTripAmount(taxiList.get(i).getTaxiID()) < 5) { // current taxi have less than 5 trips
-				strTaxiList += strTaxiList + taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+				strTaxiList += taxiList.get(i).getTaxiID() + taxiList.get(i).getTaxiCoord();
+				System.out.println("TaxiList: " + strTaxiList);
 			} else {
-				counter++;
+				if(taxiList.size()>counter) {
+					counter++;
+				} else {
+					amount--;
+				}
 			}
-		}
-		
-		// Find local IP
-		try {
-			localIP = InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
 		}
 		
 		// Set correct taxi Amount length
@@ -84,27 +79,18 @@ public class ReqTaxiCommand extends Command {
 		}
 		
 		// Create reply
-		String reply = "SENTC" + tripID + taxiAmount + strTaxiList + localIP;
+		String reply = "SENTC" + tripID + taxiAmount + strTaxiList;
 		
-		// Get sender port
-		int peer = receivePacket.getPort();
-        
-		// Send package
-		byte[] replyRaw = new byte[1024];
-        replyRaw = reply.getBytes();
-        
-        DatagramPacket sendPacket = new DatagramPacket(replyRaw, replyRaw.length, receivePacket.getAddress(), peer);
-        
         try {
-			peerSocket.send(sendPacket);
+			UDPPeer.sendMessages(receivePacket.getAddress(), reply);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
 	
 	private Taxi calcHeuristics(Taxi taxi, String tripCoordinate) {
-		int x1 = Integer.parseInt(taxi.getCompanyIP().substring(0, 4));
-		int y1 = Integer.parseInt(taxi.getCompanyIP().substring(5, 9));
+		int x1 = Integer.parseInt(taxi.getTaxiCoord().substring(0, 4));
+		int y1 = Integer.parseInt(taxi.getTaxiCoord().substring(5, 9));
 		int x2 = Integer.parseInt(tripCoordinate.substring(0, 4));
 		int y2 = Integer.parseInt(tripCoordinate.substring(5, 9));
 		int xLength = Math.abs(x1-x2);

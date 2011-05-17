@@ -39,8 +39,6 @@ public class UDPListenThread extends Thread {
          DatagramSocket peerSocket = new DatagramSocket(port);
          byte[] queryRaw = new byte[1024];
          
-         ArrayList<Peer> peers =  config.getPeers();
-         
          while(true) {
             // Creates a packet to hold the received data
             DatagramPacket receivePacket = new DatagramPacket(queryRaw, queryRaw.length);
