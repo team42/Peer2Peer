@@ -3,6 +3,9 @@ package config;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import database.MapDAO;
+
+import model.Intersection;
 import model.Peer;
 import peer.*;
 
@@ -22,6 +25,9 @@ public class Configuration {
    private ArrayList<Peer> peers;
    private String companyID;
    
+   private ArrayList<Intersection> mapList;
+   private MapDAO mapDAO = new MapDAO();
+   
    private static Configuration configurationObject;
 
    /** 
@@ -29,7 +35,7 @@ public class Configuration {
     * instantiate.
     */
    private Configuration() {
-      // nothing to do
+	   mapList = mapDAO.getMap();
    }
 
    /**
@@ -95,5 +101,9 @@ public class Configuration {
    
    public String getCompanyID() {
 	   return companyID;
+   }
+
+   public ArrayList<Intersection> getMap() {
+	   return mapList;
    }
 }
