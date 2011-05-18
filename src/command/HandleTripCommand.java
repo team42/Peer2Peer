@@ -46,7 +46,8 @@ public class HandleTripCommand extends Command {
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
 	/**
-	 * The execute method will get it's own PeerList and send it back to the sender.
+	 * The execute method will send a request for taxis to the peers in its 
+	 * list and starts the timer.
 	 * 
 	 * @param receivedMessage - The received message
 	 * @param peerSocket - The socket to respond at
@@ -79,6 +80,11 @@ public class HandleTripCommand extends Command {
 		timer.schedule(new firstSend(), 5000);
 	}
 	
+	/**
+	 * 
+	 * @author Nicolai
+	 *
+	 */
 	class firstSend extends TimerTask {
 		public void run() {
 			ArrayList<Taxi> taxis = new ArrayList<Taxi>();
@@ -86,11 +92,11 @@ public class HandleTripCommand extends Command {
 			String taxiID, taxiCoord, company;
 			int shortestPath, messages;
 			
-			// get all onging_taxis by tripID
+			// get all ongoing_taxis by tripID
 			taxis = ongoingDAO.getTaxiByTrip(tripID);
 			
 			for(int i=0; i<taxis.size(); i++) {
-				// sortest path length by algorithm for taxis.get(i)
+				// shortest path length by algorithm for taxis.get(i)
 				//algorithm
 				
 				taxiID = taxis.get(i).getTaxiID();
