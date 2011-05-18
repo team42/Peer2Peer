@@ -105,6 +105,7 @@ public class PeerList {
       if (out != null) {         
          for(int i=0;i<peerList.size();i++) {
             out.append(peerList.get(i).getIp());
+            out.append("\n");
          }
       }
    }

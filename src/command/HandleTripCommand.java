@@ -12,7 +12,19 @@ import config.Configuration;
 import database.*;
 
 /**
- * This command is used when another Peer announces itself.
+ * This class handles trips.
+ * 
+ * Sends a request for taxi id and coordinates to all peers in its list.
+ * After 5 seconds it will collect all taxis relevant for the trip from the 
+ * database. Calculate shortest path for relevant taxis and sort them.
+ * Then it sends a taxi offer to the closest taxi and deletes offered taxis 
+ * from taxi list.
+ * 
+ * Starts a 5 minute timer that checks if any of the offered taxi have 
+ * accepted the trip. If the timer runs out and no taxis have accepted trip, 
+ * it will send offers to the next 5 closest taxis. This continues until no 
+ * more taxis are available in which case the trip is reset and added to 
+ * the trips table again.
  * 
  * @author Nicolai
  *
@@ -34,7 +46,8 @@ public class HandleTripCommand extends Command {
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
 	/**
-	 * The execute method will get it's own PeerList and send it back to the sender.
+	 * The execute method will send a request for taxis to the peers in its 
+	 * list and starts the timer.
 	 * 
 	 * @param receivedMessage - The received message
 	 * @param peerSocket - The socket to respond at
@@ -67,6 +80,11 @@ public class HandleTripCommand extends Command {
 		timer.schedule(new firstSend(), 5000);
 	}
 	
+	/**
+	 * 
+	 * @author Nicolai
+	 *
+	 */
 	class firstSend extends TimerTask {
 		public void run() {
 			ArrayList<Taxi> taxis = new ArrayList<Taxi>();
@@ -74,11 +92,11 @@ public class HandleTripCommand extends Command {
 			String taxiID, taxiCoord, company;
 			int shortestPath, messages;
 			
-			// get all onging_taxis by tripID
+			// get all ongoing_taxis by tripID
 			taxis = ongoingDAO.getTaxiByTrip(tripID);
 			
 			for(int i=0; i<taxis.size(); i++) {
-				// sortest path length by algorithm for taxis.get(i)
+				// shortest path length by algorithm for taxis.get(i)
 				//algorithm
 				
 				taxiID = taxis.get(i).getTaxiID();
