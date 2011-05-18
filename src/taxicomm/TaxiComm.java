@@ -65,7 +65,6 @@ public class TaxiComm {
             int clientPort = inPacket.getPort();
 
             messageIn = new String(inPacket.getData(), 0, inPacket.getLength());
-            System.out.println(messageIn);
 
             taxiID = messageIn.substring(0, 6);
             coords = messageIn.substring(6, 15);

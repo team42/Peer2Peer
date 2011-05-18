@@ -5,6 +5,7 @@ import handleNewTrips.NewTrips;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -47,10 +48,10 @@ public class UDPPeer {
 	 * @throws UnknownHostException
 	 */
 	public static void main(String[] args) throws IOException {
-
+		Scanner input = new Scanner(System.in);
 		while (companyID.length() != 2) {
-			companyID = JOptionPane
-					.showInputDialog("Insert Company ID\nMust be 2 characters!");
+			System.out.println("Enter Company ID (2 Characters): ");
+			companyID = input.nextLine();
 		}
 
 		config.setCompanyID(companyID);
@@ -88,8 +89,6 @@ public class UDPPeer {
 			String reply = new String(receivePacket.getData(), 0,
 					receivePacket.getLength());
 			cmdControl.processRequest(reply, peerSocket, receivePacket);
-			System.out.println("Reply from: " + receivePacket.getAddress()
-					+ "\nData: " + reply);
 		}
 	}
 
@@ -104,24 +103,22 @@ public class UDPPeer {
 	 **/
 	public static void sendMessages(InetAddress ip, String query)
 			throws IOException {
-		System.out.println(ip + " " + query);
 		queryRaw = query.getBytes();
 
 		// Send packet
 		DatagramPacket sendPacket = new DatagramPacket(queryRaw,
 				queryRaw.length, ip, serverPort);
 		peerSocket.send(sendPacket);
-		System.out.println("Send to: " + ip + "\nData: " + query + "\n");
 	}
 
 	/**
-	 * Opens "peers" text file and pings the IP address. If it responds we
-	 * return the IP to the calling method.
+	 * Opens the default "peers" text file and pings the IP address. If it 
+	 * responds we return the IP to the calling method.
 	 * 
-	 * Cleans up the peer/peers text file, so that it only contains alive peers.
+	 * Cleans up the peers text file, so that it only contains alive peers.
 	 * 
 	 * @throws Exception
-	 * @returns
+	 * @returns IP address of pingable peer
 	 **/
 	private static InetAddress getAlivePeer() throws Exception {
 		PeerList peerList = new PeerList();
@@ -132,10 +129,7 @@ public class UDPPeer {
 		 * Check if peers are alive. Removes ones that don't respond to ping.
 		 */
 		for (int i = 0; i < peers.size(); i++) {
-			String ip = peers.get(i).getIp().replaceAll(",+[ 0|1]+$", ""); // trim
-																			// to
-																			// ip
-																			// part
+			String ip = peers.get(i).getIp();
 			InetAddress peer = InetAddress.getByName(ip);
 			if (peer.isReachable(20)) {
 				System.out.println(peer + " is alive!");

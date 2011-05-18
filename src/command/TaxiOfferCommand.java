@@ -26,6 +26,8 @@ public class TaxiOfferCommand extends Command {
 		String tripID = receivedMessage.substring(11, 21);
 		String tripCoord = receivedMessage.substring(21);
 		String returnIP = receivePacket.getAddress().getHostAddress();
+
+		System.out.println("\nAdded trip: " + tripID + " to taxi: " + taxiID);
 		
 		dao.insertTrip(taxiID, tripID, tripCoord, returnIP);
 	}

@@ -24,6 +24,8 @@ public class MissTripCommand extends Command {
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 		String tripID = receivedMessage.substring(5);
+
+		System.out.println("\nMissed trip: " + tripID);
 		
 		dao.deleteTrip(tripID);
 	}
