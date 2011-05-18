@@ -5,8 +5,6 @@ import java.net.*;
 import java.util.*;
 
 import peer.UDPPeer;
-
-import map.Algorithm;
 import model.*;
 import config.Configuration;
 import database.*;
@@ -41,7 +39,7 @@ public class HandleTripCommand extends Command {
 	TripOffersDAO tripOfferDAO = new TripOffersDAO();
 	FinishedTripsDAO finishedDAO = new FinishedTripsDAO();
 	
-	Algorithm algorithm = new Algorithm();
+	//Algorithm algorithm = new Algorithm();
 	
 	ArrayList<CalcedTaxi> calcTaxis = new ArrayList<CalcedTaxi>();
 	
