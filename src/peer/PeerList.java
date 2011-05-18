@@ -17,6 +17,13 @@ public class PeerList {
    private String filename = "peers.txt";
    private BufferedWriter out;
 
+   /**
+    * Looks for peers.txt in current dir. Will create it, using default peers 
+    * text file, if not found.
+    * 
+    * This is implemented for running Peer2Peer a jar file where the default
+    * peers text file is read in as a inputstream from the jar file. 
+    */
    public PeerList() {
       File f = new File(filename);
       System.out.println(f + (f.exists()? " is found " : " is missing. Creating file..."));
@@ -70,7 +77,7 @@ public class PeerList {
    }
 
    /**
-    * Creates an arraylist from text file.
+    * Creates an arraylist from peers text file.
     * 
     * @return arraylist containing values from file
     */
@@ -88,10 +95,17 @@ public class PeerList {
       }
    }
 
+   /**
+    * Writes current peers to text file.
+    * 
+    * @param peerList List of peers to be written to text file
+    * @throws IOException
+    */
    public void writePeerList(ArrayList<Peer> peerList) throws IOException {
       if (out != null) {         
          for(int i=0;i<peerList.size();i++) {
             out.append(peerList.get(i).getIp());
+            out.append("\n");
          }
       }
    }
@@ -106,6 +120,11 @@ public class PeerList {
       }      
    }
 
+   /**
+    * Closes output file.
+    * 
+    * @throws IOException
+    */
    public void closeOutputFile() throws IOException {
       if(!(out==null)) {
          out.close();
