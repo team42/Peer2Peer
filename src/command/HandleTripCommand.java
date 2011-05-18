@@ -12,7 +12,19 @@ import config.Configuration;
 import database.*;
 
 /**
- * This command is used when another Peer announces itself.
+ * This class handles trips.
+ * 
+ * Sends a request for taxi id and coordinates to all peers in its list.
+ * After 5 seconds it will collect all taxis relevant for the trip from the 
+ * database. Calculate shortest path for relevant taxis and sort them.
+ * Then it sends a taxi offer to the closest taxi and deletes offered taxis 
+ * from taxi list.
+ * 
+ * Starts a 5 minute timer that checks if any of the offered taxi have 
+ * accepted the trip. If the timer runs out and no taxis have accepted trip, 
+ * it will send offers to the next 5 closest taxis. This continues until no 
+ * more taxis are available in which case the trip is reset and added to 
+ * the trips table again.
  * 
  * @author Nicolai
  *
