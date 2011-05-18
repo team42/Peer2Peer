@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import database.PostgresqlConnectionFactory;
+
 /**
  * 
  * @author Kenni, Anders
@@ -33,6 +35,14 @@ public class Algorithm
 	ArrayList<Integer> taxiList = new ArrayList<Integer>();
 	int id, x, y, NON, N1, N2, N3, N4, N5;
 
+	/**
+	 * This constructor is connecting to the database and gets data from 
+	 * the table coordinates.
+	 * All the data is saved in ArrayList containing coordinates-objects 
+	 * with the data. 
+	 * @return ArrayList containing coordinates-objects. 
+	 */
+	
 	public ArrayList<Coordinates> Algorithm()
 	{
 		try 
@@ -48,7 +58,7 @@ public class Algorithm
 		}
 		try
 		{
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/taxiPath", "postgres", "crosser");
+			conn = PostgresqlConnectionFactory.createConnection();
 		}
 		catch (SQLException e) 
 		{          
