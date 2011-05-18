@@ -38,8 +38,7 @@ public class Algorithm
 	/**
 	 * This constructor is connecting to the database and gets data from 
 	 * the table coordinates.
-	 * All the data is saved in ArrayList containing coordinates-objects 
-	 * with the data. 
+	 * All the data is saved as coordinates-objects in an ArrayList 
 	 * @return ArrayList containing coordinates-objects. 
 	 */
 	
