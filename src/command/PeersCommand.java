@@ -32,7 +32,9 @@ public class PeersCommand extends Command {
     * @param receivePacket - The packet containing IP etc of sender
     */
    public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-      String newPeerList = receivedMessage.substring(5);
+	   System.out.println("================ PEER LIST ================");
+	   
+	   String newPeerList = receivedMessage.substring(5);
 
       String[] arPeerList = newPeerList.split("%");
 

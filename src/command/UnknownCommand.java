@@ -23,6 +23,7 @@ public class UnknownCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
     public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-        System.out.println("Unkown Command:\n" + receivedMessage);
+    	System.out.println("================ UNKNOWN COMMAND ================");
+    	System.out.println("Unkown Command:\n" + receivedMessage);
     }
 }

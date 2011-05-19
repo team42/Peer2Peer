@@ -19,7 +19,7 @@ public class NewTrips {
 	
 	public NewTrips() {
 		timer = new Timer();
-		timer.schedule(new addNewTrip(), 5000, 10000);
+		timer.schedule(new addNewTrip(), 3000, 3000);
 	}
 	
 	public void handleTrip(String tripID, String coordinate) {

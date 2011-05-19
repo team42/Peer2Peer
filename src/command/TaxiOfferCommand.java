@@ -22,12 +22,14 @@ public class TaxiOfferCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+		System.out.println("================ TAXI OFFER ================");
+		
 		String taxiID = receivedMessage.substring(5, 11);
 		String tripID = receivedMessage.substring(11, 21);
 		String tripCoord = receivedMessage.substring(21);
 		String returnIP = receivePacket.getAddress().getHostAddress();
 
-		System.out.println("\nAdded trip: " + tripID + " to taxi: " + taxiID);
+		System.out.println("Added trip: " + tripID + " to taxi: " + taxiID);
 		
 		dao.insertTrip(taxiID, tripID, tripCoord, returnIP);
 	}

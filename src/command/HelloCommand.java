@@ -28,6 +28,8 @@ public class HelloCommand extends Command {
     */
    public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
 
+	   System.out.println("================ HELLO ================");
+	   
       ArrayList<Peer> peerList = config.getPeers();
       String strPeerList = "";
 
@@ -39,7 +41,7 @@ public class HelloCommand extends Command {
 
       int peer = receivePacket.getPort();
 
-      System.out.println("\nAnnounced peer: " + receivePacket.getAddress().getHostAddress());
+      System.out.println("Announced peer: " + receivePacket.getAddress().getHostAddress());
 
       // Add to peer list if not present already
       int found = 0;

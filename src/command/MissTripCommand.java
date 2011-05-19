@@ -23,9 +23,11 @@ public class MissTripCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+		System.out.println("================ MISSED TRIP ================");
+		
 		String tripID = receivedMessage.substring(5);
 
-		System.out.println("\nMissed trip: " + tripID);
+		System.out.println("Missed trip: " + tripID);
 		
 		dao.deleteTrip(tripID);
 	}

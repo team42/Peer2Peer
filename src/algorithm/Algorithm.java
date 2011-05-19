@@ -174,6 +174,8 @@ public class Algorithm {
 		int start = findClosestPoint(end);
 		int goal = findClosestPoint(begin);
 
+		if(start == goal) return 0;
+		
 		System.out.println("Begin: " + begin + " End: " + end);
 		
 		AddToOpenList(start); // add start point to open list

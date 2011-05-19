@@ -25,6 +25,8 @@ public class SendTaxiCommand extends Command {
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
 	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+		System.out.println("================ SEND TAXI COORDINATES ================");
+		
 		int taxiAmount = Integer.parseInt(receivedMessage.substring(15, 17));
 		
 		String tripID = receivedMessage.substring(5, 15);
@@ -33,7 +35,7 @@ public class SendTaxiCommand extends Command {
 		
 		ArrayList<Taxi> taxiList = new ArrayList<Taxi>();
 		
-		System.out.println("\nTaxis added:");
+		System.out.println("Taxis added:");
 		for(int i=0; i < taxiAmount; i++) {
 			taxiID = taxiString.substring(i*15, (i*15)+6);
 			taxiCoordinate = taxiString.substring((i*15)+6, (i+1)*15);

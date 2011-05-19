@@ -31,6 +31,7 @@ public class GotTripCommand extends Command {
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiID = receivedMessage.substring(15);
 
+		System.out.println("================ GOT TRIP ================");
 		System.out.println("Taxi: " + taxiID + " got trip: " + tripID);
 		
 		tripsDAO.confirmTrip(taxiID, tripID);
