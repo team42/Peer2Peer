@@ -174,6 +174,8 @@ public class Algorithm {
 		int start = findClosestPoint(end);
 		int goal = findClosestPoint(begin);
 
+		System.out.println("Begin: " + begin + " End: " + end);
+		
 		AddToOpenList(start); // add start point to open list
 		mapList.get(start).setG(0); // save G
 		mapList.get(start).setH(CalcH(start, goal)); // calculate and save H
