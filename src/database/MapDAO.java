@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import model.Intersection;
 
 /**
- * 
- * 
+ * Class responsible for getting information of the map
+ * from the database
  * 
  * @author Anders, Nicolai
  *

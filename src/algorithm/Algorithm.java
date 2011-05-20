@@ -374,7 +374,6 @@ public class Algorithm {
 		} // End for loop
 
 		return nodeID;
-
-	} // End function findClosestPoint
+	}
 
 }
