@@ -17,7 +17,7 @@ import model.Trip;
  */
 public class TaxiComm {
 
-   private static final int PORT = 4242;
+   private static final int PORT = 50004;
    private static DatagramSocket datagramSocket;
    private static DatagramPacket inPacket, outPacket;
    private static byte[] buffer;

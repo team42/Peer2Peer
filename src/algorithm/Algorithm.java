@@ -260,8 +260,6 @@ public class Algorithm {
 
 		if(start == goal) return 0;
 		
-		System.out.println("Begin: " + begin + " End: " + end);
-		
 		AddToOpenList(start); // add start point to open list
 		mapList.get(start).setG(0); // save G
 		mapList.get(start).setH(CalcH(start, goal)); // calculate and save H
@@ -324,7 +322,7 @@ public class Algorithm {
 					// (g is NOT lower than before)
 					} else {
 						// look at next neighbor
-						System.out .println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
+						//System.out .println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
 						i--;
 						n++;
 					}
