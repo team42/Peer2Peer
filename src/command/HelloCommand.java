@@ -2,8 +2,9 @@ package command;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.ArrayList;
+
+import peer.UDPPeer;
 
 import model.Peer;
 import config.Configuration;
@@ -20,13 +21,12 @@ public class HelloCommand extends Command {
    Configuration config = Configuration.getConfiguration();
 
    /**
-    * The execute method will get it's own PeerList and send it back to the sender.
+    * The execute method will add the peer get it's own PeerList and send it back to the sender.
     * 
     * @param receivedMessage - The received message
-    * @param peerSocket - The socket to respond at
     * @param receivePacket - The packet containing IP etc of sender
     */
-   public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+   public void execute(String receivedMessage, DatagramPacket receivePacket) {
 
 	   System.out.println("================ HELLO ================");
 	   
@@ -38,8 +38,6 @@ public class HelloCommand extends Command {
       }
 
       String reply = "PEERS" + strPeerList;
-
-      int peer = receivePacket.getPort();
 
       System.out.println("Announced peer: " + receivePacket.getAddress().getHostAddress());
 
@@ -60,18 +58,11 @@ public class HelloCommand extends Command {
          }
       }
       
-      
-
-      byte[] replyRaw = new byte[1024];
-      replyRaw = reply.getBytes();
-
-      DatagramPacket sendPacket = new DatagramPacket(replyRaw, replyRaw.length, receivePacket.getAddress(), peer);
-
       try {
-         peerSocket.send(sendPacket);
-      } catch (IOException e) {
-         e.printStackTrace();
-      }
+		UDPPeer.sendMessages(receivePacket.getAddress(), reply);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
    }
 
 }

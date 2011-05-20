@@ -1,5 +1,13 @@
 package model;
 
+/**
+ * 
+ * Model object used for handling trips after
+ * the shortest path have been calculated.
+ * 
+ * @author Nicolai
+ *
+ */
 public class CalcedTaxi {
 
 	private String taxiID;

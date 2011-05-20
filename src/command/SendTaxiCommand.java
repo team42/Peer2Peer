@@ -1,7 +1,6 @@
 package command;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import database.OngoingTripsDAO;
 import model.Taxi;
 import java.util.*;
@@ -21,10 +20,9 @@ public class SendTaxiCommand extends Command {
 	 * These are added to the database to be used for calculations later.
 	 * 
 	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
 		System.out.println("================ SEND TAXI COORDINATES ================");
 		
 		int taxiAmount = Integer.parseInt(receivedMessage.substring(15, 17));

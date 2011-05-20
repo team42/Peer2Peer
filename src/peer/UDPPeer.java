@@ -4,11 +4,7 @@ import handleNewTrips.NewTrips;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-
+import java.util.*;
 import model.Peer;
 import config.Configuration;
 import command.CommandController;
@@ -88,12 +84,14 @@ public class UDPPeer {
 			peerSocket.receive(receivePacket);
 			String reply = new String(receivePacket.getData(), 0,
 					receivePacket.getLength());
-			cmdControl.processRequest(reply, peerSocket, receivePacket);
+			cmdControl.processRequest(reply, receivePacket);
 		}
 	}
 
 	/**
 	 * Sends a UDP message to the supplied IP address with the given data.
+	 * Responses will be converted to string and
+	 * send to command controller
 	 * 
 	 * @param ip
 	 *            IP address to send UDP packet to.

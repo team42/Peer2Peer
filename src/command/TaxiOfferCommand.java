@@ -18,10 +18,9 @@ public class TaxiOfferCommand extends Command {
 	 * All data is identified and the trip is added the taxi
 	 * 
 	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
 		System.out.println("================ TAXI OFFER ================");
 		
 		String taxiID = receivedMessage.substring(5, 11);

@@ -6,7 +6,8 @@ import config.Configuration;
 
 /**
  * 
- * 
+ * Table used for handling communication between
+ * the operator and the company peer
  * 
  * @author Nicolai
  *

@@ -1,16 +1,42 @@
 package model;
 
-
-import java.util.ArrayList;
-
+/**
+ * 
+ * Model used for representing an intersection
+ * Used for storing the map.
+ * 
+ * @author Anders, Kenni, Nicolai
+ *
+ */
 public class Intersection 
 {
 
+	// Variables
 	private int id, xCoord, yCoord, parentID, links, n1, n2, n3, n4, n5;
 	private double F, G, H, TempG;
-	private boolean taxi;
-	private ArrayList<Integer> taxiIDs;
 	
+	/**'
+	 * 
+	 * Constructor
+	 * Sets the:
+	 * - Intersection ID
+	 * - X Coordinate
+	 * - Y Coordinate
+	 * - Number of Links
+	 * - Intersection ID of all neighbors
+	 * 
+	 * F, G, H, TempG and ParentID have default values
+	 * 
+	 * @param id
+	 * @param x
+	 * @param y
+	 * @param link
+	 * @param n1
+	 * @param n2
+	 * @param n3
+	 * @param n4
+	 * @param n5
+	 */
 	public Intersection(int id, int x, int y, int link, int n1, int n2, int n3, int n4, int n5)
 	{
 		this.id = id;
@@ -27,127 +53,218 @@ public class Intersection
 		this.n3 = n3;
 		this.n4 = n4;
 		this.n5 = n5;
-		this.taxi = false;
-		this.taxiIDs = new ArrayList<Integer>();
 	}
-	
-	public boolean getTaxi()
-    {
-        return taxi;
-    }//end method getTaxi
-
-    public void setTaxi (boolean TAXI)
-    {
-        taxi = TAXI;
-    }//end method setTaxi
     
-    public ArrayList<Integer> getTaxiIDs()
-    {
-        return taxiIDs;
-    }//end method getTaxiIDs
-
-    public void AddTaxiIDs(int TAXIID)
-    {
-        taxiIDs.add(TAXIID);
-    }//end method setTaxiIDs
-    
+	/**
+	 * Returns the ParentID
+	 * 
+	 * @return
+	 */
 	public int getParentID()
     {
         return parentID;
-    }//end method getParentID
+    }
 
+	/**
+	 * Sets the ParentID
+	 * [Used for calculating shortest path]
+	 * 
+	 * @param parID
+	 */
     public void setParentID (int parID)
     {
         parentID = parID;
-    }//end method setParentID
+    }
     
+    /**
+     * Returns F value
+     * [Used for calculating shortest path]
+     * 
+     * @return
+     */
     public double getF()
     {
         return F;
-    }//end method getF
+    }
 
+    /**
+     * Sets the F value
+     * [Used for calculating shortest path]
+     * 
+     * @param f
+     */
     public void setF (double f)
     {
         F = f;
-    }//end method setF
+    }
     
+    /**
+     * Returns the G value
+     * [Used for calculating shortest path]
+     * 
+     * @return
+     */
     public double getG()
     {
         return G;
     }//end method getG
 
+    /**
+     * Set the G value
+     * [Used for calculating shortest path]
+     * 
+     * @param g
+     */
     public void setG (double g)
     {
         G = g;
-    }//end method setG
+    }
     
+    /**
+     * Return the H Value
+     * [Used for calculating shortest path]
+     * 
+     * @return
+     */
     public double getH()
     {
         return H;
-    }//end method getH
+    }
 
+    /**
+     * Set the H value
+     * [Used for calculating shortest path]
+     * 
+     * @param h
+     */
     public void setH (double h)
     {
         H = h;
-    }//end method setH
+    }
     
+    /**
+     * Returns the tempG value
+     * [Used for calculating shortest path]
+     * 
+     * @return
+     */
     public double getTempG()
     {
         return TempG;
-    }//end method getTempG
+    }
 
+    /**
+     * Set the tempG value
+     * 
+     * @param g
+     */
     public void setTempG (double g)
     {
         TempG = g;
-    }//end method setTempG
+    }
     
+    /**
+     * Returns the amount of neighbors
+     * 
+     * @return
+     */
     public int getLinks()
     {
         return links;
-    }//end method getNON
+    }
 
+    /**
+     * Set the amount of neighbors
+     * 
+     * @param links
+     */
     public void setLinks (int links)
     {
         this.links = links;
-    }//end method setNON
+    }
     
+    /**
+     * Returns the intersection ID
+     * 
+     * @return
+     */
     public int getID() {
     	return id;
     }
     
+    /**
+     * Returns the X coordinate
+     * 
+     * @return
+     */
     public int getXCoord() {
     	return xCoord;
     }
     
+    /**
+     * Returns the Y coordinate
+     * 
+     * @return
+     */
     public int getYCoord() {
     	return yCoord;
     }
     
+    /**
+     * Returns neighbor one
+     * 
+     * @return
+     */
     public int getN1()
     {
         return n1;
-    }//end method getN1
+    }
 
+    /**
+     * Returns neighbor two
+     * 
+     * @return
+     */
     public int getN2()
     {
         return n2;
-    }//end method getN2
+    }
 
+    /**
+     * Returns neighbor three
+     * 
+     * @return
+     */
     public int getN3()
     {
         return n3;
-    }//end method getN3
+    }
 
+    /**
+     * Returns neighbor four
+     * 
+     * @return
+     */
     public int getN4()
     {
         return n4;
-    }//end method getN4
+    }
     
+    /**
+     * Returns neighbor five
+     * 
+     * @return
+     */
     public int getN5()
     {
         return n5;
-    }//end method getN5
+    }
 
+    /**
+     * Returns neighbor by parameter
+     * 
+     * @return
+     */
     public int getNn(int n)
     {
         switch(n){
@@ -164,5 +281,5 @@ public class Intersection
         default:
         	return 9999;
         }
-    }//end method getNn
+    }
 }
