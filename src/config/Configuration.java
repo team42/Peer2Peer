@@ -95,14 +95,31 @@ public class Configuration {
       peerList.closeOutputFile();
    }
    
+   /**
+    * Sets the company ID
+    * 
+    * @param id
+    */
    public void setCompanyID(String id) {
 	   this.companyID = id;
    }
    
+   /**
+    * 
+    * Returns the company ID
+    * 
+    * @return
+    */
    public String getCompanyID() {
 	   return companyID;
    }
 
+   /**
+    * 
+    * Returns the map
+    * 
+    * @return
+    */
    public ArrayList<Intersection> getMap() {
 	   return mapList;
    }

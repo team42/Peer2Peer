@@ -4,6 +4,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import model.Intersection;
 
+/**
+ * Class responsible for getting information of the map
+ * from the database
+ * 
+ * @author Anders, Nicolai
+ *
+ */
 public class MapDAO {
 
 	Connection con = null;
@@ -13,6 +20,13 @@ public class MapDAO {
 	ArrayList<Intersection> mapList = new ArrayList<Intersection>();
 	int id, xCoordinate, yCoordinate, links, n1, n2, n3, n4, n5;
 
+	/**
+	 * 
+	 * Get all information of the map and organizes
+	 * it in an arrayList of intersection objects
+	 * 
+	 * @return ArrayList<Intersection> of map
+	 */
 	public ArrayList<Intersection> getMap() {
 		try {
 			con = PostgresqlConnectionFactory.createConnection();
@@ -53,7 +67,6 @@ public class MapDAO {
 		}
 
 		return mapList;
-
 	}
 
 }

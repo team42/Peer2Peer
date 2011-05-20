@@ -42,6 +42,7 @@ public class ConfigurationTest {
     *
     * @throws Exception clone() has CloneNotSupportedException
     */
+   @SuppressWarnings("unused")
    @Test(expected=CloneNotSupportedException.class)
    public void testClone() throws Exception {
       Configuration instance = Configuration.getConfiguration();

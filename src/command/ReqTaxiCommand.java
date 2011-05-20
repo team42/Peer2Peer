@@ -24,10 +24,11 @@ public class ReqTaxiCommand extends Command {
 	 * This is send back to the sender of the request.
 	 * 
 	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
+		System.out.println("================ REQUEST TAXI COORDINATES ================");
+		
 		String tripID = receivedMessage.substring(5,15);
 		String customerCoord = receivedMessage.substring(15);
 		
@@ -75,7 +76,7 @@ public class ReqTaxiCommand extends Command {
 			taxiAmount = Integer.toString(amount);
 		}
 		
-		System.out.println("\n" + taxiAmount + " taxis sent for trip: " + tripID);
+		System.out.println(taxiAmount + " taxis sent for trip: " + tripID);
 		
 		// Create reply
 		String reply = "SENTC" + tripID + taxiAmount + strTaxiList;

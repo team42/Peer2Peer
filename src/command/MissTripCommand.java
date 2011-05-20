@@ -1,7 +1,6 @@
 package command;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import database.*;
 
 /**
@@ -19,13 +18,14 @@ public class MissTripCommand extends Command {
 	 * The trip ID is identified and the trip is deleted for all taxis.
 	 * 
 	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
+		System.out.println("================ MISSED TRIP ================");
+		
 		String tripID = receivedMessage.substring(5);
 
-		System.out.println("\nMissed trip: " + tripID);
+		System.out.println("Missed trip: " + tripID);
 		
 		dao.deleteTrip(tripID);
 	}

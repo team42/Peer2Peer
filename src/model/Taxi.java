@@ -14,6 +14,17 @@ public class Taxi {
 	private String company;
 	private int heuristic;
 	
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * Sets the taxiID, taxi coordinates and IP of company
+	 * the taxi belongs to
+	 * 
+	 * @param taxiID
+	 * @param taxiCoord
+	 * @param company
+	 */
 	public Taxi(String taxiID, String taxiCoord, String company) {
 		this.taxiID = taxiID;
 		this.taxiCoord = taxiCoord;
@@ -51,14 +62,29 @@ public class Taxi {
 		return taxiCoord;
 	}
 	
+	/**
+	 * Returns the IP of the company the taxi belongs to
+	 * 
+	 * @return
+	 */
 	public String getCompanyIP() {
 		return company;
 	}
 	
+	/**
+	 * Set heuristics for a taxi
+	 * 
+	 * @param heuristic
+	 */
 	public void setHeuristic(int heuristic) {
 		this.heuristic = heuristic;
 	}
 	
+	/**
+	 * Returns heuristics of a taxi
+	 * 
+	 * @return
+	 */
 	public int getHeuristic() {
 		return heuristic;
 	}

@@ -50,16 +50,16 @@ public class HandleTripCommand extends Command {
 	 * list and starts the timer.
 	 * 
 	 * @param receivedMessage - The received message
-	 * @param peerSocket - The socket to respond at
 	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
+		System.out.println("================ HANDLE TRIP ================");
 		timer = new Timer();
 		
 		tripID = receivedMessage.substring(5, 15);
 		tripCoordinate = receivedMessage.substring(15);
 
-		System.out.println("\nHandle Trip for:\n" + tripID + "  " + tripCoordinate + "\n");
+		System.out.println("Handle Trip for:\n" + tripID + "  " + tripCoordinate);
 		
 		ArrayList<Peer> peers = config.getPeers();
 		

@@ -24,6 +24,7 @@ public class TripsDAO {
 	/**
 	 * 
 	 * Taxi confirms trip. Accepted flag is set to 1
+	 * Trip is deleted from all other taxis
 	 * 
 	 * @param taxiID - Taxi, which accepts
 	 * @param tripID - Trip, which is accepted

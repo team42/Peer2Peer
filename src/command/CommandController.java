@@ -1,7 +1,6 @@
 package command;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.*;
 
 /**
@@ -43,17 +42,20 @@ public class CommandController {
     }
 
     /**
+     * 
+     * 
      * This method is called by UDPPeer which is every
      * time a packet is received.
      *
      * Is uses <code>resolveCommand</code> to find the relevant command class
      * and run its execute method.
-     *
-     * @param command
+     * 
+     * @param receivedMessage
+     * @param receivePacket
      */
-    public void processRequest(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
+    public void processRequest(String receivedMessage, DatagramPacket receivePacket) {
         cmd = resolveCommand(receivedMessage.substring(0, 5));
-        cmd.execute(receivedMessage, peerSocket, receivePacket);
+        cmd.execute(receivedMessage, receivePacket);
     }
 
     /**

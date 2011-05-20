@@ -1,12 +1,7 @@
 package peer;
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-
-import model.Peer;
-
 import command.CommandController;
-
 import config.Configuration;
 
 /**
@@ -34,6 +29,13 @@ public class UDPListenThread extends Thread {
       }
    }
    
+   /**
+    * 
+    * Receives an UDP package.
+    * Convert to string
+    * Sends to command controller
+    * 
+    */
    public void run() {
       try {
          DatagramSocket peerSocket = new DatagramSocket(port);
@@ -46,7 +48,7 @@ public class UDPListenThread extends Thread {
             
             String query = new String(receivePacket.getData(), 0, receivePacket.getLength());
             
-            comCon.processRequest(query, peerSocket, receivePacket);                             
+            comCon.processRequest(query, receivePacket);                             
          }
       } catch(IOException e) {
          e.printStackTrace();         

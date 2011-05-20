@@ -8,6 +8,13 @@ import database.*;
 
 import model.Trip;
 
+/**
+ * 
+ * Class responsible for handling communication with the taxi
+ * 
+ * @author Nicolai
+ *
+ */
 public class TaxiComm {
 
    private static final int PORT = 4242;
@@ -22,7 +29,7 @@ public class TaxiComm {
    TaxiDAO taxiDAO = new TaxiDAO();
    
    /**
-    *  Construcor
+    *  Constructor
     *  
     *  Opens port
     *  Starts handle Client

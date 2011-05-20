@@ -6,7 +6,8 @@ import config.Configuration;
 
 /**
  * 
- * 
+ * Table used for handling communication between
+ * the operator and the company peer
  * 
  * @author Nicolai
  *
@@ -34,14 +35,16 @@ public class TripOffersDAO {
 		customer[0] = "none";
 		int id = 0;
 		
-		String query = "SELECT * FROM trip_offers ORDER BY time_ordered";
+		String query1 = "SELECT * FROM trip_offers ORDER BY time_ordered";
+		
+		String query2 = "DELETE FROM trip_offers WHERE id = ?";
 		
 		con = null;
 
 		try {
 
 			con = PostgresqlConnectionFactory.createConnection();
-			preparedStatement = con.prepareStatement(query);
+			preparedStatement = con.prepareStatement(query1);
 			
 			resultSet = preparedStatement.executeQuery();
 			
@@ -61,7 +64,10 @@ public class TripOffersDAO {
 			
 			preparedStatement.close();
 			
-			deleteCustomer(id);
+			preparedStatement = con.prepareStatement(query2);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,47 +123,4 @@ public class TripOffersDAO {
 	      else { return true; }
 
 	   }
-	
-	/**
-	 * 
-	 * Deletes trip by tripID.
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public boolean deleteCustomer(int id) {
-
-		String query = "DELETE FROM trip_offers WHERE id = ?";
-
-		int rowCount = 0;
-		con = null;
-
-		try {
-
-			con = PostgresqlConnectionFactory.createConnection();
-			preparedStatement = con.prepareStatement(query);
-			preparedStatement.setInt(1, id);
-
-			rowCount = preparedStatement.executeUpdate();
-
-			preparedStatement.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e1) {
-					System.out.println("Failed Closing of Database!");
-				}
-			}
-		}
-		// We want to return false if INSERT was unsuccesfull, else return true
-		if (rowCount == 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 }

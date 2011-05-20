@@ -1,7 +1,6 @@
 package command;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import database.*;
 
 /**
@@ -19,18 +18,14 @@ public class GotTripCommand extends Command {
 	 * accepted for the taxi with the taxi ID and deleted for the rest of the
 	 * taxis.
 	 * 
-	 * @param receivedMessage
-	 *            - The received message
-	 * @param peerSocket
-	 *            - The socket to respond at
-	 * @param receivePacket
-	 *            - The packet containing IP etc of sender
+	 * @param receivedMessage - The received message
+	 * @param receivePacket - The packet containing IP etc of sender
 	 */
-	public void execute(String receivedMessage, DatagramSocket peerSocket,
-			DatagramPacket receivePacket) {
+	public void execute(String receivedMessage, DatagramPacket receivePacket) {
 		String tripID = receivedMessage.substring(5, 15);
 		String taxiID = receivedMessage.substring(15);
 
+		System.out.println("================ GOT TRIP ================");
 		System.out.println("Taxi: " + taxiID + " got trip: " + tripID);
 		
 		tripsDAO.confirmTrip(taxiID, tripID);

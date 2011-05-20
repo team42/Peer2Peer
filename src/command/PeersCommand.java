@@ -2,7 +2,6 @@ package command;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 import model.Peer;
@@ -28,11 +27,12 @@ public class PeersCommand extends Command {
     * The peerlist will be added to the old peer list.
     * 
     * @param receivedMessage - The received message
-    * @param peerSocket - The socket to respond at
     * @param receivePacket - The packet containing IP etc of sender
     */
-   public void execute(String receivedMessage, DatagramSocket peerSocket, DatagramPacket receivePacket) {
-      String newPeerList = receivedMessage.substring(5);
+   public void execute(String receivedMessage, DatagramPacket receivePacket) {
+	   System.out.println("================ PEER LIST ================");
+	   
+	   String newPeerList = receivedMessage.substring(5);
 
       String[] arPeerList = newPeerList.split("%");
 
