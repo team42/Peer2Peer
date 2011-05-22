@@ -128,8 +128,8 @@ public class Algorithm {
 	}
 
 	/**
+	 * Calculate the route between two coordinates.
 	 * 
-	 * calculate the route between two coordinates
 	 * Parameters is in coordinate format "xxxx,yyyy"
 	 * These parameters are converted to the closest intersection
 	 * and the route is return in an arraylist of intersection IDs
@@ -243,15 +243,15 @@ public class Algorithm {
 	} // End method Route
 
 	/**
+	 * Calculate the shortest route length between two coordinates.
 	 * 
-	 * calculate the shortest route length between two coordinates
 	 * Parameters is in coordinate format "xxxx,yyyy"
 	 * These parameters are converted to the closest intersection
 	 * and the route length is returned as an integer.
 	 * 
 	 * @param begin - start coordinate
 	 * @param end - end coordinate
-	 * @return Integer representing the length of the shortest route
+	 * @return double representing the length of the shortest route
 	 */
 	public double RouteLength(String begin, String end) {
 		// Switch Start and goal to backtrack route
