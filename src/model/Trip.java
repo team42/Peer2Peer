@@ -53,7 +53,7 @@ public class Trip {
 	/**
 	 * Return trip id
 	 * 
-	 * @return
+	 * @return value of tripID
 	 */
 	public String getTripID() {
 		return tripID;
@@ -62,7 +62,7 @@ public class Trip {
 	/**
 	 * Return accepted status
 	 * 
-	 * @return
+	 * @return value of accepted
 	 */
 	public int getAccepted() {
 		return accepted;
@@ -71,7 +71,7 @@ public class Trip {
 	/**
 	 * Return trip coordinate
 	 * 
-	 * @return
+	 * @return value of coords
 	 */
 	public String getCoords() {
 		return coords;
@@ -80,7 +80,7 @@ public class Trip {
 	/**
 	 * Return the date
 	 * 
-	 * @return
+	 * @return value of date
 	 */
 	public Date getDate() {
 		return date;

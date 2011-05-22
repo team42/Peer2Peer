@@ -20,7 +20,7 @@ public class PostgresqlConnectionFactory {
    /**
     * Returns a connection defined by URL, Username and Password
     * 
-    * @return
+    * @return a connection to the URL
     * @throws SQLException
     */
    public static Connection createConnection() throws SQLException {

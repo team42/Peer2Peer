@@ -58,7 +58,7 @@ public class Intersection
 	/**
 	 * Returns the ParentID
 	 * 
-	 * @return
+	 * @return value of parentID
 	 */
 	public int getParentID()
     {
@@ -80,7 +80,7 @@ public class Intersection
      * Returns F value
      * [Used for calculating shortest path]
      * 
-     * @return
+     * @return value of f
      */
     public double getF()
     {
@@ -102,7 +102,7 @@ public class Intersection
      * Returns the G value
      * [Used for calculating shortest path]
      * 
-     * @return
+     * @return value of g
      */
     public double getG()
     {
@@ -124,7 +124,7 @@ public class Intersection
      * Return the H Value
      * [Used for calculating shortest path]
      * 
-     * @return
+     * @return value of h
      */
     public double getH()
     {
@@ -146,7 +146,7 @@ public class Intersection
      * Returns the tempG value
      * [Used for calculating shortest path]
      * 
-     * @return
+     * @return value of TempG
      */
     public double getTempG()
     {
@@ -166,7 +166,7 @@ public class Intersection
     /**
      * Returns the amount of neighbors
      * 
-     * @return
+     * @return value of links
      */
     public int getLinks()
     {
@@ -186,7 +186,7 @@ public class Intersection
     /**
      * Returns the intersection ID
      * 
-     * @return
+     * @return value of ID
      */
     public int getID() {
     	return id;
@@ -195,7 +195,7 @@ public class Intersection
     /**
      * Returns the X coordinate
      * 
-     * @return
+     * @return value of xcoord
      */
     public int getXCoord() {
     	return xCoord;
@@ -204,7 +204,7 @@ public class Intersection
     /**
      * Returns the Y coordinate
      * 
-     * @return
+     * @return value of ycoord
      */
     public int getYCoord() {
     	return yCoord;
@@ -213,7 +213,7 @@ public class Intersection
     /**
      * Returns neighbor one
      * 
-     * @return
+     * @return value of n1
      */
     public int getN1()
     {
@@ -223,7 +223,7 @@ public class Intersection
     /**
      * Returns neighbor two
      * 
-     * @return
+     * @return value of n2
      */
     public int getN2()
     {
@@ -233,7 +233,7 @@ public class Intersection
     /**
      * Returns neighbor three
      * 
-     * @return
+     * @return value of n3
      */
     public int getN3()
     {
@@ -243,7 +243,7 @@ public class Intersection
     /**
      * Returns neighbor four
      * 
-     * @return
+     * @return value of n4
      */
     public int getN4()
     {
@@ -253,7 +253,7 @@ public class Intersection
     /**
      * Returns neighbor five
      * 
-     * @return
+     * @return value of n5
      */
     public int getN5()
     {
@@ -263,7 +263,7 @@ public class Intersection
     /**
      * Returns neighbor by parameter
      * 
-     * @return
+     * @return value of n1-5
      */
     public int getNn(int n)
     {

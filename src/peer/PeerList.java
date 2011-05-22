@@ -53,8 +53,8 @@ public class PeerList {
    /**
     * Opens file for reading or writing.
     *
-    * @param filename
     * @param rw 0 = read, 1 = write
+    * @return true for success
     */
    public boolean openFile(int rw) {
       if(rw == 0) {

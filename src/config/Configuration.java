@@ -108,7 +108,7 @@ public class Configuration {
     * 
     * Returns the company ID
     * 
-    * @return
+    * @return value for companyID
     */
    public String getCompanyID() {
 	   return companyID;
@@ -118,7 +118,7 @@ public class Configuration {
     * 
     * Returns the map
     * 
-    * @return
+    * @return value for mapList
     */
    public ArrayList<Intersection> getMap() {
 	   return mapList;

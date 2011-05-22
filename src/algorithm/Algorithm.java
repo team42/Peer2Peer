@@ -71,7 +71,7 @@ public class Algorithm {
 	 * Calculate G when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for g
 	 */
 	private double CalcG(int a) {
 		int parentCell = mapList.get(a).getParentID();
@@ -87,7 +87,7 @@ public class Algorithm {
 	 * Calculate H when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for h
 	 */
 	private double CalcH(int a, int goal) {
 		double h = CalcDist(a, goal);
@@ -100,7 +100,7 @@ public class Algorithm {
 	 * Calculate F when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for f
 	 */
 	private double CalcF(int a) {
 		double g = mapList.get(a).getG();
@@ -116,7 +116,7 @@ public class Algorithm {
 	 * Return the temporary g
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for g
 	 */
 	private double CalcTempG(int a) {
 		int parentCell = mapList.get(a).getParentID();

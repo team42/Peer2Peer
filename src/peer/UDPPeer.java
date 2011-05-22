@@ -116,7 +116,7 @@ public class UDPPeer {
 	 * Cleans up the peers text file, so that it only contains alive peers.
 	 * 
 	 * @throws Exception
-	 * @returns IP address of pingable peer
+	 * @return IP address of pingable peer
 	 **/
 	private static InetAddress getAlivePeer() throws Exception {
 		PeerList peerList = new PeerList();

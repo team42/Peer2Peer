@@ -27,7 +27,7 @@ public class Peer {
    /**
     * Returns peer IP
     * 
-    * @return
+    * @return value of ip
     */
    public String getIp() {
       return this.ip;
@@ -36,7 +36,7 @@ public class Peer {
    /**
     * Returns status of peer
     * 
-    * @return
+    * @return  value of status
     */
    public int getStatus() {
       return this.status;
@@ -46,7 +46,7 @@ public class Peer {
     * Returns the IP and status as a
     * string representation
     * 
-    * @return
+    * @return value of ip and status
     * 
     */
    public String toString() {
