@@ -11,7 +11,7 @@ import java.util.*;
  * This code was originally written by hbe and has been modified to fit the goal
  * of this project.
  *
- * @see UDPPeer
+ * @see peer.UDPPeer
  *
  * @author Nicolai, Lasse
  */

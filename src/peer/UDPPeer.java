@@ -26,8 +26,8 @@ public class UDPPeer {
 	static CommandController cmdControl = new CommandController();
 	static Configuration config = Configuration.getConfiguration();
 
-	static int serverPort = 4342;
-	static int clientPort = 4341;
+	static int serverPort = 50001;
+	static int clientPort = 50000;
 	static DatagramSocket peerSocket;
 
 	static byte[] queryRaw = new byte[1024];
@@ -116,7 +116,7 @@ public class UDPPeer {
 	 * Cleans up the peers text file, so that it only contains alive peers.
 	 * 
 	 * @throws Exception
-	 * @returns IP address of pingable peer
+	 * @return IP address of pingable peer
 	 **/
 	private static InetAddress getAlivePeer() throws Exception {
 		PeerList peerList = new PeerList();

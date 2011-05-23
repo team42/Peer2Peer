@@ -65,7 +65,7 @@ public class Taxi {
 	/**
 	 * Returns the IP of the company the taxi belongs to
 	 * 
-	 * @return
+	 * @return value of company
 	 */
 	public String getCompanyIP() {
 		return company;
@@ -83,7 +83,7 @@ public class Taxi {
 	/**
 	 * Returns heuristics of a taxi
 	 * 
-	 * @return
+	 * @return value of heuristic
 	 */
 	public int getHeuristic() {
 		return heuristic;

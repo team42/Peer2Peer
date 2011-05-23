@@ -30,7 +30,7 @@ public class TaxiDAO {
 	 * 
 	 * @param taxiID
 	 * @param taxiCoord
-	 * @return
+	 * @return true for success
 	 */
 	public boolean updateTaxiPosition(String taxiID, String taxiCoord) {
 		String query = "UPDATE taxi SET taxi_coordinate = ?, last_connected = Now() WHERE taxi_id = ?";
@@ -104,7 +104,7 @@ public class TaxiDAO {
 	 * Returns all taxis, which have updated their status in the last 5 minutes.
 	 * (Or if the persistent flag is set [only used for testing virtual cabs])
 	 * 
-	 * @return
+	 * @return Returns all taxis, which have updated their status in the last 5 minutes.
 	 */
 	public ArrayList<Taxi> getActiveTaxis() {
 

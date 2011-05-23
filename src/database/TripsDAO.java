@@ -28,7 +28,7 @@ public class TripsDAO {
 	 * 
 	 * @param taxiID - Taxi, which accepts
 	 * @param tripID - Trip, which is accepted
-	 * @return
+	 * @return true for success
 	 */
 	public boolean confirmTrip(String taxiID, String tripID) {
 
@@ -78,7 +78,7 @@ public class TripsDAO {
 	 * Removes all rows, which belongs to a specific trip.
 	 * 
 	 * @param tripID
-	 * @return
+	 * @return true for success
 	 */
 	public boolean deleteTrip(String tripID) {
 
@@ -125,7 +125,7 @@ public class TripsDAO {
 	 * @param tripID
 	 * @param tripCoord
 	 * @param returnIP
-	 * @return
+	 * @return true for success
 	 */
 	public boolean insertTrip(String taxiID, String tripID, String tripCoord, String returnIP) {
 		String cardsQuery = "INSERT INTO trips (taxi_id, trip_id, destination, started, return_ip)"
@@ -170,7 +170,7 @@ public class TripsDAO {
 	 * 
 	 * @param taxiID
 	 * @param tripID
-	 * @return
+	 * @return true for success
 	 */
 	public boolean taxiDeleteTrip(String taxiID, String tripID) {
 		String query = "DELETE FROM trips WHERE taxi_id = ? AND trip_id = ?";
@@ -307,7 +307,7 @@ public class TripsDAO {
  	 * Gets the IP of the Peer, which is handling the specific trip.
  	 * 
  	 * @param tripID
- 	 * @return
+ 	 * @return IP address of trip handling peer
  	 */
 	public String getReturnIP(String tripID) {
 		String returnIP = "";

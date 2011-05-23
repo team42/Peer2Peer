@@ -12,8 +12,7 @@ import java.sql.SQLException;
  *
  */
 public class PostgresqlConnectionFactory {
-   
-   private static final String URL = "jdbc:postgresql://192.168.1.10/nicolai3sf11";
+   private static final String URL = "jdbc:postgresql://localhost:5432/nicolai3sf11";
    private static final String USERNAME = "nicolai3sf11";
    private static final String PASSWORD = "ihk100050eit";
 
@@ -21,7 +20,7 @@ public class PostgresqlConnectionFactory {
    /**
     * Returns a connection defined by URL, Username and Password
     * 
-    * @return
+    * @return a connection to the URL
     * @throws SQLException
     */
    public static Connection createConnection() throws SQLException {

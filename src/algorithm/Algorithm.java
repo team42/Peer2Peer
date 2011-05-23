@@ -71,7 +71,7 @@ public class Algorithm {
 	 * Calculate G when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for g
 	 */
 	private double CalcG(int a) {
 		int parentCell = mapList.get(a).getParentID();
@@ -87,7 +87,7 @@ public class Algorithm {
 	 * Calculate H when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for h
 	 */
 	private double CalcH(int a, int goal) {
 		double h = CalcDist(a, goal);
@@ -100,7 +100,7 @@ public class Algorithm {
 	 * Calculate F when calculation the shortest path
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for f
 	 */
 	private double CalcF(int a) {
 		double g = mapList.get(a).getG();
@@ -116,7 +116,7 @@ public class Algorithm {
 	 * Return the temporary g
 	 * 
 	 * @param a
-	 * @return
+	 * @return value for g
 	 */
 	private double CalcTempG(int a) {
 		int parentCell = mapList.get(a).getParentID();
@@ -128,8 +128,8 @@ public class Algorithm {
 	}
 
 	/**
+	 * Calculate the route between two coordinates.
 	 * 
-	 * calculate the route between two coordinates
 	 * Parameters is in coordinate format "xxxx,yyyy"
 	 * These parameters are converted to the closest intersection
 	 * and the route is return in an arraylist of intersection IDs
@@ -243,15 +243,15 @@ public class Algorithm {
 	} // End method Route
 
 	/**
+	 * Calculate the shortest route length between two coordinates.
 	 * 
-	 * calculate the shortest route length between two coordinates
 	 * Parameters is in coordinate format "xxxx,yyyy"
 	 * These parameters are converted to the closest intersection
 	 * and the route length is returned as an integer.
 	 * 
 	 * @param begin - start coordinate
 	 * @param end - end coordinate
-	 * @return Integer representing the length of the shortest route
+	 * @return double representing the length of the shortest route
 	 */
 	public double RouteLength(String begin, String end) {
 		// Switch Start and goal to backtrack route
@@ -259,8 +259,6 @@ public class Algorithm {
 		int goal = findClosestPoint(begin);
 
 		if(start == goal) return 0;
-		
-		System.out.println("Begin: " + begin + " End: " + end);
 		
 		AddToOpenList(start); // add start point to open list
 		mapList.get(start).setG(0); // save G
@@ -324,7 +322,7 @@ public class Algorithm {
 					// (g is NOT lower than before)
 					} else {
 						// look at next neighbor
-						System.out .println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
+						//System.out .println("This Neighbor is on Open list, calculating new G value... G is not lower than before");
 						i--;
 						n++;
 					}

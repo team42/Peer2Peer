@@ -29,7 +29,7 @@ public class OngoingTripsDAO {
 	 * @param tripID - trip, which the taxis are linked to.
 	 * @param taxiList - List of taxis
 	 * @param company - return IP.
-	 * @return
+	 * @return true for success
 	 */
 	public boolean addAwaitingTaxis(String tripID, ArrayList<Taxi> taxiList,
 			String company) {
