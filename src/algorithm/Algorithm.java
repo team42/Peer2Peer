@@ -247,7 +247,7 @@ public class Algorithm {
 	 * 
 	 * Parameters is in coordinate format "xxxx,yyyy"
 	 * These parameters are converted to the closest intersection
-	 * and the route length is returned as an integer.
+	 * and the route length is returned as an double.
 	 * 
 	 * @param begin - start coordinate
 	 * @param end - end coordinate
